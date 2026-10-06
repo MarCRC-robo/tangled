@@ -1,0 +1,227 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <title>Timeline</title>
+    <style>
+      body {
+        margin: 0;
+        padding-top: 60px; /* Only pads the top so content sits below the fixed nav bar */
+        background-color: #fceecb; /* Optional: Sets a matching default color for ultra-wide screens */
+        min-height: 100vh;
+      }
+      body {
+        margin: 0;
+        padding-top: 60px;
+        background-image: url("../images/timeline.bg.jpg");
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        min-height: 100vh;
+      }
+
+      .bar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 60px;
+        background-color: #d8bddb;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0 80px 0 20px; /* Right padding leaves space for sliding logo */
+        box-sizing: border-box;
+        z-index: 1000;
+        transform-origin: left center;
+        transition:
+          transform 0.6s ease-in-out,
+          opacity 0.6s ease-in-out;
+      }
+
+      .links a:hover {
+        font-weight: bold;
+      }
+
+      .logo {
+        background: none;
+        border: none;
+        padding: 0;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+      }
+
+      .logo img {
+        width: 40px; /* Reduced slightly to fit neatly inside 60px bar height */
+        height: auto;
+        display: block;
+      }
+
+      .links {
+        display: flex;
+        align-items: center;
+        margin-left: 20px; /* Adds space between logo and first link */
+        margin-right: auto; /* Pushes the language button to the far right */
+      }
+
+      .links a {
+        color: #eae85d;
+        text-decoration: none;
+        margin-right: 20px; /* Keeps consistent spacing between links */
+        font-family: Arial, sans-serif;
+        font-weight: 500;
+        white-space: nowrap;
+      }
+
+      .lang-btn {
+        background-color: transparent;
+        color: #eae85d;
+        border: 2px solid #eae85d;
+        border-radius: 5px;
+        padding: 5px 12px;
+        font-family: Arial, sans-serif;
+        font-weight: bold;
+        cursor: pointer;
+        transition: all 0.2s ease;
+      }
+
+      .lang-btn:hover {
+        background-color: #eae85d;
+        color: #1a0f23;
+      }
+
+      .image-container {
+        position: relative;
+        width: 100%;
+        overflow: hidden;
+      }
+
+      .glow-overlay {
+        position: absolute;
+        opacity: 0.9;
+        transition: all 0.3s ease;
+        pointer-events: auto;
+      }
+
+      .glow-overlay:hover {
+        opacity: 1;
+        filter: drop-shadow(0 0 15px rgba(255, 255, 255, 0.9)) brightness(1.2);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="bar">
+      <!-- Place logo first -->
+      <a class="logo" href="Home.html">
+        <img src="../images/logo sun.png" alt="sun logo" />
+      </a>
+
+      <!-- Navigation Links -->
+      <div class="links">
+        <a href="Home.html" data-en="Home" data-fr="Accueil">Home</a>
+        <a href="2ndHome.html" data-en="Scenes" data-fr="Scenes">Scenes</a>
+
+        <a href="Robot.html" data-en="Robot" data-fr="Robot">Robot</a>
+        <a href="Arcade.html" data-en="Arcade" data-fr="Arcade">Arcade</a>
+        <a href="Timeline.html" data-en="Timeline" data-fr="Chronologie"
+          >Timeline</a
+        >
+        <a href="Sponsors.html" data-en="Sponsors" data-fr="Commanditaires"
+          >Sponsors</a
+        >
+        <a href="Team.html" data-en="Team" data-fr="Équipe">Team</a>
+      </div>
+
+      <!-- Language Button -->
+      <button class="lang-btn" onclick="toggleLanguage()" id="langBtn">
+        FR
+      </button>
+    </div>
+
+    <div class="image-container">
+      <!-- IMAGE DE FOND UNIQUE -->
+      <img
+        src="../images/timeline.bg.jpg"
+        alt="timeline Background"
+        style="display: block; width: 100%"
+      />
+
+      <!-- 1. KIOSK -->
+      <a href="Kiosk.T.html">
+        <img
+          src="../images/kiosk.T.png"
+          alt="Kiosk Overlay"
+          class="glow-overlay"
+          style="top: 0; left: 0; width: 330px"
+        />
+      </a>
+
+      <!-- 2. ROBOT -->
+      <a href="Robot.T.html">
+        <img
+          src="../images/robot.T.png"
+          alt="Robot Overlay"
+          class="glow-overlay"
+          style="bottom: 36%; left: 35.5%; width: 45%"
+        />
+      </a>
+
+      <!-- 3. SITEWEB -->
+      <a href="Siteweb.T.html">
+        <img
+          src="../images/siteweb.T.png"
+          alt="Siteweb Overlay"
+          class="glow-overlay"
+          style="top: 46%; left: 0; width: 31%"
+        />
+      </a>
+
+      <!-- 4. VIDEO -->
+      <a href="Video.T.html">
+        <img
+          src="../images/video.T.png"
+          alt="Video Overlay"
+          class="glow-overlay"
+          style="top: 35%; left: 29.7%; width: 20%"
+        />
+      </a>
+
+      <!-- 5. DESSIN 3D -->
+      <a href="3D.T.html">
+        <img
+          src="../images/3D.T.png"
+          alt="3D Overlay"
+          class="glow-overlay"
+          style="bottom: 70%; left: 65%; width: 14%"
+        />
+      </a>
+
+      <!-- 6. TUTORIEL -->
+      <a href="Tutorial.T.html">
+        <img
+          src="../images/tutoriel.T.png"
+          alt="Tutorial Overlay"
+          class="glow-overlay"
+          style="bottom: 0; left: 57.5%; width: 42%"
+        />
+      </a>
+    </div>
+
+    <script>
+      let currentLang = "en";
+
+      function toggleLanguage() {
+        currentLang = currentLang === "en" ? "fr" : "en";
+        document.getElementById("langBtn").innerText =
+          currentLang === "en" ? "FR" : "EN";
+        document.documentElement.lang = currentLang;
+
+        const elementsToTranslate = document.querySelectorAll("[data-en]");
+        elementsToTranslate.forEach((element) => {
+          element.innerText = element.getAttribute(`data-${currentLang}`);
+        });
+      }
+    </script>
+  </body>
+</html>

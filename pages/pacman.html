@@ -1,0 +1,365 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Maze chase</title>
+  </head>
+
+  <style>
+    body {
+      text-align: center;
+    }
+    #board {
+      background-color: rgb(0, 28, 11);
+    }
+  </style>
+
+  <body>
+    <canvas id="board"></canvas>
+
+    <script>
+      //board
+      let board;
+      const rowCount = 21;
+      const columnCount = 19;
+      const tileSize = 25;
+      const boardWidth = columnCount * tileSize;
+      const boardHeight = rowCount * tileSize;
+      let context;
+
+      //images
+      let GuyoneImage;
+      let GuytwoImage;
+      let FlynnUpImage;
+      let FlynnDownImage;
+      let FlynnLeftImage;
+      let FlynnRightImage;
+      let wallImage;
+
+      window.onload = function () {
+        board = document.getElementById("board");
+        board.height = boardHeight;
+        board.width = boardWidth;
+        context = board.getContext("2d"); //used for drawing on the board
+
+        loadImages();
+        loadMap();
+        console.log(walls.size);
+        console.log(foods.size);
+        console.log(Guys.size);
+        for (let Guy of Guys.values()) {
+          const newDirection = directions[Math.floor(Math.random() * 4)]; // 0-3
+          Guy.updateDirection(newDirection);
+        }
+        update();
+        document.addEventListener("keyup", moveFlynn);
+      };
+
+      // X = Wall, O = Skip, P = Flynn
+      // Guys: b = Guyone, o = Guytwo
+      const tileMap = [
+        "XXXXXXXXXXXXXXXXXXX",
+        "X        X        X",
+        "X XX XXX X XXX XX X",
+        "X                 X",
+        "X XX X XXXXX X XX X",
+        "X    X       X    X",
+        "XXXX XXXX XXXX XXXX",
+        "OOOX X       X XOOO",
+        "XXXX X XXrXX X XXXX",
+        "O       b o       O",
+        "XXXX X XXXXX X XXXX",
+        "OOOX X       X XOOO",
+        "XXXX X XXXXX X XXXX",
+        "X        X        X",
+        "X XX XXX X XXX XX X",
+        "X  X     P     X  X",
+        "XX X X XXXXX X X XX",
+        "X    X   X   X    X",
+        "X XXXXXX X XXXXXX X",
+        "X                 X",
+        "XXXXXXXXXXXXXXXXXXX",
+      ];
+
+      const walls = new Set();
+      const foods = new Set();
+      const Guys = new Set();
+      let Flynn;
+
+      const directions = ["U", "D", "L", "R"]; // up down left right
+      let score = 0;
+      let lives = 3;
+      let gameOver = false;
+
+      function loadImages() {
+        wallImage = new Image();
+        wallImage.src = "../images/wall.pac.png";
+
+        GuyoneImage = new Image();
+        GuyoneImage.src = "../images/Guyone.png";
+        GuytwoImage = new Image();
+        GuytwoImage.src = "../images/Guytwo.png";
+
+        FlynnUpImage = new Image();
+        FlynnUpImage.src = "../images/Flynn.png";
+        FlynnDownImage = new Image();
+        FlynnDownImage.src = "../images/Flynn.png";
+        FlynnLeftImage = new Image();
+        FlynnLeftImage.src = "../images/Flynn.png";
+        FlynnRightImage = new Image();
+        FlynnRightImage.src = "../images/Flynn.png";
+      }
+
+      function loadMap() {
+        walls.clear();
+        foods.clear();
+        Guys.clear();
+
+        for (let r = 0; r < rowCount; r++) {
+          for (let c = 0; c < columnCount; c++) {
+            const row = tileMap[r];
+            const tileMapChar = row[c];
+
+            const x = c * tileSize;
+            const y = r * tileSize;
+
+            if (tileMapChar == "X") {
+              //block wall
+              const wall = new Block(wallImage, x, y, tileSize, tileSize);
+              walls.add(wall);
+            } else if (tileMapChar == "b") {
+              //Guyone
+              const Guy = new Block(GuyoneImage, x, y, tileSize, tileSize);
+              Guys.add(Guy);
+            } else if (tileMapChar == "o") {
+              //Guytwo
+              const Guy = new Block(GuytwoImage, x, y, tileSize, tileSize);
+              Guys.add(Guy);
+            } else if (tileMapChar == "P") {
+              //Flynn
+              Flynn = new Block(FlynnRightImage, x, y, tileSize, tileSize);
+            } else if (tileMapChar == " ") {
+              //empty is food
+              const food = new Block(null, x + 14, y + 14, 4, 4);
+              foods.add(food);
+            }
+          }
+        }
+      }
+
+      function update() {
+        if (gameOver) {
+          return;
+        }
+        move();
+        draw();
+        setTimeout(update, 50); //20 FPS 1 -> 1000ms/20 = 50
+      }
+
+      function draw() {
+        context.clearRect(0, 0, board.width, board.height);
+        context.drawImage(
+          Flynn.image,
+          Flynn.x,
+          Flynn.y,
+          Flynn.width,
+          Flynn.height,
+        );
+        for (let Guy of Guys.values()) {
+          context.drawImage(Guy.image, Guy.x, Guy.y, Guy.width, Guy.height);
+        }
+        for (let wall of walls.values()) {
+          context.drawImage(
+            wall.image,
+            wall.x,
+            wall.y,
+            wall.width,
+            wall.height,
+          );
+        }
+        context.fillStyle = "white";
+        for (let food of foods.values()) {
+          context.fillRect(food.x, food.y, food.width, food.height);
+        }
+
+        //score
+        context.fillStyle = "white";
+        context.font = "14px sans-serif";
+        if (gameOver) {
+          context.fillText(
+            "Game Over:" + String(score),
+            tileSize / 2,
+            tileSize / 2,
+          );
+        } else {
+          context.fillText(
+            "x" + String(lives) + " " + String(score),
+            tileSize / 2,
+            tileSize / 2,
+          );
+        }
+      }
+
+      function move() {
+        Flynn.x += Flynn.velocityX;
+        Flynn.y += Flynn.velocityY;
+
+        //check wall collisions
+        for (let wall of walls.values()) {
+          if (collision(Flynn, wall)) {
+            Flynn.x -= Flynn.velocityX;
+            Flynn.y -= Flynn.velocityY;
+            break;
+          }
+        }
+        for (let Guy of Guys.values()) {
+          if (collision(Guy, Flynn)) {
+            lives -= 1;
+            if (lives == 0) {
+              gameOver = true;
+              return;
+            }
+            resetPositions();
+          }
+          if (
+            Guy.y == tileSize * 9 &&
+            Guy.direction != "U" &&
+            Guy.direction != "D"
+          ) {
+            Guy.updateDirection("U");
+          }
+
+          Guy.x += Guy.velocityX;
+          Guy.y += Guy.velocityY;
+          for (let wall of walls.values()) {
+            if (
+              collision(Guy, wall) ||
+              Guy.x <= 0 ||
+              Guy.x + Guy.width >= boardWidth
+            ) {
+              Guy.x -= Guy.velocityX;
+              Guy.y -= Guy.velocityY;
+              const newDirection = directions[Math.floor(Math.random() * 4)];
+              Guy.updateDirection(newDirection);
+            }
+          }
+        }
+
+        // check food collision
+        let foodEaten = null;
+        for (let food of foods.values()) {
+          if (collision(Flynn, food)) {
+            foodEaten = food;
+            score += 10;
+            break;
+          }
+        }
+        foods.delete(foodEaten);
+
+        //next level
+        if (foods.size == 0) {
+          loadMap();
+          resetPositions();
+        }
+      }
+
+      function moveFlynn(e) {
+        if (gameOver) {
+          loadMap();
+          resetPositions();
+          lives = 3;
+          score = 0;
+          gameOver = false;
+          update(); //restart game loop
+          return;
+        }
+        if (e.code == "ArrowUp" || e.code == "KeyW") {
+          Flynn.updateDirection("U");
+        } else if (e.code == "ArrowDown" || e.code == "KeyS") {
+          Flynn.updateDirection("D");
+        } else if (e.code == "ArrowLeft" || e.code == "KeyA") {
+          Flynn.updateDirection("L");
+        } else if (e.code == "ArrowRight" || e.code == "KeyD") {
+          Flynn.updateDirection("R");
+        }
+      }
+
+      function collision(a, b) {
+        return (
+          a.x < b.x + b.width &&
+          a.x + a.width > b.x &&
+          a.y < b.y + b.height &&
+          a.y + a.height > b.y
+        );
+      }
+
+      function resetPositions() {
+        Flynn.reset();
+        Flynn.velocityX = 0;
+        Flynn.velocityY = 0;
+        for (let Guy of Guys.values()) {
+          Guy.reset();
+          const newDirection = directions[Math.floor(Math.random() * 4)];
+          Guy.updateDirection(newDirection);
+        }
+      }
+
+      class Block {
+        constructor(image, x, y, width, height) {
+          this.image = image;
+          this.x = x;
+          this.y = y;
+          this.width = width;
+          this.height = height;
+
+          this.startX = x;
+          this.startY = y;
+
+          this.direction = "R";
+          this.velocityX = 0;
+          this.velocityY = 0;
+        }
+
+        updateDirection(direction) {
+          const prevDirection = this.direction;
+          this.direction = direction;
+          this.updateVelocity();
+          this.x += this.velocityX;
+          this.y += this.velocityY;
+
+          for (let wall of walls.values()) {
+            if (collision(this, wall)) {
+              this.x -= this.velocityX;
+              this.y -= this.velocityY;
+              this.direction = prevDirection;
+              this.updateVelocity();
+              return;
+            }
+          }
+        }
+
+        updateVelocity() {
+          if (this.direction == "U") {
+            this.velocityX = 0;
+            this.velocityY = -tileSize / 4;
+          } else if (this.direction == "D") {
+            this.velocityX = 0;
+            this.velocityY = tileSize / 4;
+          } else if (this.direction == "L") {
+            this.velocityX = -tileSize / 4;
+            this.velocityY = 0;
+          } else if (this.direction == "R") {
+            this.velocityX = tileSize / 4;
+            this.velocityY = 0;
+          }
+        }
+
+        reset() {
+          this.x = this.startX;
+          this.y = this.startY;
+        }
+      }
+    </script>
+  </body>
+</html>
