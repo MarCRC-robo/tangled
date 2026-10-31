@@ -2,16 +2,32 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <title>Maze chase</title>
   </head>
 
   <style>
-    body {
-      text-align: center;
+    html, body {
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      overflow: hidden; /* Stops scrolling off the screen */
+      background-color: rgb(0, 28, 11);
+      touch-action: none; /* Stops pinch-to-zoom and page dragging */
     }
+
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
     #board {
       background-color: rgb(0, 28, 11);
+      max-width: 100vw;
+      max-height: 100vh;
+      object-fit: contain; /* Keeps the maze crisp without shrinking out of shape */
     }
   </style>
 
@@ -19,7 +35,7 @@
     <canvas id="board"></canvas>
 
     <script>
-      //board
+      // 1. Board setup variables
       let board;
       const rowCount = 21;
       const columnCount = 19;
@@ -28,7 +44,7 @@
       const boardHeight = rowCount * tileSize;
       let context;
 
-      //images
+      // 2. Images
       let GuyoneImage;
       let GuytwoImage;
       let FlynnUpImage;
@@ -37,27 +53,22 @@
       let FlynnRightImage;
       let wallImage;
 
-      window.onload = function () {
-        board = document.getElementById("board");
-        board.height = boardHeight;
-        board.width = boardWidth;
-        context = board.getContext("2d"); //used for drawing on the board
+      // 3. Game objects & state
+      const walls = new Set();
+      const foods = new Set();
+      const Guys = new Set();
+      let Flynn;
 
-        loadImages();
-        loadMap();
-        console.log(walls.size);
-        console.log(foods.size);
-        console.log(Guys.size);
-        for (let Guy of Guys.values()) {
-          const newDirection = directions[Math.floor(Math.random() * 4)]; // 0-3
-          Guy.updateDirection(newDirection);
-        }
-        update();
-        document.addEventListener("keyup", moveFlynn);
-      };
+      const directions = ["U", "D", "L", "R"];
+      let score = 0;
+      let lives = 3;
+      let gameOver = false;
 
-      // X = Wall, O = Skip, P = Flynn
-      // Guys: b = Guyone, o = Guytwo
+      // Touch coordinates
+      let touchStartX = 0;
+      let touchStartY = 0;
+
+      // 4. Map configuration
       const tileMap = [
         "XXXXXXXXXXXXXXXXXXX",
         "X        X        X",
@@ -82,15 +93,87 @@
         "XXXXXXXXXXXXXXXXXXX",
       ];
 
-      const walls = new Set();
-      const foods = new Set();
-      const Guys = new Set();
-      let Flynn;
+      // 5. Block Class Definition
+      class Block {
+        constructor(image, x, y, width, height) {
+          this.image = image;
+          this.x = x;
+          this.y = y;
+          this.width = width;
+          this.height = height;
 
-      const directions = ["U", "D", "L", "R"]; // up down left right
-      let score = 0;
-      let lives = 3;
-      let gameOver = false;
+          this.startX = x;
+          this.startY = y;
+
+          this.direction = "R";
+          this.velocityX = 0;
+          this.velocityY = 0;
+        }
+
+        updateDirection(direction) {
+          const prevDirection = this.direction;
+          this.direction = direction;
+          this.updateVelocity();
+          this.x += this.velocityX;
+          this.y += this.velocityY;
+
+          for (let wall of walls.values()) {
+            if (collision(this, wall)) {
+              this.x -= this.velocityX;
+              this.y -= this.velocityY;
+              this.direction = prevDirection;
+              this.updateVelocity();
+              return;
+            }
+          }
+        }
+
+        updateVelocity() {
+          if (this.direction == "U") {
+            this.velocityX = 0;
+            this.velocityY = -tileSize / 4;
+          } else if (this.direction == "D") {
+            this.velocityX = 0;
+            this.velocityY = tileSize / 4;
+          } else if (this.direction == "L") {
+            this.velocityX = -tileSize / 4;
+            this.velocityY = 0;
+          } else if (this.direction == "R") {
+            this.velocityX = tileSize / 4;
+            this.velocityY = 0;
+          }
+        }
+
+        reset() {
+          this.x = this.startX;
+          this.y = this.startY;
+        }
+      }
+
+      // 6. Window onload startup
+      window.onload = function () {
+        board = document.getElementById("board");
+        board.height = boardHeight;
+        board.width = boardWidth;
+        context = board.getContext("2d");
+
+        loadImages();
+        loadMap();
+
+        for (let Guy of Guys.values()) {
+          const newDirection = directions[Math.floor(Math.random() * 4)];
+          Guy.updateDirection(newDirection);
+        }
+        update();
+
+        // Keyboard & Touch Listeners
+        document.addEventListener("keyup", moveFlynn);
+        document.addEventListener("touchstart", (e) => {
+          touchStartX = e.changedTouches[0].clientX;
+          touchStartY = e.changedTouches[0].clientY;
+        });
+        document.addEventListener("touchend", moveFlynn);
+      };
 
       function loadImages() {
         wallImage = new Image();
@@ -125,22 +208,17 @@
             const y = r * tileSize;
 
             if (tileMapChar == "X") {
-              //block wall
               const wall = new Block(wallImage, x, y, tileSize, tileSize);
               walls.add(wall);
             } else if (tileMapChar == "b") {
-              //Guyone
               const Guy = new Block(GuyoneImage, x, y, tileSize, tileSize);
               Guys.add(Guy);
             } else if (tileMapChar == "o") {
-              //Guytwo
               const Guy = new Block(GuytwoImage, x, y, tileSize, tileSize);
               Guys.add(Guy);
             } else if (tileMapChar == "P") {
-              //Flynn
               Flynn = new Block(FlynnRightImage, x, y, tileSize, tileSize);
             } else if (tileMapChar == " ") {
-              //empty is food
               const food = new Block(null, x + 14, y + 14, 4, 4);
               foods.add(food);
             }
@@ -154,7 +232,7 @@
         }
         move();
         draw();
-        setTimeout(update, 50); //20 FPS 1 -> 1000ms/20 = 50
+        setTimeout(update, 50); //20 FPS
       }
 
       function draw() {
@@ -164,7 +242,7 @@
           Flynn.x,
           Flynn.y,
           Flynn.width,
-          Flynn.height,
+          Flynn.height
         );
         for (let Guy of Guys.values()) {
           context.drawImage(Guy.image, Guy.x, Guy.y, Guy.width, Guy.height);
@@ -175,7 +253,7 @@
             wall.x,
             wall.y,
             wall.width,
-            wall.height,
+            wall.height
           );
         }
         context.fillStyle = "white";
@@ -190,13 +268,13 @@
           context.fillText(
             "Game Over:" + String(score),
             tileSize / 2,
-            tileSize / 2,
+            tileSize / 2
           );
         } else {
           context.fillText(
             "x" + String(lives) + " " + String(score),
             tileSize / 2,
-            tileSize / 2,
+            tileSize / 2
           );
         }
       }
@@ -274,13 +352,37 @@
           update(); //restart game loop
           return;
         }
-        if (e.code == "ArrowUp" || e.code == "KeyW") {
+
+        // Calculate swipe distance when touch ends
+        let deltaX = 0, deltaY = 0;
+        if (e.type === "touchend") {
+          deltaX = e.changedTouches[0].clientX - touchStartX;
+          deltaY = e.changedTouches[0].clientY - touchStartY;
+        }
+
+        if (
+          e.code == "ArrowUp" || 
+          e.code == "KeyW" || 
+          (e.type === "touchend" && deltaY < -30 && Math.abs(deltaY) > Math.abs(deltaX))
+        ) {
           Flynn.updateDirection("U");
-        } else if (e.code == "ArrowDown" || e.code == "KeyS") {
+        } else if (
+          e.code == "ArrowDown" || 
+          e.code == "KeyS" || 
+          (e.type === "touchend" && deltaY > 30 && Math.abs(deltaY) > Math.abs(deltaX))
+        ) {
           Flynn.updateDirection("D");
-        } else if (e.code == "ArrowLeft" || e.code == "KeyA") {
+        } else if (
+          e.code == "ArrowLeft" || 
+          e.code == "KeyA" || 
+          (e.type === "touchend" && deltaX < -30 && Math.abs(deltaX) > Math.abs(deltaY))
+        ) {
           Flynn.updateDirection("L");
-        } else if (e.code == "ArrowRight" || e.code == "KeyD") {
+        } else if (
+          e.code == "ArrowRight" || 
+          e.code == "KeyD" || 
+          (e.type === "touchend" && deltaX > 30 && Math.abs(deltaX) > Math.abs(deltaY))
+        ) {
           Flynn.updateDirection("R");
         }
       }
@@ -302,62 +404,6 @@
           Guy.reset();
           const newDirection = directions[Math.floor(Math.random() * 4)];
           Guy.updateDirection(newDirection);
-        }
-      }
-
-      class Block {
-        constructor(image, x, y, width, height) {
-          this.image = image;
-          this.x = x;
-          this.y = y;
-          this.width = width;
-          this.height = height;
-
-          this.startX = x;
-          this.startY = y;
-
-          this.direction = "R";
-          this.velocityX = 0;
-          this.velocityY = 0;
-        }
-
-        updateDirection(direction) {
-          const prevDirection = this.direction;
-          this.direction = direction;
-          this.updateVelocity();
-          this.x += this.velocityX;
-          this.y += this.velocityY;
-
-          for (let wall of walls.values()) {
-            if (collision(this, wall)) {
-              this.x -= this.velocityX;
-              this.y -= this.velocityY;
-              this.direction = prevDirection;
-              this.updateVelocity();
-              return;
-            }
-          }
-        }
-
-        updateVelocity() {
-          if (this.direction == "U") {
-            this.velocityX = 0;
-            this.velocityY = -tileSize / 4;
-          } else if (this.direction == "D") {
-            this.velocityX = 0;
-            this.velocityY = tileSize / 4;
-          } else if (this.direction == "L") {
-            this.velocityX = -tileSize / 4;
-            this.velocityY = 0;
-          } else if (this.direction == "R") {
-            this.velocityX = tileSize / 4;
-            this.velocityY = 0;
-          }
-        }
-
-        reset() {
-          this.x = this.startX;
-          this.y = this.startY;
         }
       }
     </script>
