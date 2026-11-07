@@ -1,122 +1,313 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>command:workbench.trust.manage
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Marcy's Blog</title>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Marcy let down your hair</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+      * {
+        box-sizing: border-box;
+        user-select: none;
+      }
+
+      body {
+        margin: 0;
+        padding-top: 60px;
+        background-color: #fdfdfd;
+        min-height: 100vh;
+      }
+
+      /* TOP NAVIGATION BAR */
+      .bar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 60px;
+        z-index: 1000;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 16px;
+        border-bottom: 3px solid #552586;
+        background: linear-gradient(
+          180deg,
+          #b589d6 0%,
+          #9969c7 35%,
+          #975ed3 50%,
+          #6a359c 80%,
+          #552586 100%
+        );
+      }
+
+      .logo {
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+      }
+
+      .logo img {
+        width: 36px;
+        height: auto;
+        display: block;
+      }
+
+      /* DESKTOP TABS */
+      .desktop-links {
+        display: flex;
+        align-items: flex-end;
+        gap: 6px;
+        height: 100%;
+        flex: 1;
+        margin: 0 12px;
+      }
+
+      .button {
+        flex: 1;
+        min-width: 0;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        height: 38px;
+        padding: 0 8px;
+        color: #ffffff;
+        text-decoration: none;
+        font-family: "Trebuchet MS", Arial, sans-serif;
+        font-size: 11px;
+        font-weight: 900;
+        letter-spacing: 0.5px;
+        text-transform: uppercase;
+        white-space: nowrap;
+        text-shadow: 0 1px 2px rgba(80, 0, 50, 0.6);
+        border: 1px solid #552586;
+        border-bottom: none;
+        border-radius: 10px 10px 0 0;
+        background: linear-gradient(
+          180deg,
+          #6c3299 0%,
+          #9969c7 35%,
+          #6726ad 50%,
+          #3a076a 80%,
+          #552586 100%
+        );
+        transition: filter 0.15s ease;
+      }
+
+      .button:hover {
+        filter: brightness(1.15);
+      }
+
+      .button[aria-current="page"] {
+        height: 44px;
+        margin-bottom: -3px;
+        background: linear-gradient(
+          180deg,
+          #b773ff 0%,
+          #913bed 20%,
+          #7d2fd1 50%,
+          #6726ad 72%,
+          #551c92 90%,
+          #350d60 100%
+        );
+      }
+
+      /* NAV CONTROLS (LANG + HAMBURGER) */
+      .nav-controls {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+
+      .lang-btn {
+        background-color: transparent;
+        color: #eae85d;
+        border: 2px solid #eae85d;
+        border-radius: 5px;
+        padding: 4px 10px;
+        font-family: Arial, sans-serif;
+        font-size: 12px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: all 0.2s ease;
+      }
+
+      .lang-btn:hover {
+        background-color: #eae85d;
+        color: #1a0f23;
+      }
+
+      .hamburger {
+        display: none;
+        background: transparent;
+        border: none;
+        cursor: pointer;
+        flex-direction: column;
+        justify-content: space-between;
+        width: 26px;
+        height: 18px;
+        padding: 0;
+      }
+
+      .hamburger span {
+        display: block;
+        width: 100%;
+        height: 3px;
+        background-color: #ffffff;
+        border-radius: 3px;
+      }
+
+      /* FULL-SCREEN OVERLAY MENU */
+      .mobile-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        z-index: 2000;
+        background: linear-gradient(
+          180deg,
+          #6a359c 0%,
+          #552586 40%,
+          #350d60 100%
+        );
+        display: flex;
+        flex-direction: column;
+        padding: 40px 30px;
+        opacity: 0;
+        visibility: hidden;
+        pointer-events: none;
+        transition: opacity 0.3s ease, visibility 0.3s ease;
+      }
+
+      .mobile-overlay.active {
+        opacity: 1;
+        visibility: visible;
+        pointer-events: auto;
+      }
+
+      /* CLOSE BUTTON (X) */
+      .close-btn {
+        align-self: flex-start;
+        background: none;
+        border: none;
+        color: #ffffff;
+        font-size: 32px;
+        cursor: pointer;
+        line-height: 1;
+        padding: 0;
+        margin-bottom: 50px;
+      }
+
+      /* VERTICAL LIST OF LINKS */
+      .mobile-links-list {
+        display: flex;
+        flex-direction: column;
+        gap: 28px;
+      }
+
+      .mobile-link {
+        color: #ffffff;
+        text-decoration: none;
+        font-family: "Trebuchet MS", Arial, sans-serif;
+        font-size: 22px;
+        font-weight: 500;
+        letter-spacing: 0.5px;
+        transition: color 0.2s ease, transform 0.2s ease;
+      }
+
+      .mobile-link:hover,
+      .mobile-link[aria-current="page"] {
+        color: #eae85d;
+        font-weight: bold;
+      }
+
+      /* RESPONSIVE LAYOUT TOGGLE */
+      @media (max-width: 768px) {
+        .desktop-links {
+          display: none;
         }
 
-        body, html {
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
-            font-family: sans-serif;
+        .hamburger {
+          display: flex;
         }
-
-        /* Conteneur plein écran */
-        .page-container {
-            position: relative;
-            width: 100vw;
-            height: 100vh;
-        }
-
-        /* Image d'arrière-plan */
-        .bg-image {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            display: block;
-        }
-
-        /* Titre sur l'image */
-        .header-text {
-            position: absolute;
-            top: 20px;
-            left: 20px;
-            color: rgb(131, 3, 157);
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.7);
-            z-index: 10;
-        }
-
-        /* Style de base des zones cliquables (Boutons) */
-        .hotspot {
-            position: absolute;
-            display: block;
-            cursor: pointer;
-            /* ZONE ROUGE DE TEST (pour voir où sont placés vos boutons) */
-           
-        }
-
-        /* Bouton 1 : Kiosk */
-        .kiosk-btn {
-            top: 1%;
-            left: 1%;
-            width: 20%;
-            height: 40%;
-        }
-
-        /* Bouton 2 : Robot */
-        .robot-btn {
-            top: 50%;
-            left: 1%;
-            width: 20%;
-            height: 100%;
-        }
-
-        .sitewb-btn {
-            top: 30%;
-            left: 30%;
-            width: 10%;
-            height: 50%;
-        }
-        .tutoriel-btn {
-            top: 15%;
-            left: 41%;
-            width: 20%;
-            height: 45%;
-        }
-        .video-btn {
-            top: 1%;
-            left: 68%;
-            width: 10%;
-            height: 30%;
-        }
-        .DDD-btn {
-            top: 50%;
-            left: 85%;
-            width: 20%;
-            height: 60%;
-        }
-    
+      }
     </style>
-</head>
-<body>
+  </head>
+  <body>
+    <!-- MAIN NAVIGATION BAR -->
+    <nav class="bar">
+      <a class="logo" id="homeLogo" href="index.html">
+        <img src="../images/logo sun.png" alt="sun logo" />
+      </a>
 
-    <div class="page-container">
-        
-        <!-- TON IMAGE (Voir l'Étape 2 ci-dessous pour régler l'emplacement) -->
-        <img src="timeline.bg.jpg" alt="Blog Timeline" class="bg-image">
+      <!-- DESKTOP TABS -->
+      <div class="desktop-links">
+        <a href="index.html" class="button" data-en="TV" data-fr="TV">TV</a>
+        <a href="Home.html" class="button" data-en="Home" data-fr="Accueil">Home</a>
+        <a href="Cast.html" class="button" data-en="Cast" data-fr="Casting">Cast</a>
+        <a href="Settings.html" class="button" data-en="Settings" data-fr="Paramètres">Settings</a>
+        <a href="Blog.html" class="button" data-en="Blog" data-fr="Blog">Blog</a>
+        <a href="Arcade.html" class="button" data-en="Arcade" data-fr="Arcade">Arcade</a>
+        <a href="Credits.html" class="button" data-en="Credits" data-fr="Crédits">Credits</a>
+        <a href="Trailer.html" class="button" data-en="Trailer" data-fr="Bande-annonce">Trailer</a>
+      </div>
 
-        <!-- TEXTE -->
-        <div class="header-text">
-            <h1>Marcy's Blog</h1>
-            <p>Click on any of the rapunzels to view our progress</p>
-        </div>
+      <!-- CONTROLS -->
+      <div class="nav-controls">
+        <button class="lang-btn" onclick="toggleLanguage()" id="langBtn">FR</button>
+        <button class="hamburger" onclick="openMenu()" aria-label="Open navigation">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+      </div>
+    </nav>
 
-        <!-- VOS LIENS CLIQUABLES -->
-        <a href="Kiosk.T.html" class="hotspot kiosk-btn" title="Go to Kiosk"></a>
-        <a href="Robot.T.html" class="hotspot robot-btn" title="Go to Robot"></a>
-        <a href="Siteweb.T.html" class="hotspot sitewb-btn" title="Go to Website"></a>
-        <a href="Tutorial.T.html" class="hotspot tutoriel-btn" title="Go to Tutorial"></a>
-        <a href="Video.T.html" class="hotspot video-btn" title="Go to Video"></a>
-        <a href="3D.T.html" class="hotspot DDD-btn" title="Go to 3D"></a>
+    <!-- FULL-SCREEN MOBILE OVERLAY MENU -->
+    <div class="mobile-overlay" id="mobileOverlay">
+      <button class="close-btn" onclick="closeMenu()" aria-label="Close menu">&times;</button>
 
+      <div class="mobile-links-list">
+        <a href="index.html" class="mobile-link" data-en="TV" data-fr="TV">TV</a>
+        <a href="Home.html" class="mobile-link" data-en="Home" data-fr="Accueil">Home</a>
+        <a href="Cast.html" class="mobile-link" data-en="Cast" data-fr="Casting">Cast</a>
+        <a href="Settings.html" class="mobile-link" data-en="Settings" data-fr="Paramètres">Settings</a>
+        <a href="Blog.html" class="mobile-link" data-en="Blog" data-fr="Blog">Blog</a>
+        <a href="Arcade.html" class="mobile-link" data-en="Arcade" data-fr="Arcade">Arcade</a>
+        <a href="Credits.html" class="mobile-link" data-en="Credits" data-fr="Crédits">Credits</a>
+        <a href="Trailer.html" class="mobile-link" data-en="Trailer" data-fr="Bande-annonce">Trailer</a>
+      </div>
     </div>
 
-</body>
+    <script>
+      let currentLang = "en";
+
+      function openMenu() {
+        document.getElementById("mobileOverlay").classList.add("active");
+      }
+
+      function closeMenu() {
+        document.getElementById("mobileOverlay").classList.remove("active");
+      }
+
+      function toggleLanguage() {
+        currentLang = currentLang === "en" ? "fr" : "en";
+        document.getElementById("langBtn").innerText =
+          currentLang === "en" ? "FR" : "EN";
+        document.documentElement.lang = currentLang;
+
+        document.querySelectorAll("[data-en]").forEach((el) => {
+          el.innerText = el.getAttribute(`data-${currentLang}`);
+        });
+      }
+
+      // Highlight current active page in both desktop and mobile views
+      const currentPage = location.pathname.split("/").pop() || "index.html";
+      document.querySelectorAll(".button, .mobile-link").forEach((link) => {
+        if (link.getAttribute("href") === currentPage) {
+          link.setAttribute("aria-current", "page");
+        }
+      });
+    </script>
+  </body>
 </html>

@@ -17,6 +17,7 @@
         min-height: 100vh;
       }
 
+      /* TOP NAVIGATION BAR */
       .bar {
         position: fixed;
         top: 0;
@@ -25,11 +26,9 @@
         height: 60px;
         z-index: 1000;
         display: flex;
-        align-items: flex-end;
-        gap: 6px; /* Reduced gap between buttons */
-        padding: 0 10px;
-        overflow-x: auto;
-        scrollbar-width: none;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 16px;
         border-bottom: 3px solid #552586;
         background: linear-gradient(
           180deg,
@@ -41,16 +40,9 @@
         );
       }
 
-      .bar::-webkit-scrollbar {
-        display: none;
-      }
-
       .logo {
-        align-self: center;
-        flex-shrink: 0;
         display: flex;
         align-items: center;
-        margin-right: 4px;
         cursor: pointer;
       }
 
@@ -60,18 +52,28 @@
         display: block;
       }
 
+      /* DESKTOP TABS */
+      .desktop-links {
+        display: flex;
+        align-items: flex-end;
+        gap: 6px;
+        height: 100%;
+        flex: 1;
+        margin: 0 12px;
+      }
+
       .button {
-        flex: 1; /* Allows buttons to share navbar space evenly */
-        min-width: 0; /* Prevents button overflow */
+        flex: 1;
+        min-width: 0;
         display: inline-flex;
         align-items: center;
         justify-content: center;
         height: 38px;
-        padding: 0 8px; /* Reduced padding inside buttons */
+        padding: 0 8px;
         color: #ffffff;
         text-decoration: none;
         font-family: "Trebuchet MS", Arial, sans-serif;
-        font-size: 11px; /* Smaller font size to accommodate longer French text */
+        font-size: 11px;
         font-weight: 900;
         letter-spacing: 0.5px;
         text-transform: uppercase;
@@ -95,11 +97,6 @@
         filter: brightness(1.15);
       }
 
-      .button:focus-visible {
-        outline: 2px solid #fff;
-        outline-offset: -4px;
-      }
-
       .button[aria-current="page"] {
         height: 44px;
         margin-bottom: -3px;
@@ -114,10 +111,14 @@
         );
       }
 
+      /* NAV CONTROLS (LANG + HAMBURGER) */
+      .nav-controls {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+
       .lang-btn {
-        flex-shrink: 0;
-        align-self: center;
-        margin-left: 4px;
         background-color: transparent;
         color: #eae85d;
         border: 2px solid #eae85d;
@@ -134,45 +135,177 @@
         background-color: #eae85d;
         color: #1a0f23;
       }
+
+      .hamburger {
+        display: none;
+        background: transparent;
+        border: none;
+        cursor: pointer;
+        flex-direction: column;
+        justify-content: space-between;
+        width: 26px;
+        height: 18px;
+        padding: 0;
+      }
+
+      .hamburger span {
+        display: block;
+        width: 100%;
+        height: 3px;
+        background-color: #ffffff;
+        border-radius: 3px;
+      }
+
+      /* FULL-SCREEN OVERLAY MENU */
+      .mobile-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        z-index: 2000;
+        background: linear-gradient(
+          180deg,
+          #6a359c 0%,
+          #552586 40%,
+          #350d60 100%
+        );
+        display: flex;
+        flex-direction: column;
+        padding: 40px 30px;
+        opacity: 0;
+        visibility: hidden;
+        pointer-events: none;
+        transition: opacity 0.3s ease, visibility 0.3s ease;
+      }
+
+      .mobile-overlay.active {
+        opacity: 1;
+        visibility: visible;
+        pointer-events: auto;
+      }
+
+      /* CLOSE BUTTON (X) */
+      .close-btn {
+        align-self: flex-start;
+        background: none;
+        border: none;
+        color: #ffffff;
+        font-size: 32px;
+        cursor: pointer;
+        line-height: 1;
+        padding: 0;
+        margin-bottom: 50px;
+      }
+
+      /* VERTICAL LIST OF LINKS */
+      .mobile-links-list {
+        display: flex;
+        flex-direction: column;
+        gap: 28px;
+      }
+
+      .mobile-link {
+        color: #ffffff;
+        text-decoration: none;
+        font-family: "Trebuchet MS", Arial, sans-serif;
+        font-size: 22px;
+        font-weight: 500;
+        letter-spacing: 0.5px;
+        transition: color 0.2s ease, transform 0.2s ease;
+      }
+
+      .mobile-link:hover,
+      .mobile-link[aria-current="page"] {
+        color: #eae85d;
+        font-weight: bold;
+      }
+
+      /* RESPONSIVE LAYOUT TOGGLE */
+      @media (max-width: 768px) {
+        .desktop-links {
+          display: none;
+        }
+
+        .hamburger {
+          display: flex;
+        }
+      }
     </style>
   </head>
   <body>
+    <!-- MAIN NAVIGATION BAR -->
     <nav class="bar">
       <a class="logo" id="homeLogo" href="index.html">
         <img src="../images/logo sun.png" alt="sun logo" />
       </a>
-      <a href="index.html" class="button" data-en="TV" data-fr="TV">TV</a>
-      <a href="Home.html" class="button" data-en="Home" data-fr="Accueil">Home</a>
-      <a href="Cast.html" class="button" data-en="Cast" data-fr="Casting">Cast</a>
-      <a href="Settings.html" class="button" data-en="Settings" data-fr="Paramètres">Settings</a>
-      <a href="Blog.html" class="button" data-en="Blog" data-fr="Blog">Blog</a>
-      <a href="Arcade.html" class="button" data-en="Arcade" data-fr="Arcade">Arcade</a>
-      <a href="Credits.html" class="button" data-en="Credits" data-fr="Crédits">Credits</a>
-      <a href="Trailer.html" class="button" data-en="Trailer" data-fr="Bande-annonce">Trailer</a>
 
-      <button class="lang-btn" onclick="toggleLanguage()" id="langBtn">
-        FR
-      </button>
+      <!-- DESKTOP TABS -->
+      <div class="desktop-links">
+        <a href="index.html" class="button" data-en="TV" data-fr="TV">TV</a>
+        <a href="Home.html" class="button" data-en="Home" data-fr="Accueil">Home</a>
+        <a href="Cast.html" class="button" data-en="Cast" data-fr="Casting">Cast</a>
+        <a href="Settings.html" class="button" data-en="Settings" data-fr="Paramètres">Settings</a>
+        <a href="Blog.html" class="button" data-en="Blog" data-fr="Blog">Blog</a>
+        <a href="Arcade.html" class="button" data-en="Arcade" data-fr="Arcade">Arcade</a>
+        <a href="Credits.html" class="button" data-en="Credits" data-fr="Crédits">Credits</a>
+        <a href="Trailer.html" class="button" data-en="Trailer" data-fr="Bande-annonce">Trailer</a>
+      </div>
+
+      <!-- CONTROLS -->
+      <div class="nav-controls">
+        <button class="lang-btn" onclick="toggleLanguage()" id="langBtn">FR</button>
+        <button class="hamburger" onclick="openMenu()" aria-label="Open navigation">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+      </div>
     </nav>
+
+    <!-- FULL-SCREEN MOBILE OVERLAY MENU -->
+    <div class="mobile-overlay" id="mobileOverlay">
+      <button class="close-btn" onclick="closeMenu()" aria-label="Close menu">&times;</button>
+
+      <div class="mobile-links-list">
+        <a href="index.html" class="mobile-link" data-en="TV" data-fr="TV">TV</a>
+        <a href="Home.html" class="mobile-link" data-en="Home" data-fr="Accueil">Home</a>
+        <a href="Cast.html" class="mobile-link" data-en="Cast" data-fr="Casting">Cast</a>
+        <a href="Settings.html" class="mobile-link" data-en="Settings" data-fr="Paramètres">Settings</a>
+        <a href="Blog.html" class="mobile-link" data-en="Blog" data-fr="Blog">Blog</a>
+        <a href="Arcade.html" class="mobile-link" data-en="Arcade" data-fr="Arcade">Arcade</a>
+        <a href="Credits.html" class="mobile-link" data-en="Credits" data-fr="Crédits">Credits</a>
+        <a href="Trailer.html" class="mobile-link" data-en="Trailer" data-fr="Bande-annonce">Trailer</a>
+      </div>
+    </div>
 
     <script>
       let currentLang = "en";
+
+      function openMenu() {
+        document.getElementById("mobileOverlay").classList.add("active");
+      }
+
+      function closeMenu() {
+        document.getElementById("mobileOverlay").classList.remove("active");
+      }
 
       function toggleLanguage() {
         currentLang = currentLang === "en" ? "fr" : "en";
         document.getElementById("langBtn").innerText =
           currentLang === "en" ? "FR" : "EN";
         document.documentElement.lang = currentLang;
+
         document.querySelectorAll("[data-en]").forEach((el) => {
           el.innerText = el.getAttribute(`data-${currentLang}`);
         });
       }
 
-      // Highlight the tab for the page you're on
-      const here = location.pathname.split("/").pop() || "index.html";
-      document.querySelectorAll(".button").forEach((a) => {
-        if (a.getAttribute("href") === here) {
-          a.setAttribute("aria-current", "page");
+      // Highlight current active page in both desktop and mobile views
+      const currentPage = location.pathname.split("/").pop() || "index.html";
+      document.querySelectorAll(".button, .mobile-link").forEach((link) => {
+        if (link.getAttribute("href") === currentPage) {
+          link.setAttribute("aria-current", "page");
         }
       });
     </script>
