@@ -6,39 +6,459 @@
       name="viewport"
       content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
     />
-    <title>Maze chase</title>
+    <title>Marcy let down your hair</title>
+    <style>
+      body {
+        margin: 0;
+        padding-top: 60px;
+        background-image: url(../images/snuggly\ duckling\ bar.jpg);
+        min-height: 100vh;
+        overflow: hidden;
+        background-position: center;
+        background-attachment: fixed;
+      }
+
+      .bar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 60px;
+        background-color: #d8bddb;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0 20px;
+        box-sizing: border-box;
+        z-index: 1000;
+        transform-origin: left center;
+      }
+
+      .logo {
+        background: none;
+        border: none;
+        padding: 0;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+      }
+
+      .logo img {
+        width: 40px;
+        height: auto;
+        display: block;
+      }
+
+      .links {
+        display: flex;
+        align-items: center;
+        margin-left: 20px;
+        margin-right: auto;
+      }
+
+      .links a {
+        color: #eae85d;
+        text-decoration: none;
+        margin-right: 20px;
+        font-family: Arial, sans-serif;
+        font-weight: 500;
+        white-space: nowrap;
+      }
+
+      .links a:hover {
+        font-weight: bold;
+      }
+
+      .lang-btn {
+        background-color: transparent;
+        color: #eae85d;
+        border: 2px solid #eae85d;
+        border-radius: 5px;
+        padding: 5px 12px;
+        font-family: Arial, sans-serif;
+        font-weight: bold;
+        cursor: pointer;
+        transition: all 0.2s ease;
+      }
+
+      .lang-btn:hover {
+        background-color: #eae85d;
+        color: #1a0f23;
+      }
+
+      .tiktaktoe-launch-btn,
+      .pacman-launch-btn,
+      .pascal-launch-btn {
+        background: transparent;
+        border: none;
+        padding: 0;
+        cursor: pointer;
+        outline: none;
+        transition:
+          transform 0.2s ease,
+          filter 0.2s ease;
+      }
+
+      .tiktaktoe-launch-btn img {
+        width: 180px;
+        height: auto;
+        display: block;
+      }
+      .pacman-launch-btn img {
+        width: 180px;
+        height: auto;
+        display: block;
+      }
+
+      .pascal-launch-btn img {
+        width: 150px;
+        height: auto;
+        display: block;
+      }
+
+      .game-modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background: rgba(10, 5, 20, 0.95);
+        z-index: 2000;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .game-modal.active {
+        display: flex;
+      }
+
+      .close-btn {
+        position: absolute;
+        top: 20px;
+        right: 30px;
+        color: #eae85d;
+        font-size: 36px;
+        font-weight: bold;
+        cursor: pointer;
+        z-index: 2001;
+      }
+
+      .game-container {
+        position: relative;
+        width: 100vw;
+        height: 100vh;
+        overflow: hidden;
+      }
+
+      .score-board {
+        position: absolute;
+        top: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        color: #eae85d;
+        font-size: 24px;
+        font-weight: bold;
+        z-index: 10;
+        text-align: center;
+        font-family: Arial, sans-serif;
+      }
+
+      .pascal-wrapper {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 160px;
+        height: 100px;
+        margin-top: -50px;
+        margin-left: -50px;
+        z-index: 5;
+        cursor: pointer;
+      }
+
+      .pascal-img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        position: relative;
+        z-index: 1;
+      }
+
+      .tongue {
+        position: absolute;
+        top: 46%;
+        left: 56%;
+        height: 6px;
+        width: 0px;
+        background-color: #e0528d;
+        border-radius: 0 10px 10px 0;
+        transform-origin: left center;
+        transform: translateY(-50%);
+        transition: width 0.15s ease-out;
+        z-index: 1;
+      }
+
+      .pascal-wrapper.shoot .tongue {
+        width: 550px;
+      }
+
+      .fly,
+      .bomb {
+        position: absolute;
+        object-fit: contain;
+        user-select: none;
+        z-index: 4;
+      }
+
+      .fly {
+        width: 30px;
+        height: 30px;
+      }
+
+      .bomb {
+        width: 40px;
+        height: 40px;
+      }
+
+      .game-over-screen {
+        display: none;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background: rgba(26, 15, 35, 0.95);
+        z-index: 100;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        color: #ffffff;
+        font-family: Arial, sans-serif;
+      }
+
+      .game-over-screen h1 {
+        color: #ff6b81;
+        font-size: 48px;
+        margin-bottom: 10px;
+      }
+
+      .restart-btn {
+        background-color: #eae85d;
+        color: #1a0f23;
+        border: none;
+        padding: 12px 24px;
+        font-size: 18px;
+        font-weight: bold;
+        border-radius: 8px;
+        cursor: pointer;
+        margin-top: 20px;
+      }
+
+      .restart-btn:hover {
+        background-color: #ffd700;
+      }
+
+      .ttt-modal-content {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        font-family: Arial, sans-serif;
+        color: white;
+      }
+
+      .ttt-modal-content h1 {
+        margin: 0 0 10px 0;
+        font-size: 40px;
+        color: #eae85d;
+      }
+
+      .ttt-modal-content hr {
+        width: 450px;
+        height: 2px;
+        background-color: rgb(186, 104, 237);
+        border: 0;
+        margin-bottom: 15px;
+      }
+
+      #ttt-status {
+        font-size: 24px;
+        margin-bottom: 15px;
+        font-weight: bold;
+        color: #ffffff;
+      }
+
+      #game-board {
+        width: 450px;
+        height: 450px;
+        margin: 0 auto;
+        background-color: rgb(217, 115, 237);
+        color: white;
+        border: 6px solid rgb(193, 150, 212);
+        border-radius: 10px;
+        display: grid;
+        grid-template: repeat(3, 1fr) / repeat(3, 1fr);
+        box-sizing: border-box;
+      }
+
+      .game-cell {
+        border: 3px solid rgb(221, 173, 230);
+        border-radius: 2px;
+        font-size: 80px;
+        font-weight: bold;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+        user-select: none;
+      }
+
+      .winning-game-cell {
+        background-color: white;
+        color: rgb(203, 135, 235);
+      }
+
+      #game-restart-button {
+        height: 50px;
+        width: 150px;
+        border: 3px solid rgb(208, 173, 230);
+        border-radius: 8px;
+        background-color: rgb(155, 90, 185);
+        color: white;
+        font-size: 20px;
+        font-weight: bold;
+        margin-top: 20px;
+        cursor: pointer;
+        transition: background-color 0.2s ease;
+      }
+
+      #game-restart-button:hover {
+        background-color: rgb(186, 104, 237);
+      }
+
+      #board {
+        background-color: rgb(0, 28, 11);
+        max-width: 100vw;
+        max-height: 100vh;
+        object-fit: contain;
+      }
+    </style>
   </head>
-
-  <style>
-    html,
-    body {
-      width: 100%;
-      height: 100%;
-      margin: 0;
-      padding: 0;
-      overflow: hidden; /* Stops scrolling off the screen */
-      background-color: rgb(0, 28, 11);
-      touch-action: none; /* Stops pinch-to-zoom and page dragging */
-    }
-
-    body {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-
-    #board {
-      background-color: rgb(0, 28, 11);
-      max-width: 100vw;
-      max-height: 100vh;
-      object-fit: contain; /* Keeps the maze crisp without shrinking out of shape */
-    }
-  </style>
-
   <body>
-    <canvas id="board"></canvas>
+    <!-- Top Navigation Bar -->
+    <div class="bar">
+      <a class="logo" href="Home.html">
+        <img src="../images/logo sun.png" alt="sun logo" />
+      </a>
+
+      <div class="links">
+        <a href="Home.html" data-en="Home" data-fr="Accueil">Home</a>
+        <a href="2ndHome.html" data-en="Scenes" data-fr="Scenes">Scenes</a>
+
+        <a href="Robot.html" data-en="Robot" data-fr="Robot">Robot</a>
+        <a href="Arcade.html" data-en="Arcade" data-fr="Arcade">Arcade</a>
+        <a href="Timeline.html" data-en="Timeline" data-fr="Chronologie"
+          >Timeline</a
+        >
+        <a href="Sponsors.html" data-en="Sponsors" data-fr="Commanditaires"
+          >Sponsors</a
+        >
+        <a href="Team.html" data-en="Team" data-fr="Équipe">Team</a>
+      </div>
+
+      <button class="lang-btn" onclick="toggleLanguage()" id="langBtn">
+        FR
+      </button>
+    </div>
+
+    <!-- Game Launchers -->
+    <button class="pascal-launch-btn" onclick="openPascalGame()">
+      <img src="../images/pascal.png" alt="Play Pascal Game" />
+    </button>
+
+    <button class="tiktaktoe-launch-btn" onclick="openTTT()">
+      <img src="../images/point.pascal.png" alt="Play Tic Tac Toe Game" />
+    </button>
+
+    <button class="pacman-launch-btn" onclick="openPacmanGame()">
+      <img src="../images/download.png" alt="Play Pacman Game" />
+    </button>
+
+    <!-- Pacman Game Modal -->
+    <div class="game-modal" id="pacmanModal">
+      <span class="close-btn" onclick="closePacmanGame()">&times;</span>
+      <canvas id="board"></canvas>
+    </div>
+
+    <!-- Pascal Game Modal -->
+    <div class="game-modal" id="gameModal">
+      <span class="close-btn" onclick="closePascalGame()">&times;</span>
+
+      <div class="game-container" id="gameContainer">
+        <div class="score-board">
+          Score: <span id="score">0</span> | High Score:
+          <span id="highScore">0</span>
+        </div>
+
+        <div class="pascal-wrapper" id="pascal" onclick="shootTongue(event)">
+          <img
+            src="../images/pascal game.png"
+            alt="Pascal"
+            class="pascal-img"
+          />
+          <div class="tongue" id="tongue"></div>
+        </div>
+
+        <div class="game-over-screen" id="gameOverScreen">
+          <h1>GAME OVER</h1>
+          <p>You hit a bomb!</p>
+          <p>Final Score: <span id="finalScore">0</span></p>
+          <button class="restart-btn" onclick="restartPascalGame()">
+            Play Again
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tic Tac Toe Game Modal -->
+    <div class="game-modal" id="tttModal">
+      <span class="close-btn" onclick="closeTTT()">&times;</span>
+
+      <div class="ttt-modal-content">
+        <h1>Tic Tac Toe</h1>
+        <hr />
+        <div id="ttt-status">Player X's turn</div>
+        <div id="game-board">
+          <div data-cell-index="0" class="game-cell"></div>
+          <div data-cell-index="1" class="game-cell"></div>
+          <div data-cell-index="2" class="game-cell"></div>
+          <div data-cell-index="3" class="game-cell"></div>
+          <div data-cell-index="4" class="game-cell"></div>
+          <div data-cell-index="5" class="game-cell"></div>
+          <div data-cell-index="6" class="game-cell"></div>
+          <div data-cell-index="7" class="game-cell"></div>
+          <div data-cell-index="8" class="game-cell"></div>
+        </div>
+        <button id="game-restart-button" onclick="restartTTT()">Restart</button>
+      </div>
+    </div>
 
     <script>
+      /* --- LANGUAGE SWITCHER --- */
+      let currentLang = "en";
+
+      function toggleLanguage() {
+        currentLang = currentLang === "en" ? "fr" : "en";
+        document.getElementById("langBtn").innerText =
+          currentLang === "en" ? "FR" : "EN";
+        document.documentElement.lang = currentLang;
+
+        const elementsToTranslate = document.querySelectorAll("[data-en]");
+        elementsToTranslate.forEach((element) => {
+          element.innerText = element.getAttribute(`data-${currentLang}`);
+        });
+      }
+
       // 1. Board setup variables
       let board;
       const rowCount = 21;
@@ -419,6 +839,237 @@
           Guy.updateDirection(newDirection);
         }
       }
+
+      /* --- PASCAL ARCADE GAME --- */
+      const gameModal = document.getElementById("gameModal");
+      const gameContainer = document.getElementById("gameContainer");
+      const pascal = document.getElementById("pascal");
+      const tongue = document.getElementById("tongue");
+      const gameOverScreen = document.getElementById("gameOverScreen");
+
+      let score = 0;
+      let highScore = 0;
+      let isShooting = false;
+      let isGameOver = false;
+      let isGameRunning = false;
+      let currentAngle = 0;
+      const rotationSpeed = 1.0;
+
+      const entities = [];
+      const entityCount = 8;
+      const flyImagePath = "../images/fly.png";
+      const bombImagePath = "../images/bomb game.png";
+
+      for (let i = 0; i < entityCount; i++) {
+        const isBomb = i % 3 === 0;
+
+        const el = document.createElement("img");
+        el.className = isBomb ? "bomb" : "fly";
+        el.src = isBomb ? bombImagePath : flyImagePath;
+        el.alt = isBomb ? "Bomb" : "Fly";
+
+        gameContainer.appendChild(el);
+
+        entities.push({
+          element: el,
+          isBomb: isBomb,
+          x: Math.random() * (window.innerWidth - 50),
+          y: Math.random() * (window.innerHeight - 50),
+          dx: (Math.random() - 0.5) * 2,
+          dy: (Math.random() - 0.5) * 2,
+        });
+      }
+
+      function openPascalGame() {
+        gameModal.classList.add("active");
+        isGameRunning = true;
+        restartPascalGame();
+      }
+
+      function closePascalGame() {
+        gameModal.classList.remove("active");
+        isGameRunning = false;
+      }
+
+      function shootTongue(e) {
+        e.stopPropagation();
+        if (isShooting || isGameOver) return;
+        isShooting = true;
+
+        pascal.classList.add("shoot");
+
+        setTimeout(() => {
+          pascal.classList.remove("shoot");
+          isShooting = false;
+        }, 200);
+      }
+
+      function gameLoop() {
+        if (isGameRunning && !isGameOver) {
+          currentAngle = (currentAngle + rotationSpeed) % 360;
+          pascal.style.transform = `rotate(${currentAngle}deg)`;
+
+          entities.forEach((item) => {
+            item.x += item.dx;
+            item.y += item.dy;
+
+            if (item.x <= 0 || item.x >= window.innerWidth - 30) item.dx *= -1;
+            if (item.y <= 0 || item.y >= window.innerHeight - 30) item.dy *= -1;
+
+            item.element.style.left = item.x + "px";
+            item.element.style.top = item.y + "px";
+          });
+
+          if (isShooting) {
+            checkHit();
+          }
+        }
+
+        requestAnimationFrame(gameLoop);
+      }
+
+      function checkHit() {
+        const tongueRect = tongue.getBoundingClientRect();
+
+        entities.forEach((item) => {
+          const rect = item.element.getBoundingClientRect();
+
+          if (
+            tongueRect.right >= rect.left &&
+            tongueRect.left <= rect.right &&
+            tongueRect.bottom >= rect.top &&
+            tongueRect.top <= rect.bottom
+          ) {
+            if (item.isBomb) {
+              triggerGameOver();
+            } else {
+              score++;
+              document.getElementById("score").innerText = score;
+
+              if (score > highScore) {
+                highScore = score;
+                document.getElementById("highScore").innerText = highScore;
+              }
+
+              item.x = Math.random() > 0.5 ? 0 : window.innerWidth - 50;
+              item.y = Math.random() * (window.innerHeight - 50);
+            }
+          }
+        });
+      }
+
+      function triggerGameOver() {
+        isGameOver = true;
+        document.getElementById("finalScore").innerText = score;
+        gameOverScreen.style.display = "flex";
+      }
+
+      function restartPascalGame() {
+        score = 0;
+        document.getElementById("score").innerText = score;
+        isGameOver = false;
+        gameOverScreen.style.display = "none";
+
+        entities.forEach((item) => {
+          item.x = Math.random() * (window.innerWidth - 50);
+          item.y = Math.random() * (window.innerHeight - 50);
+        });
+      }
+
+      gameLoop();
+
+      /* --- TIC TAC TOE GAME --- */
+      const tttModal = document.getElementById("tttModal");
+      const tttStatus = document.getElementById("ttt-status");
+      const tttCells = document.querySelectorAll("#game-board .game-cell");
+
+      let currentPlayer = "X";
+      let boardState = ["", "", "", "", "", "", "", "", ""];
+      let isTTTActive = true;
+
+      const winningConditions = [
+        [0, 1, 2],
+        [3, 4, 5],
+        [6, 7, 8],
+        [0, 3, 6],
+        [1, 4, 7],
+        [2, 5, 8],
+        [0, 4, 8],
+        [2, 4, 6],
+      ];
+
+      function openTTT() {
+        tttModal.classList.add("active");
+        restartTTT();
+      }
+
+      function closeTTT() {
+        tttModal.classList.remove("active");
+      }
+
+      function handleCellClick(e) {
+        const clickedCell = e.target;
+        const cellIndex = parseInt(clickedCell.getAttribute("data-cell-index"));
+
+        if (boardState[cellIndex] !== "" || !isTTTActive) return;
+
+        boardState[cellIndex] = currentPlayer;
+        clickedCell.innerText = currentPlayer;
+
+        checkTTTWinner();
+      }
+
+      function checkTTTWinner() {
+        let roundWon = false;
+        let winningCombination = [];
+
+        for (let i = 0; i < winningConditions.length; i++) {
+          const [a, b, c] = winningConditions[i];
+          if (
+            boardState[a] &&
+            boardState[a] === boardState[b] &&
+            boardState[a] === boardState[c]
+          ) {
+            roundWon = true;
+            winningCombination = [a, b, c];
+            break;
+          }
+        }
+
+        if (roundWon) {
+          tttStatus.innerText = `Player ${currentPlayer} Wins!`;
+          isTTTActive = false;
+          winningCombination.forEach((index) => {
+            tttCells[index].classList.add("winning-game-cell");
+          });
+          return;
+        }
+
+        if (!boardState.includes("")) {
+          tttStatus.innerText = "Game Ended in a Draw!";
+          isTTTActive = false;
+          return;
+        }
+
+        currentPlayer = currentPlayer === "X" ? "O" : "X";
+        tttStatus.innerText = `Player ${currentPlayer}'s turn`;
+      }
+
+      function restartTTT() {
+        currentPlayer = "X";
+        boardState = ["", "", "", "", "", "", "", "", ""];
+        isTTTActive = true;
+        tttStatus.innerText = "Player X's turn";
+
+        tttCells.forEach((cell) => {
+          cell.innerText = "";
+          cell.classList.remove("winning-game-cell");
+        });
+      }
+
+      tttCells.forEach((cell) =>
+        cell.addEventListener("click", handleCellClick),
+      );
     </script>
   </body>
 </html>
