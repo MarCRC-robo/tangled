@@ -1,16 +1,17 @@
 <!doctype html>
 <html lang="en">
   <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Marcy let down your hair</title>
+   <h1> WANTED </h1>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
     <style>
       * {
         box-sizing: border-box;
         user-select: none;
       }
 
-      body{
+.body{
    margin: 0;
         padding-top: 60px;
         background-image: url(../images/wood\ image.jpg);
@@ -139,7 +140,7 @@
         background-color: #eae85d;
         color: #1a0f23;
       }
-      .modal {
+ .modal {
     display: none;
     position: fixed;
     z-index: 1000;
@@ -148,12 +149,45 @@
     width: 100%;
     height: 100%;
 
-    /* No dark background */
-    background-color: transparent;
+    background-color: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
 
     justify-content: center;
     align-items: center;
+}
 
+/* The actual pop-up window */
+.modal-content {
+    background-color: white;
+    width: 60%;
+    height: 70%;
+    position: relative;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 0 30px black;
+}
+
+/* The X button */
+.close {
+    position: absolute;
+    top: 10px;
+    right: 18px;
+    font-size: 25px;
+    font-weight: bold;
+    cursor: pointer;
+    color: black;
+}
+
+.close:hover {
+    color: red;
+}
+.popup-image {
+    width: 300px;
+    height: 280px;
+    object-fit: cover;
+    margin-top: 15px;
+    display: block;
 }
 .hover-image {
     transition: transform 0.3s ease, box-shadow 0.3s ease;
@@ -164,30 +198,33 @@
     transform: scale(1.10);
     box-shadow: 10px 10px 200px rgb(163, 164, 164);
 }
+
+/* Positions the three posters */
+.posters {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    width: 100%;
+}
 .Monica img{
 
-    width: 370px;
-    height: 520px;
-    float: left;
-    margin-left: 50px;
-    transform: transform 0.3s ease; box-shadow: 0.3s ease;
+    width: 350px;
+    height: 500px;
+    transform: transform 0.3s ease, box-shadow: 0.3s ease;
 }
+
 .Mia img{
 
-    width: 370px;
-    height: 520px;
-    float: right; 
-    margin-right: 40px;
-    transform: transform 0.3s ease; box-shadow: 0.3s ease;
+    width: 350px;
+    height: 500px;
+    transform: transform 0.3s ease, box-shadow: 0.3s ease;
 
 }
-.Jess img{
+.Jess img {
 
-    width: 370px;
-    height: 520px;
-    float: right;
-    margin-right: 28px;
-    transform: transform 0.3s ease; box-shadow: 0.3s ease;
+    width: 350px;
+    height: 500px;
+    transform: transform 0.3s ease, box-shadow: 0.3s ease;
 
 }
     </style>
@@ -210,35 +247,56 @@
         FR
       </button>
     </nav>
-<div class="Monica">
-    <img src="../images/Monica.jpg" class="hover-image">
+<div class="posters">
+
+    <div class="Monica">
+    <img src="../images/Monica.jpg" class="hover-image" onclick="openModal('monicaModal')">
     </div>
     <div class="Mia">
-    <img src="../images/Mia.jpg" class="hover-image"> 
+    <img src="../images/Mia.jpg" class="hover-image" onclick="openModal('miaModal')">
     </div>
     <div class="Jess">
-    <img src="../images/Jess.jpg" class="hover-image">
+    <img src="../images/Jess.jpg" class="hover-image" onclick="openModal('jessModal')">
     </div>
+
+<!-- Monica's pop-up -->
+<div id="monicaModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeModal('monicaModal')">&times;</span>
+        <h1>MONICA</h1>
+        <img src="../images/Monica.jpg" class="popup-image">
+        <p>Information about Monica goes here.</p>
+    </div>
+</div>
+
+<!-- Mia's pop-up -->
+<div id="miaModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeModal('miaModal')">&times;</span>
+        <h1>MIA</h1>
+        <img src="../images/Mia.jpg" class="popup-image">
+        <p>Information about Mia goes here.</p>
+    </div>
+</div>
+
+<!-- Jess's pop-up -->
+<div id="jessModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeModal('jessModal')">&times;</span>
+        <h1>JESS</h1>
+        <img src="../images/Jess.jpg" class="popup-image">
+        <p>Information about Jess goes here.</p>
+    </div>
+</div>
+
     <script>
-      let currentLang = "en";
+   function openModal(id) {
+    document.getElementById(id).style.display = "flex";
+}
 
-      function toggleLanguage() {
-        currentLang = currentLang === "en" ? "fr" : "en";
-        document.getElementById("langBtn").innerText =
-          currentLang === "en" ? "FR" : "EN";
-        document.documentElement.lang = currentLang;
-        document.querySelectorAll("[data-en]").forEach((el) => {
-          el.innerText = el.getAttribute(`data-${currentLang}`);
-        });
-      }
-
-      // Highlight the tab for the page you're on
-      const here = location.pathname.split("/").pop() || "index.html";
-      document.querySelectorAll(".button").forEach((a) => {
-        if (a.getAttribute("href") === here) {
-          a.setAttribute("aria-current", "page");
-        }
-      });
+function closeModal(id) {
+    document.getElementById(id).style.display = "none";
+}
     </script>
   </body>
 </html>
