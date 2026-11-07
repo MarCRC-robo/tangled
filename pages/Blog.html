@@ -1,297 +1,122 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Timeline</title>
+<head>command:workbench.trust.manage
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Marcy's Blog</title>
     <style>
-      * {
-        box-sizing: border-box;
-        user-select: none;
-      }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-      body {
-        margin: 0;
-        padding-top: 60px;
-        background-color: #fceecb;
-        background-image: url("../images/timeline.bg.jpg");
-        background-size: cover;
-        background-position: center;
-        background-repeat: no-repeat;
-        background-attachment: fixed;
-        min-height: 100vh;
-      }
+        body, html {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            font-family: sans-serif;
+        }
 
-      .bar {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 60px;
-        z-index: 1000;
-        display: flex;
-        align-items: flex-end;
-        gap: 14px;
-        padding: 0 12px;
-        overflow-x: auto;
-        scrollbar-width: none;
-        border-bottom: 3px solid #552586;
-        background: linear-gradient(
-          180deg,
-          #b589d6 0%,
-          #9969c7 35%,
-          #975ed3 50%,
-          #6a359c 80%,
-          #552586 100%
-        );
-      }
+        /* Conteneur plein écran */
+        .page-container {
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+        }
 
-      .bar::-webkit-scrollbar {
-        display: none;
-      }
+        /* Image d'arrière-plan */
+        .bg-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
 
-      .links a:hover {
-        font-weight: bold;
-      }
+        /* Titre sur l'image */
+        .header-text {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            color: rgb(131, 3, 157);
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.7);
+            z-index: 10;
+        }
 
-      .logo {
-        align-self: center;
-        flex-shrink: 0;
-        display: flex;
-        align-items: center;
-        margin-right: 8px;
-        cursor: pointer;
-      }
+        /* Style de base des zones cliquables (Boutons) */
+        .hotspot {
+            position: absolute;
+            display: block;
+            cursor: pointer;
+            /* ZONE ROUGE DE TEST (pour voir où sont placés vos boutons) */
+           
+        }
 
-      .logo img {
-        width: 40px;
-        height: auto;
-        display: block;
-      }
+        /* Bouton 1 : Kiosk */
+        .kiosk-btn {
+            top: 1%;
+            left: 1%;
+            width: 20%;
+            height: 40%;
+        }
 
-      .button {
-        flex-shrink: 0;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        height: 38px;
-        color: #ffffff;
-        min-width: 110px;
-        padding: 0 35px;
-        text-decoration: none;
-        font-family: "Trebuchet MS", Arial, sans-serif;
-        font-size: 13px;
-        font-weight: 900;
-        letter-spacing: 1px;
-        text-transform: uppercase;
-        white-space: nowrap;
-        text-shadow: 0 1px 2px rgba(80, 0, 50, 0.6);
-        border: 1px solid #552586;
-        border-bottom: none;
-        border-radius: 10px 10px 0 0;
-        background: linear-gradient(
-          180deg,
-          #6c3299 0%,
-          #9969c7 35%,
-          #6726ad 50%,
-          #3a076a 80%,
-          #552586 100%
-        );
-        transition: filter 0.15s ease;
-      }
+        /* Bouton 2 : Robot */
+        .robot-btn {
+            top: 50%;
+            left: 1%;
+            width: 20%;
+            height: 100%;
+        }
 
-      .button:hover {
-        filter: brightness(1.15);
-      }
-
-      .button:focus-visible {
-        outline: 2px solid #fff;
-        outline-offset: -4px;
-      }
-
-      .button[aria-current="page"] {
-        height: 44px;
-        margin-bottom: -3px;
-        background: linear-gradient(
-          180deg,
-          #b773ff 0%,
-          #913bed 20%,
-          #7d2fd1 50%,
-          #6726ad 72%,
-          #551c92 90%,
-          #350d60 100%
-        );
-      }
-
-      .lang-btn {
-        flex-shrink: 0;
-        align-self: center;
-        margin-left: auto;
-        background-color: transparent;
-        color: #eae85d;
-        border: 2px solid #eae85d;
-        border-radius: 5px;
-        padding: 5px 12px;
-        font-family: Arial, sans-serif;
-        font-weight: bold;
-        cursor: pointer;
-        transition: all 0.2s ease;
-      }
-
-      .lang-btn:hover {
-        background-color: #eae85d;
-        color: #1a0f23;
-      }
-
-      .image-container {
-        position: relative;
-        width: 100%;
-        overflow: hidden;
-      }
-
-      .glow-overlay {
-        position: absolute;
-        opacity: 0.9;
-        transition: all 0.3s ease;
-        pointer-events: auto;
-      }
-
-      .glow-overlay:hover {
-        opacity: 1;
-        filter: drop-shadow(0 0 15px rgba(255, 255, 255, 0.9)) brightness(1.2);
-      }
+        .sitewb-btn {
+            top: 30%;
+            left: 30%;
+            width: 10%;
+            height: 50%;
+        }
+        .tutoriel-btn {
+            top: 15%;
+            left: 41%;
+            width: 20%;
+            height: 45%;
+        }
+        .video-btn {
+            top: 1%;
+            left: 68%;
+            width: 10%;
+            height: 30%;
+        }
+        .DDD-btn {
+            top: 50%;
+            left: 85%;
+            width: 20%;
+            height: 60%;
+        }
+    
     </style>
-  </head>
-  <body>
-    <!-- NAVIGATION BAR -->
-    <nav class="bar">
-      <a class="logo" id="homeLogo" href="index.html">
-        <img src="../images/logo sun.png" alt="sun logo" />
-      </a>
-      <a href="index.html" class="button" data-en="TV" data-fr="TV">TV</a>
-      <a href="Home.html" class="button" data-en="Home" data-fr="Accueil"
-        >Home</a
-      >
-      <a href="Cast.html" class="button" data-en="Cast" data-fr="Casting"
-        >Cast</a
-      >
-      <a
-        href="Settings.html"
-        class="button"
-        data-en="Settings"
-        data-fr="Paramètres"
-        >Settings</a
-      >
-      <a href="Blog.html" class="button" data-en="Blog" data-fr="Blog">Blog</a>
-      <a href="Arcade.html" class="button" data-en="Arcade" data-fr="Arcade"
-        >Arcade</a
-      >
-      <a href="Credits.html" class="button" data-en="Credits" data-fr="Crédits"
-        >Credits</a
-      >
-      <a
-        href="Trailer.html"
-        class="button"
-        data-en="Trailer"
-        data-fr="Bande-annonce"
-        >Trailer</a
-      >
+</head>
+<body>
 
-      <button class="lang-btn" onclick="toggleLanguage()" id="langBtn">
-        FR
-      </button>
-    </nav>
+    <div class="page-container">
+        
+        <!-- TON IMAGE (Voir l'Étape 2 ci-dessous pour régler l'emplacement) -->
+        <img src="timeline.bg.jpg" alt="Blog Timeline" class="bg-image">
 
-    <!-- TIMELINE IMAGE & OVERLAYS -->
-    <div class="image-container">
-      <img
-        src="../images/timeline.bg.jpg"
-        alt="timeline Background"
-        style="display: block; width: 100%"
-      />
+        <!-- TEXTE -->
+        <div class="header-text">
+            <h1>Marcy's Blog</h1>
+            <p>Click on any of the rapunzels to view our progress</p>
+        </div>
 
-      <!-- 1. KIOSK -->
-      <a href="Kiosk.T.html">
-        <img
-          src="../images/kiosk.T.png"
-          alt="Kiosk Overlay"
-          class="glow-overlay"
-          style="top: 0; left: 0; width: 330px"
-        />
-      </a>
+        <!-- VOS LIENS CLIQUABLES -->
+        <a href="Kiosk.T.html" class="hotspot kiosk-btn" title="Go to Kiosk"></a>
+        <a href="Robot.T.html" class="hotspot robot-btn" title="Go to Robot"></a>
+        <a href="Siteweb.T.html" class="hotspot sitewb-btn" title="Go to Website"></a>
+        <a href="Tutorial.T.html" class="hotspot tutoriel-btn" title="Go to Tutorial"></a>
+        <a href="Video.T.html" class="hotspot video-btn" title="Go to Video"></a>
+        <a href="3D.T.html" class="hotspot DDD-btn" title="Go to 3D"></a>
 
-      <!-- 2. ROBOT -->
-      <a href="Robot.T.html">
-        <img
-          src="../images/robot.T.png"
-          alt="Robot Overlay"
-          class="glow-overlay"
-          style="bottom: 36%; left: 35.5%; width: 45%"
-        />
-      </a>
-
-      <!-- 3. SITEWEB -->
-      <a href="Siteweb.T.html">
-        <img
-          src="../images/siteweb.T.png"
-          alt="Siteweb Overlay"
-          class="glow-overlay"
-          style="top: 46%; left: 0; width: 31%"
-        />
-      </a>
-
-      <!-- 4. VIDEO -->
-      <a href="Video.T.html">
-        <img
-          src="../images/video.T.png"
-          alt="Video Overlay"
-          class="glow-overlay"
-          style="top: 35%; left: 29.7%; width: 20%"
-        />
-      </a>
-
-      <!-- 5. DESSIN 3D -->
-      <a href="3D.T.html">
-        <img
-          src="../images/3D.T.png"
-          alt="3D Overlay"
-          class="glow-overlay"
-          style="bottom: 70%; left: 65%; width: 14%"
-        />
-      </a>
-
-      <!-- 6. TUTORIEL -->
-      <a href="Tutorial.T.html">
-        <img
-          src="../images/tutoriel.T.png"
-          alt="Tutorial Overlay"
-          class="glow-overlay"
-          style="bottom: 0; left: 57.5%; width: 42%"
-        />
-      </a>
     </div>
 
-    <script>
-      let currentLang = "en";
-
-      function toggleLanguage() {
-        currentLang = currentLang === "en" ? "fr" : "en";
-        document.getElementById("langBtn").innerText =
-          currentLang === "en" ? "FR" : "EN";
-        document.documentElement.lang = currentLang;
-
-        document.querySelectorAll("[data-en]").forEach((el) => {
-          el.innerText = el.getAttribute(`data-${currentLang}`);
-        });
-      }
-
-      // Highlight the tab for the page you're on
-      const here = location.pathname.split("/").pop() || "index.html";
-      document.querySelectorAll(".button").forEach((a) => {
-        if (a.getAttribute("href") === here) {
-          a.setAttribute("aria-current", "page");
-        }
-      });
-    </script>
-  </body>
+</body>
 </html>
