@@ -121,28 +121,44 @@
     </style>
   </head>
   <body>
-    <div class="bar">
-      <!-- Place logo first -->
-      <a class="logo" href="Home.html">
+   <nav class="bar">
+      <a class="logo" id="homeLogo" href="index.html">
         <img src="../images/logo sun.png" alt="sun logo" />
       </a>
+      <a href="index.html" class="button" data-en="TV" data-fr="TV">TV</a>
+      <a href="Home.html" class="button" data-en="Home" data-fr="Accueil"
+        >Home</a
+      >
+      <a href="Cast.html" class="button" data-en="Cast" data-fr="Casting"
+        >Cast</a
+      >
+      <a
+        href="Settings.html"
+        class="button"
+        data-en="Settings"
+        data-fr="Paramètres"
+        >Settings</a
+      >
+      <a href="Blog.html" class="button" data-en="Blog" data-fr="Blog">Blog</a>
+      <a href="Arcade.html" class="button" data-en="Arcade" data-fr="Arcade"
+        >Arcade</a
+      >
+      <a href="Credits.html" class="button" data-en="Credits" data-fr="Crédits"
+        >Credits</a
+      >
+      <a
+        href="Trailer.html"
+        class="button"
+        data-en="Trailer"
+        data-fr="Bande-annonce"
+        >Trailer</a
+      >
 
-      <!-- Navigation Links -->
-      <div class="links">
-        <a href="Home.html" data-en="Home" data-fr="Accueil">Home</a>
-        <a href="2ndHome.html" data-en="Scenes" data-fr="Scenes">Scenes</a>
-
-        <a href="Robot.html" data-en="Robot" data-fr="Robot">Robot</a>
-        <a href="Arcade.html" data-en="Arcade" data-fr="Arcade">Arcade</a>
-        <a href="Timeline.html" data-en="Timeline" data-fr="Chronologie"
-          >Timeline</a
-        >
-        <a href="Sponsors.html" data-en="Sponsors" data-fr="Commanditaires"
-          >Sponsors</a
-        >
-        <a href="Team.html" data-en="Team" data-fr="Équipe">Team</a>
-      </div>
-
+      <button class="lang-btn" onclick="toggleLanguage()" id="langBtn">
+        FR
+      </button>
+    </nav>
+    
       <!-- Language Button -->
       <button class="lang-btn" onclick="toggleLanguage()" id="langBtn">
         FR

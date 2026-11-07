@@ -44,6 +44,9 @@
       .bar::-webkit-scrollbar {
         display: none;
       }
+      .links a:hover {
+        font-weight: bold;
+      }
 
       .logo {
         align-self: center;
@@ -65,7 +68,6 @@
         align-items: center;
         justify-content: center;
         height: 38px;
-        padding: 0 16px;
         color: #ffffff;
         min-width: 110px;
         padding: 0 40px;
@@ -79,7 +81,7 @@
         text-shadow: 0 1px 2px #9538dc(80, 0, 50, 0.6);
         border: 1px solid #552586;
         border-bottom: none;
-        border-radius: 10px 10px 0 0; /* rounded top = tab look */
+        border-radius: 10px 10px 0 0;
         background: linear-gradient(
           180deg,
           #6c3299 0%,
@@ -100,7 +102,6 @@
         outline-offset: -4px;
       }
 
-      /* Current page: taller tab, flush with the content */
       .button[aria-current="page"] {
         height: 44px;
         margin-bottom: -3px;
@@ -118,7 +119,7 @@
       .lang-btn {
         flex-shrink: 0;
         align-self: center;
-        margin-left: auto; /* pushes it to the right end */
+        margin-left: auto;
         background-color: transparent;
         color: #eae85d;
         border: 2px solid #eae85d;

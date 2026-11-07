@@ -8,6 +8,11 @@
     />
     <title>Marcy let down your hair</title>
     <style>
+      * {
+        box-sizing: border-box;
+        user-select: none;
+      }
+
       body {
         margin: 0;
         padding-top: 60px;
@@ -24,25 +29,90 @@
         left: 0;
         width: 100%;
         height: 60px;
-        background-color: #d8bddb;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 0 20px;
-        box-sizing: border-box;
         z-index: 1000;
-        transform-origin: left center;
+        display: flex;
+        align-items: flex-end;
+        gap: 14px;
+        padding: 0 12px;
+        overflow-x: auto;
+        scrollbar-width: none;
+        border-bottom: 3px solid #552586;
+        background: linear-gradient(
+          180deg,
+          #b589d6 0%,
+          #9969c7 35%,
+          #975ed3 50%,
+          #6a359c 80%,
+          #552586 100%
+        );
+      }
+      .bar::-webkit-scrollbar {
+        display: none;
+      }
+
+      .button {
+        flex-shrink: 0;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        height: 38px;
+        padding: 0 16px;
+        color: #ffffff;
+        min-width: 110px;
+        padding: 0 40px;
+        text-decoration: none;
+        font-family: "Trebuchet MS", Arial, sans-serif;
+        font-size: 13px;
+        font-weight: 900;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+        white-space: nowrap;
+        text-shadow: 0 1px 2px #9538dc(80, 0, 50, 0.6);
+        border: 1px solid #552586;
+        border-bottom: none;
+        border-radius: 10px 10px 0 0;
+        background: linear-gradient(
+          180deg,
+          #6c3299 0%,
+          #9969c7 35%,
+          #6726ad 50%,
+          #3a076a 80%,
+          #552586 100%
+        );
+        transition: filter 0.15s ease;
+      }
+
+      .button:hover {
+        filter: brightness(1.15);
+      }
+
+      .button:focus-visible {
+        outline: 2px solid #fff;
+        outline-offset: -4px;
+      }
+
+      .button[aria-current="page"] {
+        height: 44px;
+        margin-bottom: -3px;
+        background: linear-gradient(
+          180deg,
+          #b773ff 0%,
+          #913bed 20%,
+          #7d2fd1 50%,
+          #6726ad 72%,
+          #551c92 90%,
+          #350d60 100%
+        );
       }
 
       .logo {
-        background: none;
-        border: none;
-        padding: 0;
-        cursor: pointer;
+        align-self: center;
+        flex-shrink: 0;
         display: flex;
         align-items: center;
+        margin-right: 8px;
+        cursor: pointer;
       }
-
       .logo img {
         width: 40px;
         height: auto;
@@ -70,6 +140,9 @@
       }
 
       .lang-btn {
+        flex-shrink: 0;
+        align-self: center;
+        margin-left: auto;
         background-color: transparent;
         color: #eae85d;
         border: 2px solid #eae85d;
@@ -346,30 +419,43 @@
   </head>
   <body>
     <!-- Top Navigation Bar -->
-    <div class="bar">
-      <a class="logo" href="Home.html">
+    <nav class="bar">
+      <a class="logo" id="homeLogo" href="index.html">
         <img src="../images/logo sun.png" alt="sun logo" />
       </a>
-
-      <div class="links">
-        <a href="Home.html" data-en="Home" data-fr="Accueil">Home</a>
-        <a href="2ndHome.html" data-en="Scenes" data-fr="Scenes">Scenes</a>
-
-        <a href="Robot.html" data-en="Robot" data-fr="Robot">Robot</a>
-        <a href="Arcade.html" data-en="Arcade" data-fr="Arcade">Arcade</a>
-        <a href="Timeline.html" data-en="Timeline" data-fr="Chronologie"
-          >Timeline</a
-        >
-        <a href="Sponsors.html" data-en="Sponsors" data-fr="Commanditaires"
-          >Sponsors</a
-        >
-        <a href="Team.html" data-en="Team" data-fr="Équipe">Team</a>
-      </div>
+      <a href="index.html" class="button" data-en="TV" data-fr="TV">TV</a>
+      <a href="Home.html" class="button" data-en="Home" data-fr="Accueil"
+        >Home</a
+      >
+      <a href="Cast.html" class="button" data-en="Cast" data-fr="Casting"
+        >Cast</a
+      >
+      <a
+        href="Settings.html"
+        class="button"
+        data-en="Settings"
+        data-fr="Paramètres"
+        >Settings</a
+      >
+      <a href="Blog.html" class="button" data-en="Blog" data-fr="Blog">Blog</a>
+      <a href="Arcade.html" class="button" data-en="Arcade" data-fr="Arcade"
+        >Arcade</a
+      >
+      <a href="Credits.html" class="button" data-en="Credits" data-fr="Crédits"
+        >Credits</a
+      >
+      <a
+        href="Trailer.html"
+        class="button"
+        data-en="Trailer"
+        data-fr="Bande-annonce"
+        >Trailer</a
+      >
 
       <button class="lang-btn" onclick="toggleLanguage()" id="langBtn">
         FR
       </button>
-    </div>
+    </nav>
 
     <!-- Game Launchers -->
     <button class="pascal-launch-btn" onclick="openPascalGame()">
@@ -484,7 +570,7 @@
       let Flynn;
 
       const directions = ["U", "D", "L", "R"];
-      let score = 0;
+      let pacScore = 0;
       let lives = 3;
       let gameOver = false;
 
@@ -690,7 +776,7 @@
         context.font = "14px sans-serif";
         if (gameOver) {
           context.fillText(
-            "Game Over:" + String(score),
+            "Game Over:" + String(pacScore),
             tileSize / 2,
             tileSize / 2,
           );
@@ -753,7 +839,7 @@
         for (let food of foods.values()) {
           if (collision(Flynn, food)) {
             foodEaten = food;
-            score += 10;
+            PacScore += 10;
             break;
           }
         }
