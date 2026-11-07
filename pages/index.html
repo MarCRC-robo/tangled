@@ -17,6 +17,7 @@
         min-height: 100vh;
       }
 
+      /* NAVIGATION BAR BASE STYLES */
       .bar {
         position: fixed;
         top: 0;
@@ -25,11 +26,6 @@
         height: 60px;
         z-index: 1000;
         display: flex;
-        align-items: flex-end;
-        gap: 6px; /* Reduced gap between buttons */
-        padding: 0 10px;
-        overflow-x: auto;
-        scrollbar-width: none;
         border-bottom: 3px solid #552586;
         background: linear-gradient(
           180deg,
@@ -41,16 +37,9 @@
         );
       }
 
-      .bar::-webkit-scrollbar {
-        display: none;
-      }
-
       .logo {
-        align-self: center;
-        flex-shrink: 0;
         display: flex;
         align-items: center;
-        margin-right: 4px;
         cursor: pointer;
       }
 
@@ -60,18 +49,64 @@
         display: block;
       }
 
+      .hamburger {
+        display: none; /* Hidden on desktop */
+        background: transparent;
+        border: none;
+        cursor: pointer;
+        flex-direction: column;
+        justify-content: space-between;
+        width: 28px;
+        height: 20px;
+        padding: 0;
+      }
+
+      .hamburger span {
+        display: block;
+        width: 100%;
+        height: 3px;
+        background-color: #eae85d;
+        border-radius: 3px;
+      }
+
+      .lang-btn {
+        flex-shrink: 0;
+        background-color: transparent;
+        color: #eae85d;
+        border: 2px solid #eae85d;
+        border-radius: 5px;
+        padding: 4px 10px;
+        font-family: Arial, sans-serif;
+        font-size: 12px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: all 0.2s ease;
+      }
+
+      .lang-btn:hover {
+        background-color: #eae85d;
+        color: #1a0f23;
+      }
+
+      .nav-links {
+        display: flex;
+        align-items: flex-end;
+        gap: 6px;
+        flex: 1;
+      }
+
       .button {
-        flex: 1; /* Allows buttons to share navbar space evenly */
-        min-width: 0; /* Prevents button overflow */
+        flex: 1;
+        min-width: 0;
         display: inline-flex;
         align-items: center;
         justify-content: center;
         height: 38px;
-        padding: 0 8px; /* Reduced padding inside buttons */
+        padding: 0 8px;
         color: #ffffff;
         text-decoration: none;
         font-family: "Trebuchet MS", Arial, sans-serif;
-        font-size: 11px; /* Smaller font size to accommodate longer French text */
+        font-size: 11px;
         font-weight: 900;
         letter-spacing: 0.5px;
         text-transform: uppercase;
@@ -95,11 +130,6 @@
         filter: brightness(1.15);
       }
 
-      .button:focus-visible {
-        outline: 2px solid #fff;
-        outline-offset: -4px;
-      }
-
       .button[aria-current="page"] {
         height: 44px;
         margin-bottom: -3px;
@@ -114,25 +144,69 @@
         );
       }
 
-      .lang-btn {
-        flex-shrink: 0;
-        align-self: center;
-        margin-left: 4px;
-        background-color: transparent;
-        color: #eae85d;
-        border: 2px solid #eae85d;
-        border-radius: 5px;
-        padding: 4px 10px;
-        font-family: Arial, sans-serif;
-        font-size: 12px;
-        font-weight: bold;
-        cursor: pointer;
-        transition: all 0.2s ease;
+      /* DESKTOP LAYOUT (769px and wider) */
+      @media (min-width: 769px) {
+        .bar {
+          align-items: flex-end;
+          padding: 0 10px;
+          gap: 6px;
+        }
+        .logo {
+          align-self: center;
+          margin-right: 4px;
+        }
+        .lang-btn {
+          align-self: center;
+          margin-left: 4px;
+        }
       }
 
-      .lang-btn:hover {
-        background-color: #eae85d;
-        color: #1a0f23;
+      /* MOBILE LAYOUT (768px and smaller) */
+      @media (max-width: 768px) {
+        .bar {
+          align-items: center;
+          justify-content: space-between;
+          padding: 0 16px;
+        }
+
+        .hamburger {
+          display: flex; /* Show 3 lines button */
+        }
+
+        .nav-controls {
+          display: flex;
+          align-items: center;
+          gap: 12px;
+        }
+
+        .nav-links {
+          display: none; /* Hide desktop tab bar */
+          position: fixed;
+          top: 60px;
+          left: 0;
+          width: 100%;
+          background: #552586;
+          border-bottom: 3px solid #3a076a;
+          padding: 10px 8px;
+          overflow-x: auto;
+          scrollbar-width: none;
+          box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .nav-links.active {
+          display: flex; /* Show row of links when hamburger clicked */
+        }
+
+        .button {
+          min-width: 90px;
+          border-radius: 8px;
+          border-bottom: 1px solid #7d2fd1;
+        }
+
+        .button[aria-current="page"] {
+          height: 38px;
+          margin-bottom: 0;
+        }
       }
     </style>
   </head>
@@ -141,34 +215,48 @@
       <a class="logo" id="homeLogo" href="index.html">
         <img src="../images/logo sun.png" alt="sun logo" />
       </a>
-      <a href="index.html" class="button" data-en="TV" data-fr="TV">TV</a>
-      <a href="Home.html" class="button" data-en="Home" data-fr="Accueil">Home</a>
-      <a href="Cast.html" class="button" data-en="Cast" data-fr="Casting">Cast</a>
-      <a href="Settings.html" class="button" data-en="Settings" data-fr="Paramètres">Settings</a>
-      <a href="Blog.html" class="button" data-en="Blog" data-fr="Blog">Blog</a>
-      <a href="Arcade.html" class="button" data-en="Arcade" data-fr="Arcade">Arcade</a>
-      <a href="Credits.html" class="button" data-en="Credits" data-fr="Crédits">Credits</a>
-      <a href="Trailer.html" class="button" data-en="Trailer" data-fr="Bande-annonce">Trailer</a>
 
-      <button class="lang-btn" onclick="toggleLanguage()" id="langBtn">
-        FR
-      </button>
+      <!-- LINK BUTTONS -->
+      <div class="nav-links" id="navLinks">
+        <a href="index.html" class="button" data-en="TV" data-fr="TV">TV</a>
+        <a href="Home.html" class="button" data-en="Home" data-fr="Accueil">Home</a>
+        <a href="Cast.html" class="button" data-en="Cast" data-fr="Casting">Cast</a>
+        <a href="Settings.html" class="button" data-en="Settings" data-fr="Paramètres">Settings</a>
+        <a href="Blog.html" class="button" data-en="Blog" data-fr="Blog">Blog</a>
+        <a href="Arcade.html" class="button" data-en="Arcade" data-fr="Arcade">Arcade</a>
+        <a href="Credits.html" class="button" data-en="Credits" data-fr="Crédits">Credits</a>
+        <a href="Trailer.html" class="button" data-en="Trailer" data-fr="Bande-annonce">Trailer</a>
+      </div>
+
+      <!-- CONTROLS FOR MOBILE -->
+      <div class="nav-controls">
+        <button class="lang-btn" onclick="toggleLanguage()" id="langBtn">FR</button>
+        <button class="hamburger" onclick="toggleMenu()" aria-label="Toggle navigation">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+      </div>
     </nav>
 
     <script>
       let currentLang = "en";
+
+      function toggleMenu() {
+        document.getElementById("navLinks").classList.toggle("active");
+      }
 
       function toggleLanguage() {
         currentLang = currentLang === "en" ? "fr" : "en";
         document.getElementById("langBtn").innerText =
           currentLang === "en" ? "FR" : "EN";
         document.documentElement.lang = currentLang;
+
         document.querySelectorAll("[data-en]").forEach((el) => {
           el.innerText = el.getAttribute(`data-${currentLang}`);
         });
       }
 
-      // Highlight the tab for the page you're on
       const here = location.pathname.split("/").pop() || "index.html";
       document.querySelectorAll(".button").forEach((a) => {
         if (a.getAttribute("href") === here) {
