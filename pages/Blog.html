@@ -4,18 +4,95 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Marcy let down your hair</title>
-    <style>
-      * {
-        box-sizing: border-box;
-        user-select: none;
-      }
+     <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-      body {
-        margin: 0;
-        padding-top: 60px;
-        background-color: #fdfdfd;
-        min-height: 100vh;
-      }
+        body, html {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            font-family: sans-serif;
+        }
+  
+
+        /* Conteneur plein écran */
+        .page-container {
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+        }
+
+        /* Image d'arrière-plan */
+        .bg-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        /* Titre sur l'image */
+        .header-text {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            color: rgb(131, 3, 157);
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.7);
+            z-index: 10;
+        }
+
+        /* Style de base des zones cliquables (Boutons) */
+        .hotspot {
+            position: absolute;
+            display: block;
+            cursor: pointer;
+            /* ZONE ROUGE DE TEST (pour voir où sont placés vos boutons) */
+           
+        }
+
+        /* Bouton 1 : Kiosk */
+        .kiosk-btn {
+            top: 1%;
+            left: 1%;
+            width: 20%;
+            height: 40%;
+        }
+
+        /* Bouton 2 : Robot */
+        .robot-btn {
+            top: 50%;
+            left: 1%;
+            width: 20%;
+            height: 100%;
+        }
+
+        .sitewb-btn {
+            top: 30%;
+            left: 30%;
+            width: 10%;
+            height: 50%;
+        }
+        .tutoriel-btn {
+            top: 15%;
+            left: 41%;
+            width: 20%;
+            height: 45%;
+        }
+        .video-btn {
+            top: 1%;
+            left: 68%;
+            width: 10%;
+            height: 30%;
+        }
+        .DDD-btn {
+            top: 50%;
+            left: 85%;
+            width: 20%;
+            height: 60%;
+        }
 
       /* TOP NAVIGATION BAR */
       .bar {
@@ -278,7 +355,26 @@
         <a href="Trailer.html" class="mobile-link" data-en="Trailer" data-fr="Bande-annonce">Trailer</a>
       </div>
     </div>
+<div class="page-container">
+        
+        <!-- TON IMAGE (Voir l'Étape 2 ci-dessous pour régler l'emplacement) -->
+        <img src="../images/timeline.bg.jpg" alt="Blog Timeline" class="bg-image">
 
+        <!-- TEXTE -->
+        <div class="header-text">
+            <h1>Marcy's Blog</h1>
+            <p>Click on any of the rapunzels to view our progress</p>
+        </div>
+
+        <!-- VOS LIENS CLIQUABLES -->
+        <a href="Kiosk.T.html" class="hotspot kiosk-btn" title="Go to Kiosk"></a>
+        <a href="Robot.T.html" class="hotspot robot-btn" title="Go to Robot"></a>
+        <a href="Siteweb.T.html" class="hotspot sitewb-btn" title="Go to Website"></a>
+        <a href="Tutorial.T.html" class="hotspot tutoriel-btn" title="Go to Tutorial"></a>
+        <a href="Video.T.html" class="hotspot video-btn" title="Go to Video"></a>
+        <a href="3D.T.html" class="hotspot DDD-btn" title="Go to 3D"></a>
+
+    </div>
     <script>
       let currentLang = "en";
 
