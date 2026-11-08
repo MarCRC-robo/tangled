@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <!-- This line makes the page fit phone screens. Do not remove it. -->
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>My Website</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<style>
+    /* ============ BASICS ============ */
+* { box-sizing: border-box; }
+html, body {
+  margin: 0;
+  height: 100%;
+  overflow: hidden;            /* no scrollbars during the intro */
+  background: #1b1511;
+  font-family: Georgia, "Times New Roman", serif;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* ============ PAGE 1: TV ============ */
+#page-tv {
+  position: fixed;
+  inset: 0;
+  z-index: 2;                  /* sits on top of the Home page */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: env(safe-area-inset-top) 0 env(safe-area-inset-bottom);
+  background: radial-gradient(ellipse at 50% 40%, #3b2e25 0%, #1b1511 70%);
+  transition: opacity .7s ease;
+}
+#page-tv.leaving { opacity: 0; pointer-events: none; }
+
+/* The TV box. Its size follows the photo's shape (1277 x 1232) and always fits the phone screen. */
+#tv {
+  position: relative;
+  width: min(100vw, calc((100vh - 3rem) * 1277 / 1232));
+  width: min(100vw, calc((100dvh - 3rem) * 1277 / 1232));   /* newer phones: ignores the browser's address bar */
+  aspect-ratio: 1277 / 1232;
+  will-change: transform;
+}
+#tv.zooming { transition: transform 2.3s cubic-bezier(.65, 0, .25, 1); }
+
+/* Both photos fill the TV box exactly */
+.tv-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+/* ---- The screen. All numbers are PERCENTAGES of the TV box, so it works at any size ---- */
+#screen-box {
+  position: absolute;
+  left: 12.37%;
+  top: 9.74%;
+  width: 75.96%;
+  height: 54.46%;
+  border-radius: 5% / 7%;      /* rounded CRT corners */
+  overflow: hidden;
+  background: #000;
+}
+#screen { width: 100%; height: 100%; display: block; }
+
+/* Scanlines + dark edges on top of the picture = old CRT look */
+.glass {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    repeating-linear-gradient(0deg, rgba(0,0,0,0) 0 2px, rgba(0,0,0,.18) 2px 3px),
+    radial-gradient(ellipse at 50% 45%, rgba(0,0,0,0) 55%, rgba(0,0,0,.55) 100%);
+  box-shadow: inset 0 0 3vw rgba(0,0,0,.6);
+}
+
+/* ---- The tray. It is clipped at the slot line so it can slide "into" the player ---- */
+#tray-clip {
+  position: absolute;
+  left: 0;
+  top: 79.87%;
+  width: 100%;
+  height: 20.13%;
+  overflow: hidden;
+  pointer-events: none;
+  visibility: hidden;          /* shown only after the tap */
+}
+#tray {
+  position: absolute;
+  left: 60.14%;
+  top: -2.42%;
+  width: 35.55%;
+  height: 89.52%;
+  transform-origin: 50% 0;
+  transition: transform 1.2s cubic-bezier(.5, 0, .3, 1);
+}
+#tray.closed { transform: translateY(-63%) scale(.8); }
+
+/* ---- The tap target over the disc ---- */
+#disc {
+  position: absolute;
+  left: 62.5%;
+  top: 80.2%;
+  width: 25.5%;
+  height: 11%;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  cursor: pointer;
+  touch-action: manipulation;
+  animation: pulse 1.8s ease-in-out infinite;
+}
+#disc:focus-visible { outline: 3px solid #ffd23b; outline-offset: 4px; }
+#disc:disabled { animation: none; cursor: default; }
+@keyframes pulse {
+  50% { box-shadow: 0 0 0 .8vw rgba(255, 210, 59, .55); }
+}
+
+#hint {
+  margin: 1rem 0 0;
+  color: #e9d9c8;
+  font-size: 1rem;
+  text-align: center;
+  transition: opacity .4s;
+}
+#hint.hide { opacity: 0; }
+
+/* ============ PAGE 2: HOME ============ */
+#page-home {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  overflow-y: auto;
+  visibility: hidden;          /* appears once the zoom is finished */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  padding: 2rem 1.25rem;
+  color: #fff;
+  text-align: center;
+  background: radial-gradient(ellipse at 50% 40%, #2f6bff 0%, #050b3a 85%);
+}
+body.on-home #page-home { visibility: visible; }
+body.on-home, body.on-home html { overflow: auto; }
+
+#page-home h1 { margin: 0; font-size: clamp(2.5rem, 12vw, 4.5rem); }
+#page-home p  { margin: 0; color: #bcd1ff; font-size: 1.1rem; }
+#page-home nav { display: flex; flex-direction: column; gap: .75rem; width: min(100%, 20rem); margin-top: 1rem; }
+#page-home nav a {
+  padding: .9rem 1rem;          /* big enough to tap with a thumb */
+  color: #fff;
+  text-decoration: none;
+  font-size: 1.2rem;
+  border-radius: .5rem;
+  background: rgba(255, 255, 255, .15);
+}
+#page-home nav a:hover, #page-home nav a:focus-visible { background: rgba(255, 255, 255, .3); }
+#replay {
+  margin-top: 1.5rem;
+  padding: .5rem 1rem;
+  font: inherit;
+  font-size: .9rem;
+  color: #fff;
+  background: transparent;
+  border: 1px solid rgba(255,255,255,.5);
+  border-radius: 999px;
+  cursor: pointer;
+}
+    </style>
+ 
+<body>
+
+  <!-- ========== PAGE 2: HOME (sits underneath, hidden until the zoom ends) ========== -->
+  <main id="page-home">
+    <h1>Welcome</h1>
+    <p>Put your real website content here.</p>
+    <nav>
+      <a href="#about">About</a>
+      <a href="#projects">Projects</a>
+      <a href="#contact">Contact</a>
+    </nav>
+    <button id="replay" type="button">Replay intro</button>
+  </main>
+
+  <!-- ========== PAGE 1: TV (the intro animation) ========== -->
+  <section id="page-tv">
+    <div id="tv">
+
+      <!-- The same photo with the tray closed (the bottom layer, revealed when the tray slides in) -->
+      <img class="tv-img" id="img-closed" src="images/tv-closed.png" alt="" aria-hidden="true">
+      <!-- The TV photo with the tray open (on top: what you see at the start) -->
+      <img class="tv-img" id="img-open"   src="images/tv-open.png"   alt="Old TV with a DVD player">
+
+      <!-- The TV screen: we draw our animation on this canvas -->
+      <div id="screen-box">
+        <canvas id="screen" width="724" height="500"></canvas>
+        <div class="glass"></div>
+      </div>
+
+      <!-- The tray + disc, cut out of the photo so it can slide shut -->
+      <div id="tray-clip">
+        <img id="tray" src="images/tray.png" alt="" aria-hidden="true">
+      </div>
+
+      <!-- Invisible button placed over the disc: this is what you tap -->
+      <button id="disc" type="button" aria-label="Tap the disc to load it"></button>
+    </div>
+
+    <p id="hint">Tap the disc to load it</p>
+  </section>
+
+  <script src="script.js">
+    /* ============================================================
+   STEP 0: grab the pieces of the page we want to control
+   ============================================================ */
+const $ = (id) => document.getElementById(id);
+
+const tv        = $('tv');
+const canvas    = $('screen');
+const ctx       = canvas.getContext('2d');
+const disc      = $('disc');
+const tray      = $('tray');
+const trayClip  = $('tray-clip');
+const imgOpen   = $('img-open');
+const hint      = $('hint');
+const pageTv    = $('page-tv');
+
+const W = canvas.width;    // 724
+const H = canvas.height;   // 500
+
+/* Two extra hidden canvases used for the pixelation effect */
+const source = document.createElement('canvas');
+source.width = W; source.height = H;
+const sctx = source.getContext('2d');
+const small = document.createElement('canvas');
+const smallCtx = small.getContext('2d');
+
+/* These variables are changed during the transition */
+let scene = 'bounce';   // 'bounce' = bouncing logo, 'menu' = the DVD menu
+let blockSize = 1;      // 1 = sharp picture, bigger = chunkier pixels
+let noise = 0;          // 0 = no static, 1 = lots of static
+let started = false;
+
+const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+
+/* ============================================================
+   STEP 1: the bouncing "DVD" logo
+   ============================================================ */
+const colors = ['#ff3b6b', '#34d1ff', '#ffd23b', '#7dff6b', '#c77dff', '#ff9a3b'];
+let colorIndex = 0;
+let x = 90, y = 110;          // logo position
+let vx = 170, vy = 135;       // speed in pixels per second
+const LOGO_W = 150, LOGO_H = 72;
+const stars = Array.from({ length: 70 }, (_, i) => [(i * 97) % W, (i * 53) % H, (i % 3) + 1]);
+
+function drawBounce(c, dt) {
+  // blue starry background
+  const g = c.createLinearGradient(0, 0, 0, H);
+  g.addColorStop(0, '#0b1d66');
+  g.addColorStop(1, '#02041a');
+  c.fillStyle = g;
+  c.fillRect(0, 0, W, H);
+  c.fillStyle = 'rgba(255,255,255,.55)';
+  stars.forEach(([sx, sy, s]) => c.fillRect(sx, sy, s * 0.8, s * 0.8));
+
+  // move the logo, bounce off the 4 edges, change color on every bounce
+  x += vx * dt;
+  y += vy * dt;
+  let bounced = false;
+  if (x <= 0 || x + LOGO_W >= W) { vx = -vx; bounced = true; x = Math.max(0, Math.min(W - LOGO_W, x)); }
+  if (y <= 0 || y + LOGO_H >= H) { vy = -vy; bounced = true; y = Math.max(0, Math.min(H - LOGO_H, y)); }
+  if (bounced) colorIndex = (colorIndex + 1) % colors.length;
+
+  // draw the logo: the letters + the oval under them
+  c.fillStyle = c.strokeStyle = colors[colorIndex];
+  c.textAlign = 'center';
+  c.font = 'italic 900 52px "Arial Black", Impact, sans-serif';
+  c.fillText('DVD', x + LOGO_W / 2, y + 48);
+  c.lineWidth = 3;
+  c.beginPath();
+  c.ellipse(x + LOGO_W / 2, y + 62, LOGO_W / 2, 10, 0, 0, Math.PI * 2);
+  c.stroke();
+  c.font = 'bold 10px sans-serif';
+  c.fillText('VIDEO', x + LOGO_W / 2, y + 66);
+}
+
+
+/* ============================================================
+   STEP 2: the menu picture (looks like the Home page background)
+   ============================================================ */
+function drawMenu(c) {
+  const g = c.createRadialGradient(W / 2, H * 0.4, 40, W / 2, H / 2, 460);
+  g.addColorStop(0, '#2f6bff');
+  g.addColorStop(1, '#050b3a');
+  c.fillStyle = g;
+  c.fillRect(0, 0, W, H);
+  c.fillStyle = '#fff';
+  c.textAlign = 'center';
+  c.font = 'bold 44px Georgia, serif';
+  c.fillText('Welcome', W / 2, H / 2 + 20);
+}
+
+
+/* ============================================================
+   STEP 3: draw one frame (with pixelation + static when needed)
+   ============================================================ */
+let last = performance.now();
+
+function frame(now) {
+  const dt = Math.min(0.05, (now - last) / 1000);   // seconds since last frame
+  last = now;
+
+  if (scene === 'bounce') drawBounce(sctx, dt); else drawMenu(sctx);
+
+  if (blockSize <= 1 && noise <= 0) {
+    ctx.drawImage(source, 0, 0);                     // normal sharp picture
+  } else {
+    // Pixelate: shrink the picture, then blow it back up WITHOUT smoothing
+    const w = Math.max(1, Math.ceil(W / blockSize));
+    const h = Math.max(1, Math.ceil(H / blockSize));
+    small.width = w; small.height = h;
+    smallCtx.drawImage(source, 0, 0, w, h);
+    ctx.imageSmoothingEnabled = false;
+    ctx.drawImage(small, 0, 0, w, h, 0, 0, w * blockSize, h * blockSize);
+
+    // Static: random gray squares
+    const count = Math.floor(noise * w * h * 0.3);
+    for (let i = 0; i < count; i++) {
+      const v = (Math.random() * 255) | 0;
+      ctx.fillStyle = `rgb(${v},${v},${v})`;
+      ctx.fillRect(Math.floor(Math.random() * w) * blockSize, Math.floor(Math.random() * h) * blockSize, blockSize, blockSize);
+    }
+    // A sideways "tear" like a bad VHS signal
+    if (noise > 0.2) {
+      const ty = Math.random() * H, th = 6 + Math.random() * 30;
+      ctx.drawImage(canvas, 0, ty, W, th, (Math.random() - 0.5) * 40, ty, W, th);
+    }
+  }
+  requestAnimationFrame(frame);
+}
+
+
+/* ============================================================
+   STEP 4: zoom so the TV SCREEN fills the whole phone screen
+   ============================================================ */
+function zoomToScreen() {
+  const tvBox = tv.getBoundingClientRect();
+  const scr   = canvas.getBoundingClientRect();
+  const cx = scr.left + scr.width / 2;    // center of the TV screen on the display
+  const cy = scr.top + scr.height / 2;
+
+  // scale up until the screen covers the display in both directions
+  const scale = Math.max(innerWidth / scr.width, innerHeight / scr.height) * 1.03;
+
+  tv.classList.add('zooming');
+  tv.style.transformOrigin = `${cx - tvBox.left}px ${cy - tvBox.top}px`;
+  // move the screen's center to the middle of the display, and scale around it
+  tv.style.transform = `translate(${innerWidth / 2 - cx}px, ${innerHeight / 2 - cy}px) scale(${scale})`;
+}
+
+
+/* ============================================================
+   STEP 5: switch from the TV page to the Home page
+   ============================================================ */
+function goHome() {
+  document.body.classList.add('on-home');   // Home becomes visible underneath
+  pageTv.classList.add('leaving');          // TV page fades away
+  history.replaceState(null, '', '#home');  // so a refresh goes straight to Home
+  setTimeout(() => { pageTv.style.display = 'none'; }, 800);
+
+  /* ---- OPTION B: if Home is a SEPARATE FILE (home.html), delete the 4 lines above
+     and use this instead:
+         window.location.href = 'home.html';
+  ---- */
+}
+
+
+/* ============================================================
+   STEP 6: the whole sequence, started by tapping the disc
+   ============================================================ */
+async function start() {
+  if (started) return;
+  started = true;
+  disc.disabled = true;
+  hint.classList.add('hide');
+
+  // a) swap to the "closed" photo and slide the tray in
+  trayClip.style.visibility = 'visible';
+  imgOpen.style.visibility = 'hidden';
+  void tray.offsetWidth;                    // tells the browser "apply the change now"
+  tray.classList.add('closed');
+  await wait(reduceMotion ? 0 : 1300);
+
+  if (reduceMotion) { goHome(); return; }   // skip animation if the phone asks for less motion
+
+  // b) pixelate + static + zoom (all at the same time)
+  const DURATION = 2400;
+  const t0 = performance.now();
+  setTimeout(zoomToScreen, 350);
+
+  await new Promise((done) => {
+    (function step() {
+      const p = (performance.now() - t0) / DURATION;       // 0 -> 1
+      if (p < 0.45) {                                       // getting blockier
+        const k = p / 0.45;
+        blockSize = Math.max(1, Math.round(1 + k * k * 58));
+        noise = k * 0.9;
+      } else {                                              // swap picture, then sharpen
+        scene = 'menu';
+        const k = (p - 0.45) / 0.55;
+        blockSize = Math.max(1, Math.round(1 + (1 - k) * (1 - k) * 58));
+        noise = Math.max(0, (1 - k) * 0.7);
+      }
+      if (p >= 1) { blockSize = 1; noise = 0; done(); } else requestAnimationFrame(step);
+    })();
+  });
+
+  await wait(500);   // let the zoom finish
+  goHome();
+}
+
+
+/* ============================================================
+   STEP 7: wire everything up
+   ============================================================ */
+disc.addEventListener('click', start);
+
+$('replay').addEventListener('click', () => {
+  history.replaceState(null, '', location.pathname);
+  location.reload();
+});
+
+if (location.hash === '#home') {            // opened /#home directly: skip the intro
+  pageTv.style.display = 'none';
+  document.body.classList.add('on-home');
+} else {
+  requestAnimationFrame(frame);
+}
+  </script>
+</body>
+</html>
