@@ -17,7 +17,6 @@
         min-height: 100vh;
       }
 
-      /* TOP NAVIGATION BAR */
       .bar {
         position: fixed;
         top: 0;
@@ -52,7 +51,6 @@
         display: block;
       }
 
-      /* DESKTOP TABS */
       .desktop-links {
         display: flex;
         align-items: flex-end;
@@ -111,7 +109,53 @@
         );
       }
 
-      /* NAV CONTROLS (LANG + HAMBURGER) */
+      .dropdown {
+        position: relative;
+        flex: 1;
+        min-width: 0;
+        height: 100%;
+        display: flex;
+        align-items: flex-end;
+      }
+
+      .dropdown-content {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        min-width: 120px;
+        background: linear-gradient(180deg, #6a359c 0%, #552586 100%);
+        border: 1px solid #552586;
+        border-top: none;
+        border-radius: 0 0 10px 10px;
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+        overflow: hidden;
+        z-index: 1100;
+      }
+
+      .dropdown-content a {
+        display: block;
+        padding: 14px 20px;
+        color: #ffffff;
+        text-decoration: none;
+        font-family: "Trebuchet MS", Arial, sans-serif;
+        font-size: 13px;
+        font-weight: bold;
+        letter-spacing: 0.5px;
+        text-transform: uppercase;
+        white-space: nowrap;
+        transition: background-color 0.2s ease, color 0.2s ease;
+      }
+
+      .dropdown-content a:hover {
+        background-color: #3a076a;
+        color: #eae85d;
+      }
+
+      .dropdown:hover .dropdown-content {
+        display: block;
+      }
+
       .nav-controls {
         display: flex;
         align-items: center;
@@ -136,7 +180,7 @@
         color: #1a0f23;
       }
 
-      .hamburger {
+      .options {
         display: none;
         background: transparent;
         border: none;
@@ -148,7 +192,7 @@
         padding: 0;
       }
 
-      .hamburger span {
+      .options span {
         display: block;
         width: 100%;
         height: 3px;
@@ -156,7 +200,6 @@
         border-radius: 3px;
       }
 
-      /* FULL-SCREEN OVERLAY MENU */
       .mobile-overlay {
         position: fixed;
         top: 0;
@@ -173,6 +216,7 @@
         display: flex;
         flex-direction: column;
         padding: 40px 30px;
+        overflow-y: auto;
         opacity: 0;
         visibility: hidden;
         pointer-events: none;
@@ -185,7 +229,6 @@
         pointer-events: auto;
       }
 
-      /* CLOSE BUTTON (X) */
       .close-btn {
         align-self: flex-start;
         background: none;
@@ -198,7 +241,6 @@
         margin-bottom: 50px;
       }
 
-      /* VERTICAL LIST OF LINKS */
       .mobile-links-list {
         display: flex;
         flex-direction: column;
@@ -221,41 +263,67 @@
         font-weight: bold;
       }
 
-      /* RESPONSIVE LAYOUT TOGGLE */
+      .mobile-sublinks {
+        display: flex;
+        flex-direction: column;
+        gap: 18px;
+        margin: -10px 0 0 20px;
+        padding-left: 14px;
+        border-left: 2px solid #eae85d;
+      }
+
+      .mobile-sublinks .mobile-link {
+        font-size: 17px;
+      }
+
       @media (max-width: 768px) {
         .desktop-links {
           display: none;
         }
 
-        .hamburger {
+        .options {
           display: flex;
         }
       }
     </style>
   </head>
   <body>
-    <!-- MAIN NAVIGATION BAR -->
     <nav class="bar">
       <a class="logo" id="homeLogo" href="index.html">
         <img src="../images/logo sun.png" alt="sun logo" />
       </a>
 
-      <!-- DESKTOP TABS -->
       <div class="desktop-links">
         <a href="index.html" class="button" data-en="TV" data-fr="TV">TV</a>
         <a href="Home.html" class="button" data-en="Home" data-fr="Accueil">Home</a>
         <a href="Cast.html" class="button" data-en="Cast" data-fr="Casting">Cast</a>
         <a href="Settings.html" class="button" data-en="Settings" data-fr="Paramètres">Settings</a>
-        <a href="Blog.html" class="button" data-en="Blog" data-fr="Blog">Blog</a>
+
+        <div class="dropdown">
+          <a href="Blog.html" class="button" data-en="Blog ▼" data-fr="Blog ▼">Blog ▼</a>
+          <div class="dropdown-content">
+            <a href="Siteweb.T.html" title="Go to Website"data-en="Website" data-fr="Site web">Website</a>
+            <a href="Kiosk.T.html" title="Go to Kiosk"data-en="Kiosk" data-fr="Kiosque">Kiosk</a>
+            <a href="Robot.T.html" title="Go to Robot" data-en="Robot" data-fr="Robot">Robot</a>
+            <a href="Tutorial.T.html" title="Go to Tutorial"data-en="Tutorial" data-fr="Tutoriel">Tutorial</a>
+            <a href="Video.T.html" title="Go to Video"data-en="Video" data-fr="Vidéo">Video</a>
+            <a href="3D.T.html" title="Go to 3D">3D Design</a>
+          </div>
+        </div>
+
         <a href="Arcade.html" class="button" data-en="Arcade" data-fr="Arcade">Arcade</a>
-        <a href="Credits.html" class="button" data-en="Credits" data-fr="Crédits">Credits</a>
+        <a href="Credits.html" class="button" data-en="Credits ▼" data-fr="Crédits ▼">Credits</a>
+      <div class="dropdown-content">
+            <a href="Sponsers.html" title="Go to Website"data-en="Website" data-fr="Site web">Sponsers</a>
+            <a href="AI.html" title="Go to Kiosk"data-en="Kiosk" data-fr="Kiosque">AI</a>
+            <a href="Artwork.html" title="Go to Robot" data-en="Robot" data-fr="Robot">Artwork</a>
+          </div>
         <a href="Trailer.html" class="button" data-en="Trailer" data-fr="Bande-annonce">Trailer</a>
       </div>
 
-      <!-- CONTROLS -->
       <div class="nav-controls">
         <button class="lang-btn" onclick="toggleLanguage()" id="langBtn">FR</button>
-        <button class="hamburger" onclick="openMenu()" aria-label="Open navigation">
+        <button class="options" onclick="openMenu()" aria-label="Open navigation">
           <span></span>
           <span></span>
           <span></span>
@@ -263,7 +331,6 @@
       </div>
     </nav>
 
-    <!-- FULL-SCREEN MOBILE OVERLAY MENU -->
     <div class="mobile-overlay" id="mobileOverlay">
       <button class="close-btn" onclick="closeMenu()" aria-label="Close menu">&times;</button>
 
@@ -273,10 +340,19 @@
         <a href="Cast.html" class="mobile-link" data-en="Cast" data-fr="Casting">Cast</a>
         <a href="Settings.html" class="mobile-link" data-en="Settings" data-fr="Paramètres">Settings</a>
         <a href="Blog.html" class="mobile-link" data-en="Blog" data-fr="Blog">Blog</a>
+
+        <div class="mobile-sublinks">
+          <a href="Siteweb.T.html" class="mobile-link" data-en="Website" data-fr="Site web">Website</a>
+          <a href="Kiosk.T.html" class="mobile-link" data-en="Kiosk" data-fr="Kiosque">Kiosk</a>
+          <a href="Robot.T.html" class="mobile-link"data-en="Robot" data-fr="Robot">Robot</a>
+          <a href="Tutorial.T.html" class="mobile-link"data-en="Tutorial" data-fr="Tutoriel">Tutorial</a>
+          <a href="Video.T.html" class="mobile-link"data-en="Video" data-fr="Vidéo">Video</a>
+          <a href="3D.T.html" class="mobile-link"data-en="3D Design" data-fr="Dessin 3D">3D Design</a>
+        </div>
+
         <a href="Arcade.html" class="mobile-link" data-en="Arcade" data-fr="Arcade">Arcade</a>
         <a href="Credits.html" class="mobile-link" data-en="Credits" data-fr="Crédits">Credits</a>
         <a href="Trailer.html" class="mobile-link" data-en="Trailer" data-fr="Bande-annonce">Trailer</a>
-      </div>
     </div>
 
     <script>
@@ -301,7 +377,6 @@
         });
       }
 
-      // Highlight current active page in both desktop and mobile views
       const currentPage = location.pathname.split("/").pop() || "index.html";
       document.querySelectorAll(".button, .mobile-link").forEach((link) => {
         if (link.getAttribute("href") === currentPage) {

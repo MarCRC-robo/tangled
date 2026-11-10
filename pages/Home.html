@@ -17,7 +17,6 @@
         min-height: 100vh;
       }
 
-      /* TOP NAVIGATION BAR */
       .bar {
         position: fixed;
         top: 0;
@@ -52,7 +51,6 @@
         display: block;
       }
 
-      /* DESKTOP TABS */
       .desktop-links {
         display: flex;
         align-items: flex-end;
@@ -111,7 +109,6 @@
         );
       }
 
-      /* NAV CONTROLS (LANG + HAMBURGER) */
       .nav-controls {
         display: flex;
         align-items: center;
@@ -136,7 +133,7 @@
         color: #1a0f23;
       }
 
-      .hamburger {
+      .options {
         display: none;
         background: transparent;
         border: none;
@@ -148,7 +145,7 @@
         padding: 0;
       }
 
-      .hamburger span {
+      .options span {
         display: block;
         width: 100%;
         height: 3px;
@@ -156,7 +153,6 @@
         border-radius: 3px;
       }
 
-      /* FULL-SCREEN OVERLAY MENU */
       .mobile-overlay {
         position: fixed;
         top: 0;
@@ -185,7 +181,6 @@
         pointer-events: auto;
       }
 
-      /* CLOSE BUTTON (X) */
       .close-btn {
         align-self: flex-start;
         background: none;
@@ -198,7 +193,6 @@
         margin-bottom: 50px;
       }
 
-      /* VERTICAL LIST OF LINKS */
       .mobile-links-list {
         display: flex;
         flex-direction: column;
@@ -221,7 +215,7 @@
         font-weight: bold;
       }
 
-      /* RESPONSIVE LAYOUT TOGGLE */
+      /*RESPONSIVE-for mobile*/
       @media (max-width: 768px) {
         .desktop-links {
           display: none;
@@ -231,16 +225,15 @@
           display: flex;
         }
       }
+    
     </style>
   </head>
   <body>
-    <!-- MAIN NAVIGATION BAR -->
     <nav class="bar">
       <a class="logo" id="homeLogo" href="index.html">
         <img src="../images/logo sun.png" alt="sun logo" />
       </a>
 
-      <!-- DESKTOP TABS -->
       <div class="desktop-links">
         <a href="index.html" class="button" data-en="TV" data-fr="TV">TV</a>
         <a href="Home.html" class="button" data-en="Home" data-fr="Accueil">Home</a>
@@ -252,18 +245,13 @@
         <a href="Trailer.html" class="button" data-en="Trailer" data-fr="Bande-annonce">Trailer</a>
       </div>
 
-      <!-- CONTROLS -->
       <div class="nav-controls">
         <button class="lang-btn" onclick="toggleLanguage()" id="langBtn">FR</button>
-        <button class="hamburger" onclick="openMenu()" aria-label="Open navigation">
-          <span></span>
-          <span></span>
-          <span></span>
+        <button class="options" onclick="openMenu()" aria-label="Open navigation">
         </button>
       </div>
     </nav>
 
-    <!-- FULL-SCREEN MOBILE OVERLAY MENU -->
     <div class="mobile-overlay" id="mobileOverlay">
       <button class="close-btn" onclick="closeMenu()" aria-label="Close menu">&times;</button>
 
@@ -300,8 +288,6 @@
           el.innerText = el.getAttribute(`data-${currentLang}`);
         });
       }
-
-      // Highlight current active page in both desktop and mobile views
       const currentPage = location.pathname.split("/").pop() || "index.html";
       document.querySelectorAll(".button, .mobile-link").forEach((link) => {
         if (link.getAttribute("href") === currentPage) {
