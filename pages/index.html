@@ -1,340 +1,628 @@
-<!doctype html>
+
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Marcy let down your hair</title>
-    <style>
-      * {
-        box-sizing: border-box;
-        user-select: none;
-      }
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Marcy let down your hair</title>
 
-      body {
-        margin: 0;
-        padding-top: 60px;
-        background-color: #fdfdfd;
-        min-height: 100vh;
-      }
+<style>
+* {
+    box-sizing: border-box;
+    user-select: none;
+}
 
-      .bar {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 60px;
-        z-index: 1000;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        padding: 0 16px;
-        border-bottom: 3px solid #552586;
-        background: linear-gradient(
-          180deg,
-          #b589d6 0%,
-          #9969c7 35%,
-          #975ed3 50%,
-          #6a359c 80%,
-          #552586 100%
+html, body {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    overflow: hidden;
+}
+
+body {
+    background: #000;
+    font-family: "Trebuchet MS", Verdana, sans-serif;
+}
+
+/* NAVIGATION BAR */
+
+.bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 60px;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 16px;
+    border-bottom: 3px solid #552586;
+    background: linear-gradient(
+        180deg,
+        #b589d6 0%,
+        #9969c7 35%,
+        #975ed3 50%,
+        #6a359c 80%,
+        #552586 100%
+    );
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+.logo img {
+    width: 36px;
+    height: auto;
+    display: block;
+}
+
+.desktop-links {
+    display: flex;
+    align-items: flex-end;
+    gap: 6px;
+    height: 100%;
+    flex: 1;
+    margin: 0 12px;
+}
+
+.button {
+    flex: 1;
+    min-width: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 38px;
+    padding: 0 8px;
+    color: #fff;
+    text-decoration: none;
+    font-family: "Trebuchet MS", Arial, sans-serif;
+    font-size: 11px;
+    font-weight: 900;
+    letter-spacing: .5px;
+    text-transform: uppercase;
+    white-space: nowrap;
+    text-shadow: 0 1px 2px rgba(80, 0, 50, .6);
+    border: 1px solid #552586;
+    border-bottom: none;
+    border-radius: 10px 10px 0 0;
+    background: linear-gradient(
+        180deg,
+        #6c3299 0%,
+        #9969c7 35%,
+        #6726ad 50%,
+        #3a076a 80%,
+        #552586 100%
+    );
+    transition: filter .15s ease;
+}
+
+.button:hover {
+    filter: brightness(1.15);
+}
+
+.button[aria-current="page"] {
+    height: 44px;
+    margin-bottom: -3px;
+    background: linear-gradient(
+        180deg,
+        #b773ff 0%,
+        #913bed 20%,
+        #7d2fd1 50%,
+        #6726ad 72%,
+        #551c92 90%,
+        #350d60 100%
+    );
+}
+
+.dropdown {
+    position: relative;
+    flex: 1;
+    min-width: 0;
+    height: 100%;
+    display: flex;
+    align-items: flex-end;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    min-width: 120px;
+    background: linear-gradient(180deg, #6a359c, #552586);
+    border: 1px solid #552586;
+    border-top: none;
+    border-radius: 0 0 10px 10px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, .3);
+    overflow: hidden;
+    z-index: 1100;
+}
+
+.dropdown-content a {
+    display: block;
+    padding: 14px 20px;
+    color: #fff;
+    text-decoration: none;
+    font-family: "Trebuchet MS", Arial, sans-serif;
+    font-size: 13px;
+    font-weight: bold;
+    letter-spacing: .5px;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+
+.dropdown-content a:hover {
+    background-color: #3a076a;
+    color: #eae85d;
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+.nav-controls {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.lang-btn {
+    background: transparent;
+    color: #eae85d;
+    border: 2px solid #eae85d;
+    border-radius: 5px;
+    padding: 4px 10px;
+    font-family: Arial, sans-serif;
+    font-size: 12px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.lang-btn:hover {
+    background: #eae85d;
+    color: #1a0f23;
+}
+
+.options {
+    display: none;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 26px;
+    height: 18px;
+    padding: 0;
+}
+
+.options span {
+    display: block;
+    width: 100%;
+    height: 3px;
+    background: #fff;
+    border-radius: 3px;
+}
+
+/* MOBILE MENU */
+
+.mobile-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 2000;
+    background: linear-gradient(
+        180deg,
+        #6a359c,
+        #552586 40%,
+        #350d60
+    );
+    display: flex;
+    flex-direction: column;
+    padding: 40px 30px;
+    overflow-y: auto;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity .3s ease, visibility .3s ease;
+}
+
+.mobile-overlay.active {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+}
+
+.close-btn {
+    align-self: flex-start;
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 32px;
+    cursor: pointer;
+    line-height: 1;
+    padding: 0;
+    margin-bottom: 50px;
+}
+
+.mobile-links-list {
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+}
+
+.mobile-link {
+    color: #fff;
+    text-decoration: none;
+    font-family: "Trebuchet MS", Arial, sans-serif;
+    font-size: 22px;
+    font-weight: 500;
+    letter-spacing: .5px;
+}
+
+.mobile-link:hover,
+.mobile-link[aria-current="page"] {
+    color: #eae85d;
+    font-weight: bold;
+}
+
+.mobile-sublinks {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    margin: -10px 0 0 20px;
+    padding-left: 14px;
+    border-left: 2px solid #eae85d;
+}
+
+.mobile-sublinks .mobile-link {
+    font-size: 17px;
+}
+
+/* TV */
+
+#tv {
+    position: absolute;
+    width: 760px;
+    height: 660px;
+    left: 0;
+    top: 0;
+    transform-origin: top left;
+    will-change: transform;
+    z-index: 1;
+}
+
+#tv.anim {
+    transition: transform 2s cubic-bezier(.65, 0, .25, 1);
+}
+
+.case {
+    position: absolute;
+    inset: 0;
+    border-radius: 20px;
+    background: linear-gradient(
+        160deg,
+        #d9dcde,
+        #b5b9bc 55%,
+        #9da1a4
+    );
+    box-shadow:
+        inset 0 2px 0 #ffffff88,
+        inset 0 -6px 14px #0004,
+        0 18px 40px #000a;
+    transition: opacity .6s;
+}
+
+.border {
+    position: absolute;
+    left: 42px;
+    top: 30px;
+    width: 676px;
+    height: 514px;
+    border-radius: 26px;
+    background: #101314;
+    box-shadow:
+        inset 0 0 0 3px #2a2f31,
+        0 2px 0 #ffffff66;
+}
+
+.screen {
+    position: absolute;
+    left: 56px;
+    top: 44px;
+    width: 648px;
+    height: 486px;
+    border-radius: 34px / 28px;
+    overflow: hidden;
+    background: #000;
+    box-shadow: 0 0 30px #5da2ff33;
+    transition: border-radius 1.6s;
+}
+
+.zoomed .screen {
+    border-radius: 0;
+}
+
+.zoomed .case,
+.zoomed .panel {
+    opacity: 0;
+}
+
+.screen canvas {
+    width: 100%;
+    height: 100%;
+    display: block;
+}
+
+.glass {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background:
+        repeating-linear-gradient(
+            0deg,
+            #0000 0 2px,
+            #0003 2px 3px
+        ),
+        radial-gradient(
+            ellipse at 50% 45%,
+            #0000 55%,
+            #0009 100%
         );
-      }
+    box-shadow: inset 0 0 40px #0008;
+}
 
-      .logo {
-        display: flex;
-        align-items: center;
-        cursor: pointer;
-      }
+.glass::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(125deg, #fff2 0, #fff0 28%);
+}
 
-      .logo img {
-        width: 36px;
-        height: auto;
-        display: block;
-      }
+.slot {
+    position: absolute;
+    background: #171a1b;
+    border-radius: 4px;
+    box-shadow: inset 0 3px 6px #000, 0 1px 0 #fff9;
+}
 
-      .desktop-links {
-        display: flex;
-        align-items: flex-end;
-        gap: 6px;
-        height: 100%;
-        flex: 1;
-        margin: 0 12px;
-      }
+.vhs {
+    left: 56px;
+    top: 582px;
+    width: 330px;
+    height: 24px;
+}
 
-      .button {
-        flex: 1;
-        min-width: 0;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        height: 38px;
-        padding: 0 8px;
-        color: #ffffff;
-        text-decoration: none;
-        font-family: "Trebuchet MS", Arial, sans-serif;
-        font-size: 11px;
-        font-weight: 900;
-        letter-spacing: 0.5px;
-        text-transform: uppercase;
-        white-space: nowrap;
-        text-shadow: 0 1px 2px rgba(80, 0, 50, 0.6);
-        border: 1px solid #552586;
-        border-bottom: none;
-        border-radius: 10px 10px 0 0;
-        background: linear-gradient(
-          180deg,
-          #6c3299 0%,
-          #9969c7 35%,
-          #6726ad 50%,
-          #3a076a 80%,
-          #552586 100%
-        );
-        transition: filter 0.15s ease;
-      }
+.vhs::after {
+    content: "VHS";
+    position: absolute;
+    left: 10px;
+    top: 5px;
+    font-size: 10px;
+    color: #8a9094;
+    letter-spacing: 2px;
+}
 
-      .button:hover {
-        filter: brightness(1.15);
-      }
+.dvd {
+    left: 420px;
+    top: 582px;
+    width: 284px;
+    height: 12px;
+    border-radius: 3px;
+    background: #080a0b;
+    box-shadow: inset 0 3px 5px #000, 0 1px 0 #fff5;
+    z-index: 3;
+}
 
-      .button[aria-current="page"] {
-        height: 44px;
-        margin-bottom: -3px;
-        background: linear-gradient(
-          180deg,
-          #b773ff 0%,
-          #913bed 20%,
-          #7d2fd1 50%,
-          #6726ad 72%,
-          #551c92 90%,
-          #350d60 100%
-        );
-      }
+.TV-btns {
+    position: absolute;
+    top: 618px;
+    height: 14px;
+    display: flex;
+    gap: 7px;
+    align-items: center;
+}
 
-      .dropdown {
-        position: relative;
-        flex: 1;
-        min-width: 0;
-        height: 100%;
-        display: flex;
-        align-items: flex-end;
-      }
+.TV-btns i {
+    width: 26px;
+    height: 10px;
+    border-radius: 2px;
+    background: linear-gradient(#e9ebec, #8f9396);
+    box-shadow: 0 1px 1px #0006;
+}
 
-      .dropdown-content {
+.TV-btns b {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: #2a2f31;
+    box-shadow: inset 0 0 0 2px #0006;
+}
+
+.TV-btns b.led {
+    background: #ff2b2b;
+    box-shadow: 0 0 6px #f22;
+}
+
+.t-area {
+    position: absolute;
+    left: 420px;
+    top: 582px;
+    width: 284px;
+    height: 78px;
+    overflow: hidden;
+    z-index: 4;
+}
+
+.tray {
+    position: absolute;
+    left: 10px;
+    top: 0;
+    width: 264px;
+    height: 68px;
+    border: 3px solid #777d81;
+    border-top: 5px solid #4b5053;
+    border-radius: 2px 2px 8px 8px;
+    background: linear-gradient(
+        180deg,
+        #34393c,
+        #171a1c 45%,
+        #080a0b
+    );
+    box-shadow: 0 5px 9px #0009, inset 0 2px 3px #ffffff22;
+    transition: transform 1.1s cubic-bezier(.5, 0, .3, 1);
+}
+
+.tray.closed {
+    transform: translateY(-72px);
+}
+
+.tray::before {
+    content: "";
+    position: absolute;
+    width: 116px;
+    height: 48px;
+    left: 50%;
+    top: 8px;
+    transform: translateX(-50%);
+    border-radius: 50%;
+    background: radial-gradient(
+        ellipse,
+        #080a0b 0 38%,
+        #292e31 40% 44%,
+        #101315 48% 100%
+    );
+    box-shadow: inset 0 2px 5px #000;
+}
+
+.tray::after {
+    content: "";
+    position: absolute;
+    bottom: 2px;
+    left: 8px;
+    right: 8px;
+    height: 3px;
+    border-radius: 3px;
+    background: linear-gradient(90deg, #555b5f, #aeb3b6, #555b5f);
+}
+
+#disc {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 190px;
+    height: 127px;
+    transform: translate(-50%, -50%);
+    padding: 0;
+    border: 0;
+    border-radius: 50%;
+    cursor: pointer;
+    background: transparent;
+    box-shadow: none;
+}
+
+#disc img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    background: transparent;
+}
+
+#hint {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 14px;
+    text-align: center;
+    color: #e9d9c8;
+    font-size: 14px;
+    transition: opacity .5s;
+    pointer-events: none;
+    z-index: 2;
+}
+
+@media (max-width: 768px) {
+    .desktop-links {
         display: none;
-        position: absolute;
-        top: 100%;
-        left: 0;
-        min-width: 120px;
-        background: linear-gradient(180deg, #6a359c 0%, #552586 100%);
-        border: 1px solid #552586;
-        border-top: none;
-        border-radius: 0 0 10px 10px;
-        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
-        overflow: hidden;
-        z-index: 1100;
-      }
+    }
 
-      .dropdown-content a {
-        display: block;
-        padding: 14px 20px;
-        color: #ffffff;
-        text-decoration: none;
-        font-family: "Trebuchet MS", Arial, sans-serif;
-        font-size: 13px;
-        font-weight: bold;
-        letter-spacing: 0.5px;
-        text-transform: uppercase;
-        white-space: nowrap;
-        transition: background-color 0.2s ease, color 0.2s ease;
-      }
-
-      .dropdown-content a:hover {
-        background-color: #3a076a;
-        color: #eae85d;
-      }
-
-      .dropdown:hover .dropdown-content {
-        display: block;
-      }
-
-      .nav-controls {
+    .options {
         display: flex;
-        align-items: center;
-        gap: 12px;
-      }
+    }
+}
 
-      .lang-btn {
-        background-color: transparent;
-        color: #eae85d;
-        border: 2px solid #eae85d;
-        border-radius: 5px;
-        padding: 4px 10px;
-        font-family: Arial, sans-serif;
-        font-size: 12px;
-        font-weight: bold;
-        cursor: pointer;
-        transition: all 0.2s ease;
-      }
+@media (prefers-reduced-motion: reduce) {
+    #tv.anim,
+    .tray {
+        transition-duration: .01s;
+    }
+}
+</style>
+</head>
 
-      .lang-btn:hover {
-        background-color: #eae85d;
-        color: #1a0f23;
-      }
+<body>
 
-      .options {
-        display: none;
-        background: transparent;
-        border: none;
-        cursor: pointer;
-        flex-direction: column;
-        justify-content: space-between;
-        width: 26px;
-        height: 18px;
-        padding: 0;
-      }
+<!-- NAVIGATION -->
 
-      .options span {
-        display: block;
-        width: 100%;
-        height: 3px;
-        background-color: #ffffff;
-        border-radius: 3px;
-      }
+<nav class="bar">
+    <a class="logo" id="homeLogo" href="index.html">
+        <img src="../images/logo sun.png" alt="sun logo">
+    </a>
 
-      .mobile-overlay {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100vw;
-        height: 100vh;
-        z-index: 2000;
-        background: linear-gradient(
-          180deg,
-          #6a359c 0%,
-          #552586 40%,
-          #350d60 100%
-        );
-        display: flex;
-        flex-direction: column;
-        padding: 40px 30px;
-        overflow-y: auto;
-        opacity: 0;
-        visibility: hidden;
-        pointer-events: none;
-        transition: opacity 0.3s ease, visibility 0.3s ease;
-      }
-
-      .mobile-overlay.active {
-        opacity: 1;
-        visibility: visible;
-        pointer-events: auto;
-      }
-
-      .close-btn {
-        align-self: flex-start;
-        background: none;
-        border: none;
-        color: #ffffff;
-        font-size: 32px;
-        cursor: pointer;
-        line-height: 1;
-        padding: 0;
-        margin-bottom: 50px;
-      }
-
-      .mobile-links-list {
-        display: flex;
-        flex-direction: column;
-        gap: 28px;
-      }
-
-      .mobile-link {
-        color: #ffffff;
-        text-decoration: none;
-        font-family: "Trebuchet MS", Arial, sans-serif;
-        font-size: 22px;
-        font-weight: 500;
-        letter-spacing: 0.5px;
-        transition: color 0.2s ease, transform 0.2s ease;
-      }
-
-      .mobile-link:hover,
-      .mobile-link[aria-current="page"] {
-        color: #eae85d;
-        font-weight: bold;
-      }
-
-      .mobile-sublinks {
-        display: flex;
-        flex-direction: column;
-        gap: 18px;
-        margin: -10px 0 0 20px;
-        padding-left: 14px;
-        border-left: 2px solid #eae85d;
-      }
-
-      .mobile-sublinks .mobile-link {
-        font-size: 17px;
-      }
-
-      @media (max-width: 768px) {
-        .desktop-links {
-          display: none;
-        }
-
-        .options {
-          display: flex;
-        }
-      }
-    </style>
-  </head>
-  <body>
-    <nav class="bar">
-      <a class="logo" id="homeLogo" href="index.html">
-        <img src="../images/logo sun.png" alt="sun logo" />
-      </a>
-
-      <div class="desktop-links">
+    <div class="desktop-links">
         <a href="index.html" class="button" data-en="TV" data-fr="TV">TV</a>
         <a href="Home.html" class="button" data-en="Home" data-fr="Accueil">Home</a>
         <a href="Cast.html" class="button" data-en="Cast" data-fr="Casting">Cast</a>
         <a href="Settings.html" class="button" data-en="Settings" data-fr="Paramètres">Settings</a>
 
         <div class="dropdown">
-          <a href="Blog.html" class="button" data-en="Blog ▼" data-fr="Blog ▼">Blog ▼</a>
-          <div class="dropdown-content">
-            <a href="Siteweb.T.html" title="Go to Website"data-en="Website" data-fr="Site web">Website</a>
-            <a href="Kiosk.T.html" title="Go to Kiosk"data-en="Kiosk" data-fr="Kiosque">Kiosk</a>
-            <a href="Robot.T.html" title="Go to Robot" data-en="Robot" data-fr="Robot">Robot</a>
-            <a href="Tutorial.T.html" title="Go to Tutorial"data-en="Tutorial" data-fr="Tutoriel">Tutorial</a>
-            <a href="Video.T.html" title="Go to Video"data-en="Video" data-fr="Vidéo">Video</a>
-            <a href="3D.T.html" title="Go to 3D">3D Design</a>
-          </div>
+            <a href="Blog.html" class="button" data-en="Blog ▼" data-fr="Blog ▼">Blog ▼</a>
+            <div class="dropdown-content">
+                <a href="Siteweb.T.html" data-en="Website" data-fr="Site web">Website</a>
+                <a href="Kiosk.T.html" data-en="Kiosk" data-fr="Kiosque">Kiosk</a>
+                <a href="Robot.T.html" data-en="Robot" data-fr="Robot">Robot</a>
+                <a href="Tutorial.T.html" data-en="Tutorial" data-fr="Tutoriel">Tutorial</a>
+                <a href="Video.T.html" data-en="Video" data-fr="Vidéo">Video</a>
+                <a href="3D.T.html">3D Design</a>
+            </div>
         </div>
 
         <a href="Arcade.html" class="button" data-en="Arcade" data-fr="Arcade">Arcade</a>
-        <a href="Credits.html" class="button" data-en="Credits ▼" data-fr="Crédits ▼">Credits</a>
-      <div class="dropdown-content">
-            <a href="Sponsers.html" title="Go to Website"data-en="Website" data-fr="Site web">Sponsers</a>
-            <a href="AI.html" title="Go to Kiosk"data-en="Kiosk" data-fr="Kiosque">AI</a>
-            <a href="Artwork.html" title="Go to Robot" data-en="Robot" data-fr="Robot">Artwork</a>
-          </div>
-        <a href="Trailer.html" class="button" data-en="Trailer" data-fr="Bande-annonce">Trailer</a>
-      </div>
 
-      <div class="nav-controls">
+        <div class="dropdown">
+            <a href="Credits.html" class="button" data-en="Credits ▼" data-fr="Crédits ▼">Credits ▼</a>
+            <div class="dropdown-content">
+                <a href="Sponsers.html" data-en="Sponsors" data-fr="Commanditaires">Sponsors</a>
+                <a href="Artwork.html" data-en="Artwork" data-fr="Illustrations">Artwork</a>
+                <a href="AI.html" data-en="AI" data-fr="IA">AI</a>
+            </div>
+        </div>
+
+        <a href="Trailer.html" class="button" data-en="Trailer" data-fr="Bande-annonce">Trailer</a>
+    </div>
+
+    <div class="nav-controls">
         <button class="lang-btn" onclick="toggleLanguage()" id="langBtn">FR</button>
         <button class="options" onclick="openMenu()" aria-label="Open navigation">
-          <span></span>
-          <span></span>
-          <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
         </button>
-      </div>
-    </nav>
+    </div>
+</nav>
 
-    <div class="mobile-overlay" id="mobileOverlay">
-      <button class="close-btn" onclick="closeMenu()" aria-label="Close menu">&times;</button>
+<!-- MOBILE MENU -->
 
-      <div class="mobile-links-list">
+<div class="mobile-overlay" id="mobileOverlay">
+    <button class="close-btn" onclick="closeMenu()" aria-label="Close menu">&times;</button>
+
+    <div class="mobile-links-list">
         <a href="index.html" class="mobile-link" data-en="TV" data-fr="TV">TV</a>
         <a href="Home.html" class="mobile-link" data-en="Home" data-fr="Accueil">Home</a>
         <a href="Cast.html" class="mobile-link" data-en="Cast" data-fr="Casting">Cast</a>
@@ -342,47 +630,383 @@
         <a href="Blog.html" class="mobile-link" data-en="Blog" data-fr="Blog">Blog</a>
 
         <div class="mobile-sublinks">
-          <a href="Siteweb.T.html" class="mobile-link" data-en="Website" data-fr="Site web">Website</a>
-          <a href="Kiosk.T.html" class="mobile-link" data-en="Kiosk" data-fr="Kiosque">Kiosk</a>
-          <a href="Robot.T.html" class="mobile-link"data-en="Robot" data-fr="Robot">Robot</a>
-          <a href="Tutorial.T.html" class="mobile-link"data-en="Tutorial" data-fr="Tutoriel">Tutorial</a>
-          <a href="Video.T.html" class="mobile-link"data-en="Video" data-fr="Vidéo">Video</a>
-          <a href="3D.T.html" class="mobile-link"data-en="3D Design" data-fr="Dessin 3D">3D Design</a>
+            <a href="Siteweb.T.html" class="mobile-link" data-en="Website" data-fr="Site web">Website</a>
+            <a href="Kiosk.T.html" class="mobile-link" data-en="Kiosk" data-fr="Kiosque">Kiosk</a>
+            <a href="Robot.T.html" class="mobile-link" data-en="Robot" data-fr="Robot">Robot</a>
+            <a href="Tutorial.T.html" class="mobile-link" data-en="Tutorial" data-fr="Tutoriel">Tutorial</a>
+            <a href="Video.T.html" class="mobile-link" data-en="Video" data-fr="Vidéo">Video</a>
+            <a href="3D.T.html" class="mobile-link" data-en="3D Design" data-fr="Dessin 3D">3D Design</a>
         </div>
 
         <a href="Arcade.html" class="mobile-link" data-en="Arcade" data-fr="Arcade">Arcade</a>
         <a href="Credits.html" class="mobile-link" data-en="Credits" data-fr="Crédits">Credits</a>
+
+        <div class="mobile-sublinks">
+            <a href="Sponsers.html" class="mobile-link" data-en="Sponsors" data-fr="Commanditaires">Sponsors</a>
+            <a href="Artwork.html" class="mobile-link" data-en="Artwork" data-fr="Illustrations">Artwork</a>
+            <a href="AI.html" class="mobile-link" data-en="AI" data-fr="IA">AI</a>
+        </div>
+
         <a href="Trailer.html" class="mobile-link" data-en="Trailer" data-fr="Bande-annonce">Trailer</a>
     </div>
+</div>
 
-    <script>
-      let currentLang = "en";
+<!-- TV AND DVD PLAYER -->
 
-      function openMenu() {
-        document.getElementById("mobileOverlay").classList.add("active");
-      }
+<div id="tv">
+    <div class="case"></div>
+    <div class="border"></div>
 
-      function closeMenu() {
-        document.getElementById("mobileOverlay").classList.remove("active");
-      }
+    <div class="screen">
+        <canvas id="screen" width="640" height="480"></canvas>
+        <div class="glass"></div>
+    </div>
 
-      function toggleLanguage() {
-        currentLang = currentLang === "en" ? "fr" : "en";
-        document.getElementById("langBtn").innerText =
-          currentLang === "en" ? "FR" : "EN";
-        document.documentElement.lang = currentLang;
+    <div class="slot vhs"></div>
+    <div class="slot dvd"></div>
 
-        document.querySelectorAll("[data-en]").forEach((el) => {
-          el.innerText = el.getAttribute(`data-${currentLang}`);
-        });
-      }
+    <div class="TV-btns" style="left:56px">
+        <i></i><i></i><i></i><i></i>
+        <b class="led"></b>
+    </div>
 
-      const currentPage = location.pathname.split("/").pop() || "index.html";
-      document.querySelectorAll(".button, .mobile-link").forEach((link) => {
-        if (link.getAttribute("href") === currentPage) {
-          link.setAttribute("aria-current", "page");
+    <div class="TV-btns" style="left:420px">
+        <b></b><i></i><i></i><i></i>
+    </div>
+
+    <div class="t-area">
+        <div class="tray" id="tray">
+            <button id="disc" aria-label="Push the disc into the player">
+                <img src="../images/CD (2).png" alt="DVD">
+            </button>
+        </div>
+    </div>
+</div>
+
+<div id="hint" data-en="Click the disc" data-fr="Cliquez sur le disque">
+    Click the disc
+</div>
+
+<script>
+
+/* lag functions */
+
+let currentLang = "en";
+
+function openMenu() {
+    document.getElementById("mobileOverlay").classList.add("active");
+}
+
+function closeMenu() {
+    document.getElementById("mobileOverlay").classList.remove("active");
+}
+
+function toggleLanguage() {
+    currentLang = currentLang === "en" ? "fr" : "en";
+
+    document.getElementById("langBtn").innerText =
+        currentLang === "en" ? "FR" : "EN";
+
+    document.documentElement.lang = currentLang;
+
+    document.querySelectorAll("[data-en]").forEach(el => {
+        el.innerText = el.getAttribute(`data-${currentLang}`);
+    });
+}
+
+const currentPage = location.pathname.split("/").pop() || "index.html";
+
+document.querySelectorAll(".button, .mobile-link").forEach(link => {
+    if (link.getAttribute("href") === currentPage) {
+        link.setAttribute("aria-current", "page");
+    }
+});
+
+
+
+/* TV AND DVD ANIMATION */
+
+const tv = document.getElementById("tv");
+const disc = document.getElementById("disc");
+const tray = document.getElementById("tray");
+const hint = document.getElementById("hint");
+
+const cv = document.getElementById("screen");
+const ctx = cv.getContext("2d");
+
+const W = 640;
+const H = 480;
+
+const TW = 760;
+const TH = 660;
+
+const SX = 56;
+const SY = 44;
+const SW = 648;
+const SH = 486;
+
+const NAV_HEIGHT = 60;
+
+const src = document.createElement("canvas");
+src.width = W;
+src.height = H;
+const sc = src.getContext("2d");
+
+const sm = document.createElement("canvas");
+const smc = sm.getContext("2d");
+
+let dvdX = 100;
+let dvdY = 100;
+
+let dvdSpeedX = 3;
+let dvdSpeedY = 2.5;
+
+let dvdColor = 0;
+
+const dvdColors = [
+    "#C99BFF",
+    "#FFB6D9",
+    "#A9D9FF",
+    "#FFE0A3",
+    "#C5E9D5",
+    "#D9B8FF",
+    "#FFC9B5"
+];
+
+const dvdWidth = 150;
+const dvdHeight = 85;
+
+let bs = 1;
+let noise = 0;
+
+let zoomed = false;
+let busy = false;
+
+function wait(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+function drawDVD() {
+    sc.clearRect(0, 0, W, H);
+
+    const gradient = sc.createLinearGradient(0, 0, 0, H);
+    gradient.addColorStop(0, "#10102b");
+    gradient.addColorStop(1, "#030311");
+
+    sc.fillStyle = gradient;
+    sc.fillRect(0, 0, W, H);
+
+    const color = dvdColors[dvdColor];
+
+    sc.save();
+
+    sc.shadowColor = color;
+    sc.shadowBlur = 12;
+    sc.strokeStyle = color;
+    sc.fillStyle = color;
+
+    sc.lineWidth = 3;
+    sc.font = "italic bold 48px Arial";
+    sc.textAlign = "center";
+    sc.textBaseline = "middle";
+
+    sc.fillText(
+        "DVD",
+        dvdX + dvdWidth / 2,
+        dvdY + 27
+    );
+
+    sc.beginPath();
+
+    sc.ellipse(
+        dvdX + dvdWidth / 2,
+        dvdY + 57,
+        67,
+        9,
+        0,
+        0,
+        Math.PI * 2
+    );
+
+    sc.stroke();
+
+    sc.font = "bold 10px Arial";
+
+    sc.fillText(
+        "MARCY",
+        dvdX + dvdWidth / 2,
+        dvdY + 57
+    );
+
+    sc.restore();
+}
+
+function animateDVD() {
+    if (!busy) {
+        dvdX += dvdSpeedX;
+        dvdY += dvdSpeedY;
+
+        if (dvdX <= 0 || dvdX + dvdWidth >= W) {
+            dvdX = Math.max(0, Math.min(W - dvdWidth, dvdX));
+            dvdSpeedX *= -1;
+            dvdColor = (dvdColor + 1) % dvdColors.length;
         }
-      });
-    </script>
-  </body>
+
+        if (dvdY <= 0 || dvdY + dvdHeight >= H) {
+            dvdY = Math.max(0, Math.min(H - dvdHeight, dvdY));
+            dvdSpeedY *= -1;
+            dvdColor = (dvdColor + 1) % dvdColors.length;
+        }
+    }
+
+    drawDVD();
+
+    if (bs <= 1 && noise <= 0) {
+        ctx.drawImage(src, 0, 0);
+    } else {
+        const w = Math.max(1, Math.ceil(W / bs));
+        const h = Math.max(1, Math.ceil(H / bs));
+
+        sm.width = w;
+        sm.height = h;
+
+        smc.drawImage(src, 0, 0, w, h);
+
+        ctx.imageSmoothingEnabled = false;
+
+        ctx.drawImage(
+            sm,
+            0, 0, w, h,
+            0, 0, W, H
+        );
+
+        ctx.imageSmoothingEnabled = true;
+
+        const n = Math.floor(noise * w * h * .3);
+
+        for (let i = 0; i < n; i++) {
+            const v = Math.random() * 255 | 0;
+
+            ctx.fillStyle = `rgb(${v},${v},${v})`;
+
+            ctx.fillRect(
+                Math.floor(Math.random() * w) * bs,
+                Math.floor(Math.random() * h) * bs,
+                bs,
+                bs
+            );
+        }
+
+        if (noise > .2) {
+            const ty = Math.random() * H;
+            const th = 6 + Math.random() * 30;
+
+            ctx.drawImage(
+                src,
+                0, ty, W, th,
+                (Math.random() - .5) * 40,
+                ty, W, th
+            );
+        }
+    }
+
+    requestAnimationFrame(animateDVD);
+}
+
+/* TV POSITIONING */
+
+function xform(z) {
+    const vw = innerWidth;
+    const vh = innerHeight - NAV_HEIGHT;
+
+    let s, tx, ty;
+
+    if (z) {
+        s = Math.max(vw / SW, vh / SH);
+
+        tx = vw / 2 - (SX + SW / 2) * s;
+        ty = NAV_HEIGHT + vh / 2 - (SY + SH / 2) * s;
+    } else {
+        s = Math.min(
+            vw * .94 / TW,
+            vh * .9 / TH,
+            1.5
+        );
+
+        tx = (vw - TW * s) / 2;
+        ty = NAV_HEIGHT + (vh - TH * s) / 2 - 14;
+    }
+
+    tv.style.transform =
+        `translate(${tx}px, ${ty}px) scale(${s})`;
+}
+
+function layout() {
+    if (!zoomed) {
+        tv.classList.remove("anim");
+    }
+
+    xform(zoomed);
+}
+
+window.addEventListener("resize", layout);
+
+/* LOAD DVD AND TRANSITION TO HOME */
+
+async function load() {
+    if (busy || zoomed) return;
+
+    busy = true;
+
+    disc.disabled = true;
+    hint.style.opacity = 0;
+
+    tray.classList.add("closed");
+
+    await wait(1250);
+
+    const T = 2400;
+    const t0 = performance.now();
+
+    tv.classList.add("anim");
+    tv.classList.add("zoomed");
+
+    xform(true);
+    zoomed = true;
+
+    await new Promise(done => {
+        function step() {
+            const t = performance.now() - t0;
+            const p = Math.min(t / T, 1);
+
+            bs = Math.max(
+                1,
+                Math.round(1 + p * p * 58)
+            );
+
+            noise = p * .9;
+
+            if (p >= 1) {
+                done();
+            } else {
+                requestAnimationFrame(step);
+            }
+        }
+
+        requestAnimationFrame(step);
+    });
+
+    await wait(150);
+
+    window.location.href = "Home.html";
+}
+
+disc.addEventListener("click", load);
+
+layout();
+animateDVD();
+
+</script>
+
+</body>
 </html>
