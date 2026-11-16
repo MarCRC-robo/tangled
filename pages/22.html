@@ -1,0 +1,1088 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>XxVantaexX — Movie Showcase</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Oswald:wght@400;600;700&family=VT323&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      min-height: 100vh;
+      background: radial-gradient(circle at top, #6b1d65 0%, #3b0d38 55%, #1f061d 100%);
+      font-family: Tahoma, Verdana, sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      color: #222;
+      overflow-x: hidden;
+    }
+
+    /* ================= OUTER Y2K PINK LAYOUT ================= */
+    .msp-window {
+      width: 100%;
+      max-width: 1140px;
+      background: linear-gradient(180deg, #b54596 0%, #8e2873 100%);
+      border: 3px solid #f7a8dc;
+      border-radius: 16px;
+      padding: 14px;
+      box-shadow:
+        0 20px 50px rgba(0, 0, 0, 0.65),
+        inset 0 2px 4px rgba(255, 255, 255, 0.5);
+      display: grid;
+      grid-template-columns: 1fr 295px;
+      gap: 14px;
+    }
+
+    /* ================= LEFT GLOSSY PINK SCREEN FRAME ================= */
+    .left-frame {
+      background: linear-gradient(180deg, #f9b4df 0%, #e65ca8 8%, #c93888 90%, #8f1d5c 100%);
+      border-radius: 14px;
+      padding: 16px 16px 10px 16px;
+      border: 2px solid #ffd4ef;
+      box-shadow:
+        inset 0 3px 6px rgba(255, 255, 255, 0.7),
+        inset 0 -4px 8px rgba(82, 10, 50, 0.6);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    /* The "Huge White Rectangle" Viewport containing the 3D Carousel */
+    .carousel-viewport {
+      position: relative;
+      width: 100%;
+      height: 515px;
+      border-radius: 10px;
+      border: 3px solid #7d1951;
+      overflow: hidden;
+      background: linear-gradient(180deg, #1b6fe8 0%, #6cb4ff 34%, #cbe6ff 48%, #155bc4 49%, #072d78 78%, #000614 100%);
+      box-shadow: inset 0 0 22px rgba(0, 0, 0, 0.45);
+      user-select: none;
+    }
+
+    /* Fluffy Sky Clouds */
+    .sky-clouds {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 48%;
+      background:
+        radial-gradient(ellipse 140px 55px at 12% 28%, rgba(255,255,255,0.92) 0%, rgba(255,255,255,0) 72%),
+        radial-gradient(ellipse 190px 70px at 26% 18%, rgba(255,255,255,0.88) 0%, rgba(255,255,255,0) 75%),
+        radial-gradient(ellipse 210px 65px at 74% 22%, rgba(255,255,255,0.9) 0%, rgba(255,255,255,0) 74%),
+        radial-gradient(ellipse 160px 60px at 88% 35%, rgba(255,255,255,0.85) 0%, rgba(255,255,255,0) 70%);
+      pointer-events: none;
+    }
+
+    /* Classic DreamWorks-inspired Header Logo */
+    .carousel-brand {
+      position: absolute;
+      top: 22px;
+      left: 50%;
+      transform: translateX(-50%);
+      text-align: center;
+      z-index: 15;
+      pointer-events: none;
+    }
+
+    .carousel-brand h1 {
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: 28px;
+      letter-spacing: 2px;
+      color: #0b2459;
+      text-shadow: 0 1px 0 rgba(255, 255, 255, 0.85), 0 3px 8px rgba(255, 255, 255, 0.6);
+      font-weight: 700;
+    }
+
+    .carousel-brand span {
+      display: block;
+      font-size: 10px;
+      letter-spacing: 3.5px;
+      color: #133478;
+      font-weight: bold;
+      margin-top: -2px;
+    }
+
+    /* "Rapunzel is better" Sassy Comment Bubble */
+    .rapunzel-comment {
+      position: absolute;
+      top: 76px;
+      left: 50%;
+      transform: translateX(-50%) scale(0.95);
+      z-index: 40;
+      background: linear-gradient(180deg, #fff0f8 0%, #ffd1ea 100%);
+      border: 2.5px solid #ff1493;
+      border-radius: 20px;
+      padding: 7px 18px;
+      color: #9e0059;
+      font-weight: 700;
+      font-size: 13.5px;
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      opacity: 0;
+      pointer-events: none;
+      transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+      white-space: nowrap;
+    }
+
+    .rapunzel-comment.show {
+      opacity: 1;
+      pointer-events: auto;
+      transform: translateX(-50%) scale(1);
+      animation: popWiggle 0.4s ease;
+    }
+
+    .rapunzel-comment.approved {
+      background: linear-gradient(180deg, #f3e8ff 0%, #e9d5ff 100%);
+      border-color: #9333ea;
+      color: #581c87;
+    }
+
+    .back-rapunzel-btn {
+      background: #ff1493;
+      color: #fff;
+      border: none;
+      border-radius: 12px;
+      padding: 3px 9px;
+      font-size: 11px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: transform 0.15s;
+    }
+
+    .back-rapunzel-btn:hover {
+      transform: scale(1.06);
+      background: #d90b7a;
+    }
+
+    @keyframes popWiggle {
+      0% { transform: translateX(-50%) scale(0.8); }
+      45% { transform: translateX(-50%) scale(1.07) rotate(-1.5deg); }
+      75% { transform: translateX(-50%) scale(0.98) rotate(1deg); }
+      100% { transform: translateX(-50%) scale(1) rotate(0deg); }
+    }
+
+    /* ================= 3-CARD OVERLAPPING 3D CAROUSEL ================= */
+    .stage-3d {
+      position: absolute;
+      top: 112px;
+      left: 0;
+      right: 0;
+      height: 235px;
+      perspective: 950px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .carousel-track {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      transform-style: preserve-3d;
+    }
+
+    .carousel-card {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      border-radius: 6px;
+      border: 2.5px solid rgba(255, 255, 255, 0.9);
+      box-shadow: 0 10px 24px rgba(0, 0, 0, 0.6);
+      overflow: hidden;
+      cursor: pointer;
+      transition:
+        transform 0.45s cubic-bezier(0.22, 1, 0.36, 1),
+        width 0.45s cubic-bezier(0.22, 1, 0.36, 1),
+        height 0.45s cubic-bezier(0.22, 1, 0.36, 1),
+        opacity 0.35s ease,
+        filter 0.35s ease,
+        box-shadow 0.35s ease;
+      background: #111;
+    }
+
+    .carousel-card.is-center {
+      border: 3px solid #ffffff;
+      box-shadow:
+        0 20px 42px rgba(0, 0, 0, 0.88),
+        0 0 18px rgba(255, 255, 255, 0.35);
+    }
+
+    .carousel-card svg,
+    .carousel-card img {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+
+    /* Glossy Floor Reflection under active center */
+    .center-reflection-box {
+      position: absolute;
+      top: 325px;
+      left: 50%;
+      transform: translateX(-50%);
+      text-align: center;
+      z-index: 20;
+      width: 280px;
+    }
+
+    .reflection-title {
+      font-family: 'Anton', Impact, sans-serif;
+      font-size: 28px;
+      letter-spacing: 1.5px;
+      color: #ffd84d;
+      text-transform: uppercase;
+      text-shadow: 0 2px 6px rgba(0, 0, 0, 0.85);
+      line-height: 1;
+    }
+
+    .reflection-sub {
+      color: #ffffff;
+      font-size: 11px;
+      font-weight: bold;
+      letter-spacing: 2px;
+      margin-top: 3px;
+      text-transform: uppercase;
+      text-shadow: 0 1px 4px rgba(0, 0, 0, 0.9);
+    }
+
+    .more-info-pill {
+      margin-top: 8px;
+      background: linear-gradient(180deg, #4b5563 0%, #1f2937 50%, #111827 100%);
+      color: #f9fafb;
+      border: 1.5px solid #9ca3af;
+      border-radius: 999px;
+      padding: 4px 16px;
+      font-size: 10px;
+      font-weight: bold;
+      letter-spacing: 1.2px;
+      cursor: pointer;
+      box-shadow: 0 3px 8px rgba(0, 0, 0, 0.6);
+      transition: all 0.2s;
+    }
+
+    .more-info-pill:hover {
+      border-color: #ffd84d;
+      color: #ffd84d;
+      transform: scale(1.05);
+    }
+
+    /* Left & Right Arrow Buttons */
+    .nav-arrow {
+      position: absolute;
+      top: 44%;
+      transform: translateY(-50%);
+      z-index: 35;
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      border: 2.5px solid #ffffff;
+      background: linear-gradient(180deg, rgba(255, 105, 180, 0.92) 0%, rgba(190, 24, 93, 0.95) 100%);
+      color: #fff;
+      font-size: 20px;
+      font-weight: bold;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.55);
+      transition: transform 0.15s, background 0.15s;
+    }
+
+    .nav-arrow:hover {
+      transform: translateY(-50%) scale(1.12);
+      background: linear-gradient(180deg, #ff85c2 0%, #db2777 100%);
+    }
+
+    .nav-arrow:active {
+      transform: translateY(-50%) scale(0.96);
+    }
+
+    .nav-arrow.prev { left: 16px; }
+    .nav-arrow.next { right: 16px; }
+
+    /* Bottom Dock Bar inside the Blue World */
+    .bottom-dock {
+      position: absolute;
+      bottom: 16px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 10px;
+      z-index: 25;
+    }
+
+    .dock-item {
+      width: 78px;
+      height: 54px;
+      background: linear-gradient(180deg, #ffffff 0%, #d1d5db 100%);
+      border-radius: 8px;
+      padding: 3px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.7);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+      cursor: pointer;
+      transition: transform 0.15s;
+    }
+
+    .dock-item:hover {
+      transform: translateY(-3px);
+    }
+
+    .dock-thumb {
+      width: 100%;
+      height: 34px;
+      border-radius: 5px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+    }
+
+    .dock-label {
+      width: 100%;
+      background: #111827;
+      color: #fff;
+      font-size: 8px;
+      font-weight: bold;
+      text-align: center;
+      border-radius: 3px;
+      padding: 1px 0;
+      letter-spacing: 0.5px;
+    }
+
+    /* Bottom Pink Frame Counter (1034 + Eye Icon) */
+    .frame-footer {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 10px;
+      padding: 6px 12px 0 12px;
+      color: #701548;
+      font-family: 'VT323', monospace;
+      font-size: 26px;
+      letter-spacing: 3px;
+    }
+
+    .eye-icon {
+      width: 24px;
+      height: 16px;
+      fill: #ffffff;
+      filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.35));
+    }
+
+    /* ================= RIGHT SIDEBAR (PROFILE + VERTICAL POSTER CARD) ================= */
+    .right-sidebar {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .profile-header {
+      background: linear-gradient(180deg, #fce7f3 0%, #f9a8d4 100%);
+      border: 2px solid #fff;
+      border-radius: 10px;
+      padding: 8px 12px;
+      box-shadow: 0 3px 8px rgba(0, 0, 0, 0.25);
+    }
+
+    .username-tag {
+      display: inline-block;
+      background: #fbcfe8;
+      color: #ff008c;
+      font-weight: 900;
+      font-size: 18px;
+      letter-spacing: 0.5px;
+      padding: 1px 6px;
+      border-radius: 4px;
+      text-shadow: 0 1px 0 #fff;
+    }
+
+    .user-meta {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 4px;
+      font-weight: 800;
+      font-size: 13px;
+      color: #52525b;
+    }
+
+    .stars {
+      color: #facc15;
+      text-shadow: 0 1px 1px rgba(0, 0, 0, 0.45);
+      letter-spacing: 1px;
+      font-size: 14px;
+    }
+
+    /* Vertical Minimalist Movie Poster Card */
+    .poster-card {
+      background: #e6e5e0;
+      border: 1px solid #cfcec8;
+      border-radius: 3px;
+      padding: 14px 14px 16px 14px;
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35);
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .poster-card.highlight-pulse {
+      animation: cardGlow 0.55s ease;
+    }
+
+    @keyframes cardGlow {
+      0% { transform: scale(1); box-shadow: 0 6px 18px rgba(0,0,0,0.35); }
+      50% { transform: scale(1.025); box-shadow: 0 0 24px rgba(255, 20, 147, 0.75); }
+      100% { transform: scale(1); box-shadow: 0 6px 18px rgba(0,0,0,0.35); }
+    }
+
+    .poster-art {
+      width: 100%;
+      aspect-ratio: 1 / 0.94;
+      background: #111;
+      overflow: hidden;
+      border: 1px solid #c7c6c1;
+    }
+
+    .poster-art svg,
+    .poster-art img {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+
+    .poster-details {
+      margin-top: 12px;
+      color: #18181b;
+    }
+
+    .poster-title-row {
+      display: flex;
+      align-items: baseline;
+      gap: 6px;
+      margin-bottom: 8px;
+      flex-wrap: wrap;
+    }
+
+    .poster-movie-title {
+      font-family: 'Anton', Impact, sans-serif;
+      font-size: 26px;
+      line-height: 1;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      color: #141414;
+    }
+
+    .poster-movie-year {
+      font-family: 'Oswald', sans-serif;
+      font-size: 15px;
+      font-weight: 700;
+      color: #27272a;
+    }
+
+    .credits-grid {
+      display: grid;
+      grid-template-columns: 62px 1fr;
+      row-gap: 3px;
+      column-gap: 6px;
+      font-family: 'Oswald', sans-serif;
+      font-size: 9.5px;
+      line-height: 1.25;
+      letter-spacing: 0.3px;
+    }
+
+    .credit-label {
+      color: #52525b;
+      text-transform: lowercase;
+      font-weight: 400;
+    }
+
+    .credit-value {
+      color: #18181b;
+      text-transform: uppercase;
+      font-weight: 600;
+    }
+
+    .credits-cast-row {
+      margin-top: 8px;
+      display: grid;
+      grid-template-columns: 62px 1fr;
+      column-gap: 6px;
+      font-family: 'Oswald', sans-serif;
+      font-size: 9.5px;
+      line-height: 1.25;
+    }
+
+    /* Bottom Chat Bar */
+    .chat-box {
+      background: #fff;
+      border: 2px solid #f472b6;
+      border-radius: 6px;
+      padding: 6px 10px;
+      display: flex;
+      align-items: center;
+      box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.12);
+    }
+
+    .chat-box input {
+      width: 100%;
+      border: none;
+      outline: none;
+      font-style: italic;
+      font-size: 12px;
+      color: #6b7280;
+      background: transparent;
+    }
+
+    @media (max-width: 880px) {
+      .msp-window {
+        grid-template-columns: 1fr;
+      }
+      .carousel-viewport {
+        height: 440px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="msp-window">
+    <!-- LEFT: GLOSSY PINK FRAME + 3-CARD CAROUSEL INSIDE -->
+    <div class="left-frame">
+      <div class="carousel-viewport" id="carouselViewport">
+        <div class="sky-clouds"></div>
+
+        <div class="carousel-brand">
+          <h1>DREAMWORKS</h1>
+          <span>MOVIE SHOWCASE</span>
+        </div>
+
+        <!-- "Rapunzel is better" Sassy Comment Banner -->
+        <div class="rapunzel-comment" id="rapunzelComment">
+          <span id="commentText">💬 Rapunzel is better!! 👑✨</span>
+          <button class="back-rapunzel-btn" id="backRapunzelBtn" title="Switch back to Tangled">
+            Back to Rapunzel
+          </button>
+        </div>
+
+        <!-- Left / Right Arrow Buttons -->
+        <button class="nav-arrow prev" id="prevBtn" aria-label="Previous movie">❮</button>
+        <button class="nav-arrow next" id="nextBtn" aria-label="Next movie">❯</button>
+
+        <!-- 3-Card Overlapping 3D Carousel Track -->
+        <div class="stage-3d">
+          <div class="carousel-track" id="carouselTrack"></div>
+        </div>
+
+        <!-- Center Reflection Title & More Info Button -->
+        <div class="center-reflection-box">
+          <div class="reflection-title" id="reflectionTitle">TANGLED</div>
+          <div class="reflection-sub" id="reflectionSub">NOVEMBER 24 • RAPUNZEL</div>
+          <button class="more-info-pill" id="moreInfoBtn">MORE INFO</button>
+        </div>
+
+        <!-- Retro Bottom Dock -->
+        <div class="bottom-dock">
+          <div class="dock-item" onclick="selectById('tangled')">
+            <div class="dock-thumb" style="background:linear-gradient(#3b0764,#9333ea);">👑</div>
+            <div class="dock-label">RAPUNZEL</div>
+          </div>
+          <div class="dock-item" onclick="cycleMovie(1)">
+            <div class="dock-thumb" style="background:linear-gradient(#15803d,#4ade80);">🎬</div>
+            <div class="dock-label">MOVIES</div>
+          </div>
+          <div class="dock-item" onclick="highlightPoster()">
+            <div class="dock-thumb" style="background:linear-gradient(#b45309,#fbbf24);">📜</div>
+            <div class="dock-label">CAST INFO</div>
+          </div>
+          <div class="dock-item" onclick="cycleMovie(-1)">
+            <div class="dock-thumb" style="background:linear-gradient(#1d4ed8,#60a5fa);">🔍</div>
+            <div class="dock-label">BROWSE</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Bottom View Counter -->
+      <div class="frame-footer">
+        <span id="viewCounter">1034</span>
+        <svg class="eye-icon" viewBox="0 0 24 16">
+          <path d="M12 1C6.5 1 2 5.2 0.5 8C2 10.8 6.5 15 12 15C17.5 15 22 10.8 23.5 8C22 5.2 17.5 1 12 1ZM12 12.5C9.5 12.5 7.5 10.5 7.5 8C7.5 5.5 9.5 3.5 12 3.5C14.5 3.5 16.5 5.5 16.5 8C16.5 10.5 14.5 12.5 12 12.5ZM12 5.5C10.6 5.5 9.5 6.6 9.5 8C9.5 9.4 10.6 10.5 12 10.5C13.4 10.5 14.5 9.4 14.5 8C14.5 6.6 13.4 5.5 12 5.5Z"/>
+        </svg>
+      </div>
+    </div>
+
+    <!-- RIGHT: PROFILE HEADER + VERTICAL MOVIE POSTER INFO CARD -->
+    <div class="right-sidebar">
+      <div class="profile-header">
+        <div class="username-tag">XxVantaexX</div>
+        <div class="user-meta">
+          <span>US I F</span>
+          <span class="stars">★★★★★</span>
+        </div>
+      </div>
+
+      <!-- Dynamic Vertical Poster & Cast Card -->
+      <div class="poster-card" id="posterCard">
+        <div class="poster-art" id="posterArt"></div>
+
+        <div class="poster-details">
+          <div class="poster-title-row">
+            <span class="poster-movie-title" id="posterTitle">TANGLED</span>
+            <span class="poster-movie-year" id="posterYear">2010</span>
+          </div>
+
+          <div class="credits-grid">
+            <span class="credit-label">running time</span>
+            <span class="credit-value" id="posterRuntime">100 MINUTES</span>
+
+            <span class="credit-label">directed by</span>
+            <span class="credit-value" id="posterDirector">NATHAN GRENO    BYRON HOWARD</span>
+
+            <span class="credit-label">produced by</span>
+            <span class="credit-value" id="posterProducer">ROY CONLI</span>
+          </div>
+
+          <div class="credits-cast-row">
+            <span class="credit-label">starring</span>
+            <span class="credit-value" id="posterCast">MANDY MOORE    ZACHARY LEVI    DONNA MURPHY</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="chat-box">
+        <input type="text" id="chatInput" placeholder="Chat with XxVantaexX" />
+      </div>
+    </div>
+  </div>
+
+  <script>
+    /* =========================================================================
+       MOVIE DATA (Default: Tangled / Rapunzel)
+       Tip: Replace `artSvg` with `<img src="your-poster.jpg" style="width:100%;height:100%;object-fit:cover;">`
+       if you want to use real image files!
+    ========================================================================= */
+    const MOVIES = [
+      {
+        id: "tangled",
+        title: "TANGLED",
+        year: "2010",
+        sub: "NOVEMBER 24 • RAPUNZEL",
+        runtime: "100 MINUTES",
+        director: "NATHAN GRENO   BYRON HOWARD",
+        producer: "ROY CONLI",
+        cast: "MANDY MOORE   ZACHARY LEVI   DONNA MURPHY",
+        artSvg: `
+          <svg viewBox="0 0 300 280" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id="nightSky" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#09071d"/>
+                <stop offset="65%" stop-color="#1e1548"/>
+                <stop offset="100%" stop-color="#3b236b"/>
+              </linearGradient>
+              <radialGradient id="lanternGlow" cx="50%" cy="50%" r="50%">
+                <stop offset="0%" stop-color="#fde047" stop-opacity="0.95"/>
+                <stop offset="100%" stop-color="#f97316" stop-opacity="0"/>
+              </radialGradient>
+            </defs>
+            <rect width="300" height="280" fill="url(#nightSky)"/>
+            <circle cx="55" cy="52" r="22" fill="url(#lanternGlow)"/>
+            <rect x="49" y="44" width="12" height="16" rx="2" fill="#fef08a"/>
+            <circle cx="242" cy="42" r="26" fill="url(#lanternGlow)"/>
+            <rect x="235" y="33" width="14" height="18" rx="2" fill="#fde047"/>
+            <circle cx="155" cy="30" r="18" fill="url(#lanternGlow)"/>
+            <rect x="150" y="23" width="10" height="14" rx="2" fill="#fef08a"/>
+            <ellipse cx="105" cy="245" rx="45" ry="28" fill="#1f2937"/>
+            <path d="M78 155 Q105 142 132 155 L138 235 L72 235 Z" fill="#1e3a5f"/>
+            <path d="M92 155 L105 190 L118 155 Z" fill="#e5e7eb"/>
+            <circle cx="105" cy="118" r="26" fill="#e0a986"/>
+            <path d="M78 114 Q82 82 112 85 Q134 88 131 114 Q122 96 105 98 Q88 98 78 114 Z" fill="#3b2314"/>
+            <path d="M97 132 Q105 137 113 132" stroke="#5c3824" stroke-width="2.5" fill="none"/>
+            <path d="M165 162 Q195 150 225 162 L242 255 L150 255 Z" fill="#c084fc"/>
+            <path d="M178 164 L195 205 L212 164 Z" fill="#f3e8ff"/>
+            <path d="M172 110 Q150 155 162 230 Q175 268 235 265 Q215 225 222 145 Q225 96 195 95 Z" fill="#facc15"/>
+            <circle cx="195" cy="128" r="24" fill="#fbd3b6"/>
+            <path d="M170 124 Q175 94 202 96 Q222 98 220 126 Q210 108 195 108 Q180 108 170 124 Z" fill="#fde047"/>
+            <circle cx="187" cy="126" r="3.5" fill="#15803d"/>
+            <circle cx="203" cy="126" r="3.5" fill="#15803d"/>
+            <rect x="35" y="232" width="230" height="32" rx="14" fill="#452715"/>
+          </svg>
+        `
+      },
+      {
+        id: "shrek",
+        title: "SHREK",
+        year: "2001",
+        sub: "MAY 18 • DREAMWORKS",
+        runtime: "90 MINUTES",
+        director: "ANDREW ADAMSON   VICKY JENSON",
+        producer: "ARON WARNER   JOHN H. WILLIAMS",
+        cast: "MIKE MYERS   EDDIE MURPHY   CAMERON DIAZ",
+        artSvg: `
+          <svg viewBox="0 0 300 280" xmlns="http://www.w3.org/2000/svg">
+            <rect width="300" height="280" fill="#365314"/>
+            <circle cx="150" cy="125" r="95" fill="#65a30d" opacity="0.35"/>
+            <path d="M88 102 L58 76 L66 66 L96 92 Z" fill="#84cc16"/>
+            <ellipse cx="60" cy="70" rx="8" ry="6" transform="rotate(-35 60 70)" fill="#4d7c0f"/>
+            <path d="M212 102 L242 76 L234 66 L204 92 Z" fill="#84cc16"/>
+            <ellipse cx="240" cy="70" rx="8" ry="6" transform="rotate(35 240 70)" fill="#4d7c0f"/>
+            <path d="M72 215 Q150 190 228 215 L245 280 L55 280 Z" fill="#fef3c7"/>
+            <path d="M85 212 L125 280 L70 280 Z" fill="#451a03"/>
+            <path d="M215 212 L175 280 L230 280 Z" fill="#451a03"/>
+            <ellipse cx="150" cy="142" rx="64" ry="70" fill="#84cc16"/>
+            <ellipse cx="128" cy="128" rx="11" ry="9" fill="#fff"/>
+            <circle cx="128" cy="128" r="5" fill="#422006"/>
+            <ellipse cx="172" cy="128" rx="11" ry="9" fill="#fff"/>
+            <circle cx="172" cy="128" r="5" fill="#422006"/>
+            <ellipse cx="150" cy="154" rx="18" ry="12" fill="#65a30d"/>
+            <path d="M118 176 Q150 198 182 176" stroke="#365314" stroke-width="5" fill="none" stroke-linecap="round"/>
+          </svg>
+        `
+      },
+      {
+        id: "beemovie",
+        title: "BEE MOVIE",
+        year: "2007",
+        sub: "NOVEMBER 2 • DREAMWORKS",
+        runtime: "91 MINUTES",
+        director: "SIMON J. SMITH   STEVE HICKNER",
+        producer: "JERRY SEINFELD   CHRISTINA STEINBERG",
+        cast: "JERRY SEINFELD   RENEE ZELLWEGER   MATTHEW BRODERICK",
+        artSvg: `
+          <svg viewBox="0 0 300 280" xmlns="http://www.w3.org/2000/svg">
+            <rect width="300" height="280" fill="#facc15"/>
+            <rect x="0" y="195" width="300" height="24" fill="#18181b"/>
+            <rect x="0" y="236" width="300" height="28" fill="#18181b"/>
+            <ellipse cx="195" cy="115" rx="45" ry="26" transform="rotate(-25 195 115)" fill="#e0f2fe" opacity="0.85"/>
+            <ellipse cx="150" cy="168" rx="46" ry="52" fill="#fde047" stroke="#18181b" stroke-width="6"/>
+            <path d="M106 155 Q150 165 194 155" stroke="#18181b" stroke-width="12" fill="none"/>
+            <path d="M108 182 Q150 192 192 182" stroke="#18181b" stroke-width="12" fill="none"/>
+            <circle cx="150" cy="96" r="34" fill="#fde68a"/>
+            <path d="M136 65 Q125 42 115 48" stroke="#18181b" stroke-width="4" fill="none"/>
+            <path d="M164 65 Q175 42 185 48" stroke="#18181b" stroke-width="4" fill="none"/>
+            <circle cx="139" cy="92" r="6" fill="#fff"/>
+            <circle cx="140" cy="92" r="3" fill="#1d4ed8"/>
+            <circle cx="161" cy="92" r="6" fill="#fff"/>
+            <circle cx="160" cy="92" r="3" fill="#1d4ed8"/>
+            <path d="M135 110 Q150 122 165 110" stroke="#18181b" stroke-width="3.5" fill="none"/>
+            <text x="150" y="42" text-anchor="middle" font-family="Impact, sans-serif" font-size="30" fill="#18181b">BEE MOVIE</text>
+          </svg>
+        `
+      },
+      {
+        id: "kungfupanda",
+        title: "KUNG FU PANDA",
+        year: "2008",
+        sub: "JUNE 6 • DREAMWORKS",
+        runtime: "92 MINUTES",
+        director: "JOHN STEVENSON   MARK OSBORNE",
+        producer: "MELISSA COBB",
+        cast: "JACK BLACK   DUSTIN HOFFMAN   ANGELINA JOLIE",
+        artSvg: `
+          <svg viewBox="0 0 300 280" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <radialGradient id="sunsetPanda" cx="50%" cy="45%" r="60%">
+                <stop offset="0%" stop-color="#fef08a"/>
+                <stop offset="55%" stop-color="#f97316"/>
+                <stop offset="100%" stop-color="#9a3412"/>
+              </radialGradient>
+            </defs>
+            <rect width="300" height="280" fill="url(#sunsetPanda)"/>
+            <circle cx="92" cy="76" r="28" fill="#18181b"/>
+            <circle cx="208" cy="76" r="28" fill="#18181b"/>
+            <ellipse cx="150" cy="240" rx="85" ry="60" fill="#18181b"/>
+            <ellipse cx="150" cy="245" rx="52" ry="45" fill="#fafafa"/>
+            <ellipse cx="150" cy="138" rx="68" ry="62" fill="#fafafa"/>
+            <ellipse cx="123" cy="132" rx="18" ry="23" transform="rotate(-18 123 132)" fill="#18181b"/>
+            <ellipse cx="177" cy="132" rx="18" ry="23" transform="rotate(18 177 132)" fill="#18181b"/>
+            <circle cx="126" cy="130" r="5" fill="#22c55e"/>
+            <circle cx="174" cy="130" r="5" fill="#22c55e"/>
+            <ellipse cx="150" cy="154" rx="12" ry="8" fill="#18181b"/>
+            <path d="M126 170 Q150 188 174 170" stroke="#18181b" stroke-width="4" fill="none"/>
+          </svg>
+        `
+      },
+      {
+        id: "madagascar",
+        title: "MADAGASCAR",
+        year: "2005",
+        sub: "MAY 27 • DREAMWORKS",
+        runtime: "86 MINUTES",
+        director: "ERIC DARNELL   TOM MCGRATH",
+        producer: "MIREILLE SORIA",
+        cast: "BEN STILLER   CHRIS ROCK   DAVID SCHWIMMER",
+        artSvg: `
+          <svg viewBox="0 0 300 280" xmlns="http://www.w3.org/2000/svg">
+            <rect width="300" height="280" fill="#0284c7"/>
+            <rect x="0" y="210" width="300" height="70" fill="#fde047"/>
+            <circle cx="150" cy="135" r="78" fill="#9a3412"/>
+            <circle cx="150" cy="135" r="66" fill="#b45309"/>
+            <ellipse cx="150" cy="142" rx="46" ry="48" fill="#f59e0b"/>
+            <ellipse cx="150" cy="158" rx="28" ry="22" fill="#fde68a"/>
+            <polygon points="138,148 162,148 150,162" fill="#7c2d12"/>
+            <circle cx="133" cy="126" r="6" fill="#fff"/>
+            <circle cx="134" cy="126" r="3" fill="#18181b"/>
+            <circle cx="167" cy="126" r="6" fill="#fff"/>
+            <circle cx="166" cy="126" r="3" fill="#18181b"/>
+            <path d="M134 170 Q150 182 166 170" stroke="#7c2d12" stroke-width="3.5" fill="none"/>
+          </svg>
+        `
+      },
+      {
+        id: "httyd",
+        title: "HOW TO TRAIN YOUR DRAGON",
+        year: "2010",
+        sub: "MARCH 26 • DREAMWORKS",
+        runtime: "98 MINUTES",
+        director: "CHRIS SANDERS   DEAN DEBLOIS",
+        producer: "BONNIE ARNOLD",
+        cast: "JAY BARUCHEL   GERARD BUTLER   AMERICA FERRERA",
+        artSvg: `
+          <svg viewBox="0 0 300 280" xmlns="http://www.w3.org/2000/svg">
+            <rect width="300" height="280" fill="#0f172a"/>
+            <circle cx="230" cy="55" r="28" fill="#e2e8f0" opacity="0.25"/>
+            <ellipse cx="96" cy="84" rx="16" ry="42" transform="rotate(-25 96 84)" fill="#18181b"/>
+            <ellipse cx="204" cy="84" rx="16" ry="42" transform="rotate(25 204 84)" fill="#18181b"/>
+            <ellipse cx="150" cy="152" rx="74" ry="56" fill="#18181b"/>
+            <ellipse cx="118" cy="146" rx="22" ry="18" fill="#84cc16"/>
+            <ellipse cx="118" cy="146" rx="10" ry="14" fill="#090d16"/>
+            <circle cx="113" cy="140" r="4" fill="#fff"/>
+            <ellipse cx="182" cy="146" rx="22" ry="18" fill="#84cc16"/>
+            <ellipse cx="182" cy="146" rx="10" ry="14" fill="#090d16"/>
+            <circle cx="177" cy="140" r="4" fill="#fff"/>
+            <path d="M122 182 Q150 194 178 182" stroke="#334155" stroke-width="3" fill="none"/>
+          </svg>
+        `
+      },
+      {
+        id: "overthehedge",
+        title: "OVER THE HEDGE",
+        year: "2006",
+        sub: "MAY 19 • DREAMWORKS",
+        runtime: "83 MINUTES",
+        director: "TIM JOHNSON   KAREY KIRKPATRICK",
+        producer: "BONNIE ARNOLD",
+        cast: "BRUCE WILLIS   GARRY SHANDLING   STEVE CARELL",
+        artSvg: `
+          <svg viewBox="0 0 300 280" xmlns="http://www.w3.org/2000/svg">
+            <rect width="300" height="280" fill="#15803d"/>
+            <rect x="0" y="0" width="300" height="90" fill="#7dd3fc"/>
+            <polygon points="88,104 106,62 126,96" fill="#64748b"/>
+            <polygon points="212,104 194,62 174,96" fill="#64748b"/>
+            <ellipse cx="150" cy="154" rx="68" ry="56" fill="#94a3b8"/>
+            <ellipse cx="124" cy="144" rx="24" ry="16" fill="#1e293b"/>
+            <ellipse cx="176" cy="144" rx="24" ry="16" fill="#1e293b"/>
+            <circle cx="126" cy="144" r="6" fill="#fff"/>
+            <circle cx="126" cy="144" r="3" fill="#000"/>
+            <circle cx="174" cy="144" r="6" fill="#fff"/>
+            <circle cx="174" cy="144" r="3" fill="#000"/>
+            <ellipse cx="150" cy="172" rx="22" ry="16" fill="#f1f5f9"/>
+            <circle cx="150" cy="166" r="7" fill="#0f172a"/>
+          </svg>
+        `
+      }
+    ];
+
+    /* =========================================================================
+       STATE & DOM REFERENCES
+    ========================================================================= */
+    let currentIndex = 0; // 0 = Tangled (Rapunzel) by default!
+
+    const track = document.getElementById("carouselTrack");
+    const commentBox = document.getElementById("rapunzelComment");
+    const commentText = document.getElementById("commentText");
+    const backRapunzelBtn = document.getElementById("backRapunzelBtn");
+
+    const reflectionTitle = document.getElementById("reflectionTitle");
+    const reflectionSub = document.getElementById("reflectionSub");
+
+    const posterCard = document.getElementById("posterCard");
+    const posterArt = document.getElementById("posterArt");
+    const posterTitle = document.getElementById("posterTitle");
+    const posterYear = document.getElementById("posterYear");
+    const posterRuntime = document.getElementById("posterRuntime");
+    const posterDirector = document.getElementById("posterDirector");
+    const posterProducer = document.getElementById("posterProducer");
+    const posterCast = document.getElementById("posterCast");
+    const chatInput = document.getElementById("chatInput");
+
+    /* =========================================================================
+       BUILD & POSITION 3-CARD OVERLAPPING CAROUSEL
+    ========================================================================= */
+    function initCarousel() {
+      track.innerHTML = "";
+      MOVIES.forEach((movie, idx) => {
+        const card = document.createElement("div");
+        card.className = "carousel-card";
+        card.innerHTML = movie.artSvg;
+        card.addEventListener("click", () => {
+          currentIndex = idx;
+          renderCarousel(true);
+        });
+        track.appendChild(card);
+      });
+      renderCarousel(false);
+    }
+
+    function renderCarousel(userInteracted) {
+      const cards = track.querySelectorAll(".carousel-card");
+      const total = MOVIES.length;
+
+      cards.forEach((card, idx) => {
+        // Circular offset centered around 0
+        let offset = idx - currentIndex;
+        if (offset > Math.floor(total / 2)) offset -= total;
+        if (offset < -Math.floor(total / 2)) offset += total;
+
+        const abs = Math.abs(offset);
+        card.classList.toggle("is-center", offset === 0);
+
+        // Disable transition for far off-screen cards so they don't fly across when wrapping
+        card.style.transition = abs >= 3 ? "none" : "";
+
+        if (offset === 0) {
+          // MIDDLE CARD: Pops forward and overlaps the left & right cards
+          card.style.width = "265px";
+          card.style.height = "175px";
+          card.style.zIndex = 30;
+          card.style.opacity = 1;
+          card.style.filter = "brightness(1.05)";
+          card.style.pointerEvents = "auto";
+          card.style.transform =
+            "translate(-50%, -50%) translateX(0px) translateZ(75px) rotateY(0deg)";
+        } else if (offset === -1) {
+          // LEFT VISIBLE CARD: Partially tucked behind the middle card
+          card.style.width = "175px";
+          card.style.height = "128px";
+          card.style.zIndex = 15;
+          card.style.opacity = 1;
+          card.style.filter = "brightness(0.82)";
+          card.style.pointerEvents = "auto";
+          card.style.transform =
+            "translate(-50%, -50%) translateX(-150px) translateZ(-20px) rotateY(16deg)";
+        } else if (offset === 1) {
+          // RIGHT VISIBLE CARD: Partially tucked behind the middle card
+          card.style.width = "175px";
+          card.style.height = "128px";
+          card.style.zIndex = 15;
+          card.style.opacity = 1;
+          card.style.filter = "brightness(0.82)";
+          card.style.pointerEvents = "auto";
+          card.style.transform =
+            "translate(-50%, -50%) translateX(150px) translateZ(-20px) rotateY(-16deg)";
+        } else {
+          // ALL OTHER CARDS: Hidden off to the left or right edge
+          const dir = offset < 0 ? -1 : 1;
+          card.style.width = "135px";
+          card.style.height = "100px";
+          card.style.zIndex = 1;
+          card.style.opacity = 0;
+          card.style.filter = "brightness(0.6)";
+          card.style.pointerEvents = "none";
+          card.style.transform =
+            `translate(-50%, -50%) translateX(${dir * 265}px) translateZ(-80px) rotateY(${dir * -28}deg)`;
+        }
+      });
+
+      updateSidebarAndComment(userInteracted);
+    }
+
+    function updateSidebarAndComment(userInteracted) {
+      const activeMovie = MOVIES[currentIndex];
+
+      // 1. Update Center Reflection & Right-Side Minimalist Poster Info Card
+      reflectionTitle.textContent = activeMovie.title;
+      reflectionSub.textContent = activeMovie.sub;
+
+      posterArt.innerHTML = activeMovie.artSvg;
+      posterTitle.textContent = activeMovie.title;
+      posterYear.textContent = activeMovie.year;
+      posterRuntime.textContent = activeMovie.runtime;
+      posterDirector.textContent = activeMovie.director;
+      posterProducer.textContent = activeMovie.producer;
+      posterCast.textContent = activeMovie.cast;
+
+      // 2. Check Rapunzel Rule: If switched away from Tangled, comment "Rapunzel is better"!
+      if (activeMovie.id !== "tangled") {
+        commentBox.classList.remove("approved");
+        commentText.textContent = `💬 Rapunzel is better!! (than ${activeMovie.title} 👑)`;
+        backRapunzelBtn.style.display = "inline-block";
+        commentBox.classList.remove("show");
+        void commentBox.offsetWidth;
+        commentBox.classList.add("show");
+        chatInput.placeholder = `XxVantaexX: Rapunzel is better...`;
+      } else {
+        if (userInteracted) {
+          commentBox.classList.add("approved");
+          commentText.textContent = `💖 Taste! Rapunzel is the best!`;
+          backRapunzelBtn.style.display = "none";
+          commentBox.classList.remove("show");
+          void commentBox.offsetWidth;
+          commentBox.classList.add("show");
+        } else {
+          commentBox.classList.remove("show");
+        }
+        chatInput.placeholder = `Chat with XxVantaexX`;
+      }
+    }
+
+    function cycleMovie(step) {
+      currentIndex = (currentIndex + step + MOVIES.length) % MOVIES.length;
+      renderCarousel(true);
+    }
+
+    function selectById(id) {
+      const found = MOVIES.findIndex(m => m.id === id);
+      if (found !== -1) {
+        currentIndex = found;
+        renderCarousel(true);
+      }
+    }
+
+    function highlightPoster() {
+      posterCard.classList.remove("highlight-pulse");
+      void posterCard.offsetWidth;
+      posterCard.classList.add("highlight-pulse");
+    }
+
+    /* =========================================================================
+       EVENT LISTENERS (Buttons + Keyboard Left/Right Arrow Keys)
+    ========================================================================= */
+    document.getElementById("prevBtn").addEventListener("click", () => cycleMovie(-1));
+    document.getElementById("nextBtn").addEventListener("click", () => cycleMovie(1));
+    backRapunzelBtn.addEventListener("click", () => selectById("tangled"));
+    document.getElementById("moreInfoBtn").addEventListener("click", highlightPoster);
+
+    document.addEventListener("keydown", (e) => {
+      if (document.activeElement === chatInput) return;
+      if (e.key === "ArrowLeft") {
+        e.preventDefault();
+        cycleMovie(-1);
+      } else if (e.key === "ArrowRight") {
+        e.preventDefault();
+        cycleMovie(1);
+      }
+    });
+
+    // Start app with Rapunzel (Tangled) selected by default
+    initCarousel();
+  </script>
+</body>
+</html>
