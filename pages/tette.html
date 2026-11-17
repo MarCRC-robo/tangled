@@ -1,8 +1,7 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Who's watching?</title>
   <style>
     body {
@@ -12,10 +11,11 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: center;
+      justify-content: flex-start;
       height: 100vh;
       margin: 0;
     }
+
 
     .profiles {
       display: flex;
@@ -23,15 +23,18 @@
       margin: 30px 0;
     }
 
+
     .card {
       text-align: center;
       color: rgb(255, 255, 255);
       text-decoration: none;
     }
 
+
     .card:hover {
       color: white;
     }
+
 
     .card img {
       width: 120px;
@@ -44,14 +47,25 @@
       display: block;
     }
 
+
     .card:hover img {
       border-color: white;
     }
+
+
+    @media (max-width: 600px) {
+  .profiles {
+    flex-direction: column;
+    align-items: center;
+  }
+}
   </style>
 </head>
 <body>
 
+
   <h1>Whose blog are you exploring?</h1>
+
 
   <div class="profiles">
     <a href="Kiosk.T.html" class="card">
@@ -59,31 +73,37 @@
       <div>Kiosk</div>
     </a>
 
+
     <a href="Robot.T.html" class="card">
       <img src="../images/robot.T.png" alt="Robot">
       <div>Robot</div>
     </a>
+
 
     <a href="Siteweb.T.html" class="card">
       <img src="../images/siteweb.T.png" alt="Siteweb">
       <div>Siteweb</div>
     </a>
 
+
     <a href="3D.T.html" class="card">
       <img src="../images/3D.T.png" alt="3D">
       <div>3D Design</div>
     </a>
+
 
     <a href="Video.T.html" class="card">
       <img src="../images/video.T.png" alt="Video">
       <div>Video</div>
     </a>
 
+
     <a href="Tutorial.T.html" class="card">
       <img src="../images/tutoriel.T.png" alt="Tutoriel">
       <div>Tutoriel</div>
     </a>
   </div>
+
 
 </body>
 </html>
