@@ -1,28 +1,26 @@
 <!doctype html>
 <html lang="en">
   <head>
-   <h1> WANTED </h1>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Marcy let down your hair</title>
     <style>
       * {
         box-sizing: border-box;
         user-select: none;
       }
 
-.body{
-   margin: 0;
+      body {
+        margin: 0;
         padding-top: 60px;
-        background-image: url(../images/wood\ image.jpg);
+        background-image: url(../images/wood\ drawn.jpg);
         min-height: 100vh;
         background-position: center;
         background-attachment: fixed;
         background-size: cover;
         background-repeat: no-repeat;
+      }
 
-
-}
       .bar {
         position: fixed;
         top: 0;
@@ -31,11 +29,9 @@
         height: 60px;
         z-index: 1000;
         display: flex;
-        align-items: flex-end;
-        gap: 6px; /* Reduced gap between buttons */
-        padding: 0 10px;
-        overflow-x: auto;
-        scrollbar-width: none;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 16px;
         border-bottom: 3px solid #552586;
         background: linear-gradient(
           180deg,
@@ -47,17 +43,13 @@
         );
       }
 
-      .bar::-webkit-scrollbar {
-        display: none;
-      }
-
       .logo {
-        align-self: center;
-        flex-shrink: 0;
         display: flex;
         align-items: center;
-        margin-right: 4px;
         cursor: pointer;
+        background: none;
+        border: none;
+        padding: 0;
       }
 
       .logo img {
@@ -66,18 +58,27 @@
         display: block;
       }
 
+      .desktop-links {
+        display: flex;
+        align-items: flex-end;
+        gap: 6px;
+        height: 100%;
+        flex: 1;
+        margin: 0 12px;
+      }
+
       .button {
-        flex: 1; /* Allows buttons to share navbar space evenly */
-        min-width: 0; /* Prevents button overflow */
+        flex: 1;
+        min-width: 0;
         display: inline-flex;
         align-items: center;
         justify-content: center;
         height: 38px;
-        padding: 0 8px; /* Reduced padding inside buttons */
+        padding: 0 8px;
         color: #ffffff;
         text-decoration: none;
         font-family: "Trebuchet MS", Arial, sans-serif;
-        font-size: 11px; /* Smaller font size to accommodate longer French text */
+        font-size: 11px;
         font-weight: 900;
         letter-spacing: 0.5px;
         text-transform: uppercase;
@@ -101,11 +102,6 @@
         filter: brightness(1.15);
       }
 
-      .button:focus-visible {
-        outline: 2px solid #fff;
-        outline-offset: -4px;
-      }
-
       .button[aria-current="page"] {
         height: 44px;
         margin-bottom: -3px;
@@ -120,10 +116,60 @@
         );
       }
 
+      .dropdown {
+        position: relative;
+        flex: 1;
+        min-width: 0;
+        height: 100%;
+        display: flex;
+        align-items: flex-end;
+      }
+
+      .dropdown-content {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        min-width: 120px;
+        background: linear-gradient(180deg, #6a359c 0%, #552586 100%);
+        border: 1px solid #552586;
+        border-top: none;
+        border-radius: 0 0 10px 10px;
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+        overflow: hidden;
+        z-index: 1100;
+      }
+
+      .dropdown-content a {
+        display: block;
+        padding: 14px 20px;
+        color: #ffffff;
+        text-decoration: none;
+        font-family: "Trebuchet MS", Arial, sans-serif;
+        font-size: 13px;
+        font-weight: bold;
+        letter-spacing: 0.5px;
+        text-transform: uppercase;
+        white-space: nowrap;
+        transition: background-color 0.2s ease, color 0.2s ease;
+      }
+
+      .dropdown-content a:hover {
+        background-color: #3a076a;
+        color: #eae85d;
+      }
+
+      .dropdown:hover .dropdown-content {
+        display: block;
+      }
+
+      .nav-controls {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+
       .lang-btn {
-        flex-shrink: 0;
-        align-self: center;
-        margin-left: 4px;
         background-color: transparent;
         color: #eae85d;
         border: 2px solid #eae85d;
@@ -140,167 +186,785 @@
         background-color: #eae85d;
         color: #1a0f23;
       }
- .modal {
-    display: none;
-    position: fixed;
-    z-index: 1000;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
 
-    background-color: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(5px);
-    -webkit-backdrop-filter: blur(5px);
+      .options {
+        display: none;
+        background: transparent;
+        border: none;
+        cursor: pointer;
+        flex-direction: column;
+        justify-content: space-between;
+        width: 26px;
+        height: 18px;
+        padding: 0;
+      }
 
-    justify-content: center;
-    align-items: center;
-}
+      .options span {
+        display: block;
+        width: 100%;
+        height: 3px;
+        background-color: #ffffff;
+        border-radius: 3px;
+      }
 
-/* The actual pop-up window */
-.modal-content {
-    background-color: white;
-    width: 60%;
-    height: 70%;
-    position: relative;
-    padding: 30px;
-    border-radius: 10px;
-    box-shadow: 0 0 30px black;
-}
+      .mobile-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        z-index: 2000;
+        background: linear-gradient(
+          180deg,
+          #6a359c 0%,
+          #552586 40%,
+          #350d60 100%
+        );
+        display: flex;
+        flex-direction: column;
+        padding: 40px 30px;
+        overflow-y: auto;
+        opacity: 0;
+        visibility: hidden;
+        pointer-events: none;
+        transition: opacity 0.3s ease, visibility 0.3s ease;
+      }
 
-/* The X button */
-.close {
-    position: absolute;
-    top: 10px;
-    right: 18px;
-    font-size: 25px;
-    font-weight: bold;
-    cursor: pointer;
-    color: black;
-}
+      .mobile-overlay.active {
+        opacity: 1;
+        visibility: visible;
+        pointer-events: auto;
+      }
 
-.close:hover {
-    color: red;
-}
-.popup-image {
-    width: 300px;
-    height: 280px;
-    object-fit: cover;
-    margin-top: 15px;
-    display: block;
-}
-.hover-image {
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    cursor: pointer;
-}
+      .close-btn {
+        align-self: flex-start;
+        background: none;
+        border: none;
+        color: #ffffff;
+        font-size: 32px;
+        cursor: pointer;
+        line-height: 1;
+        padding: 0;
+        margin-bottom: 50px;
+      }
 
-.hover-image:hover {
-    transform: scale(1.10);
-    box-shadow: 10px 10px 200px rgb(163, 164, 164);
-}
+      .mobile-links-list {
+        display: flex;
+        flex-direction: column;
+        gap: 28px;
+      }
 
-/* Positions the three posters */
-.posters {
-    display: flex;
-    justify-content: space-evenly;
-    align-items: center;
-    width: 100%;
-}
-.Monica img {
+      .mobile-link {
+        color: #ffffff;
+        text-decoration: none;
+        font-family: "Trebuchet MS", Arial, sans-serif;
+        font-size: 22px;
+        font-weight: 500;
+        letter-spacing: 0.5px;
+        transition: color 0.2s ease, transform 0.2s ease;
+      }
 
-    width: 350px;
-    height: 500px;
-    transform: transform 0.3s ease;
-     box-shadow: 0.3s ease;
-}
+      .mobile-link:hover,
+      .mobile-link[aria-current="page"] {
+        color: #eae85d;
+        font-weight: bold;
+      }
 
-.Mia img{
+      .mobile-sublinks {
+        display: flex;
+        flex-direction: column;
+        gap: 18px;
+        margin: -10px 0 0 20px;
+        padding-left: 14px;
+        border-left: 2px solid #eae85d;
+      }
 
-    width: 350px;
-    height: 500px;
-    transform: transform 0.3s ease;
-     box-shadow: 0.3s ease;
+      .mobile-sublinks .mobile-link {
+        font-size: 17px;
+      }
 
-}
+      @media (max-width: 768px) {
+        .desktop-links {
+          display: none;
+        }
 
-.Jess img {
+        .options {
+          display: flex;
+        }
+      }
 
-    width: 350px;
-    height: 500px;
-    transform: transform 0.3s ease;
-    box-shadow: 0.3s ease;
+      /* Modal Styles */
+      .modal {
+        display: none;
+        position: fixed;
+        z-index: 1000;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(5px);
+        -webkit-backdrop-filter: blur(5px);
+        justify-content: center;
+        align-items: center;
+      }
 
-}
+      .modal-content {
+        background-color: white;
+        width: 60%;
+        height: 70%;
+        position: relative;
+        padding: 30px;
+        border-radius: 10px;
+        box-shadow: 0 0 30px black;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 40px;
+      }
+
+      .close {
+        position: absolute;
+        top: 10px;
+        right: 18px;
+        font-size: 25px;
+        font-weight: bold;
+        cursor: pointer;
+        color: black;
+      }
+
+      .close:hover {
+        color: red;
+      }
+
+      .popup-image {
+        width: 45%;
+        height: 90%;
+        object-fit: contain;
+        margin-top: 15px;
+        display: block;
+      }
+
+      .modal-content h1 {
+        position: absolute;
+        top: 35px;
+        right: 30px;
+        width: 45%;
+        text-align: center;
+        color: black;
+      }
+
+      .modal-content p {
+        width: 45%;
+        margin-left: auto;
+        text-align: left;
+        font-size: 18px;
+        color: black;
+      }
+
+      .hover-image {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        cursor: pointer;
+      }
+
+      .hover-image:hover {
+        transform: scale(1.10);
+        box-shadow: 10px 10px 200px rgb(163, 164, 164);
+      }
+
+      .posters {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-evenly;
+        align-items: center;
+        width: 100%;
+        row-gap: 40px;
+      }
+
+      .posters img {
+        width: 350px;
+        height: 500px;
+      }
+
+      /* Curving Title Container Styles */
+      .title-container {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-top: 20px;
+        margin-bottom: 5px;
+      }
+
+      .wanted-title {
+        width: 520px;
+        max-width: 90%;
+        height: auto;
+        overflow: visible;
+      }
+
+      .wanted-title text {
+        font-family: 'Rye', Georgia, serif;
+        font-size: 76px;
+        font-weight: bold;
+        letter-spacing: 5px;
+        fill: #241107;
+        text-shadow: 2px 3px 2px rgba(171, 88, 26, 0.74);
+      }
+
+      /* Monica's specific custom modal styling */
+      #monicaModal {
+        display: none;
+        align-items: center;
+        justify-content: center;
+      }
+
+      #monicaModal .modal-content {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-around;
+        width: 65%;
+        max-width: 1100px;
+        height: 660px;
+        min-height: 0;
+        max-height: calc(100vh - 100px);
+        padding: 35px 40px;
+        box-sizing: border-box;
+        background-color: white;
+        border-radius: 15px;
+        position: relative;
+        gap: 35px;
+        overflow: hidden;
+      }
+
+      #monicaModal .popup-image {
+        width: 37%;
+        max-width: 370px;
+        height: 500px;
+        max-height: 100%;
+        object-fit: contain;
+        object-position: center;
+        flex-shrink: 0;
+      }
+
+      #monicaModal .wanted-text {
+        flex: 1;
+        min-width: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+      }
+
+      #monicaModal .wanted-text h1 {
+        position: static;
+        transform: none;
+        font-family: 'Pinyon Script', cursive;
+        font-size: 48px;
+        font-weight: bold;
+        color: red;
+        margin: 0 0 35px 0;
+        line-height: 1.2;
+      }
+
+      #monicaModal .wanted-text h2 {
+        position: static;
+        transform: none;
+        font-family: 'Pinyon Script', cursive;
+        font-size: 29px;
+        font-weight: bold;
+        color: black;
+        margin: 0 0 35px 0;
+        line-height: 1.3;
+      }
+
+      #monicaModal .wanted-text .reward {
+        font-family: Arial, sans-serif;
+        font-size: 20px;
+        font-weight: normal;
+        color: black;
+        width: max-content;
+        max-width: none;
+        white-space: nowrap;
+        margin: 15px 0 25px 0;
+        line-height: 1.4;
+      }
+
+      #monicaModal .wanted-text .wanted-caption {
+        font-family: Arial, sans-serif;
+        font-size: 20px;
+        font-style: italic;
+        color: black;
+        width: max-content;
+        white-space: nowrap;
+        margin: 0;
+        line-height: 1.5;
+      }
+
+      /* iPhone and Mobile Responsive Media Queries */
+      @media screen and (max-width: 600px) {
+        .posters {
+          display: grid;
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+          column-gap: 10px;
+          row-gap: 18px;
+          width: 100%;
+          padding: 0 10px;
+          box-sizing: border-box;
+        }
+
+        .posters > div {
+          width: 100%;
+          min-width: 0;
+        }
+
+        .posters img {
+          width: 100%;
+          height: auto;
+          display: block;
+        }
+
+        .modal {
+          padding: 10px;
+          box-sizing: border-box;
+        }
+
+        .modal-content {
+          width: 94%;
+          height: auto;
+          max-height: 90dvh;
+          padding: 45px 12px 20px;
+          box-sizing: border-box;
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+          gap: 10px;
+          overflow-y: auto;
+        }
+
+        .popup-image {
+          width: 42%;
+          height: auto;
+          max-height: 65dvh;
+          object-fit: contain;
+          margin-top: 0;
+          flex-shrink: 0;
+        }
+
+        .modal-content h1 {
+          position: absolute;
+          top: 12px;
+          right: 12px;
+          width: 52%;
+          text-align: center;
+          font-size: clamp(16px, 4.5vw, 24px);
+          margin: 0;
+        }
+
+        .modal-content p {
+          width: 52%;
+          margin: 35px 0 0 auto;
+          text-align: left;
+          font-size: clamp(12px, 3.5vw, 16px);
+          overflow-wrap: break-word;
+        }
+
+        .wanted-title {
+          width: 90%;
+        }
+
+        .wanted-title text {
+          font-size: 76px;
+          letter-spacing: 3px;
+        }
+
+        .title-container {
+          margin-top: 15px;
+          margin-bottom: 10px;
+        }
+      }
+
+      @media screen and (max-width: 380px) {
+        .posters {
+          column-gap: 7px;
+          row-gap: 12px;
+          padding: 0 7px;
+        }
+
+        .modal-content {
+          gap: 7px;
+          padding-left: 8px;
+          padding-right: 8px;
+        }
+
+        .popup-image {
+          width: 40%;
+          max-height: 60dvh;
+        }
+
+        .modal-content h1 {
+          width: 54%;
+          font-size: 16px;
+        }
+
+        .modal-content p {
+          width: 54%;
+          font-size: 12px;
+        }
+      }
     </style>
   </head>
   <body>
+    <!-- Top Navigation Bar -->
     <nav class="bar">
       <a class="logo" id="homeLogo" href="index.html">
         <img src="../images/logo sun.png" alt="sun logo" />
       </a>
-      <a href="index.html" class="button" data-en="TV" data-fr="TV">TV</a>
-      <a href="Home.html" class="button" data-en="Home" data-fr="Accueil">Home</a>
-      <a href="Cast.html" class="button" data-en="Cast" data-fr="Casting">Cast</a>
-      <a href="Settings.html" class="button" data-en="Settings" data-fr="Paramètres">Settings</a>
-      <a href="Blog.html" class="button" data-en="Blog" data-fr="Blog">Blog</a>
-      <a href="Arcade.html" class="button" data-en="Arcade" data-fr="Arcade">Arcade</a>
-      <a href="Credits.html" class="button" data-en="Credits" data-fr="Crédits">Credits</a>
-      <a href="Trailer.html" class="button" data-en="Trailer" data-fr="Bande-annonce">Trailer</a>
 
-      <button class="lang-btn" onclick="toggleLanguage()" id="langBtn">
-        FR
-      </button>
+      <div class="desktop-links">
+        <a href="index.html" class="button" data-en="TV" data-fr="TV">TV</a>
+        <a href="Home.html" class="button" data-en="Home" data-fr="Accueil">Home</a>
+        <a href="Cast.html" class="button" data-en="Cast" data-fr="Casting">Cast</a>
+        <a href="Settings.html" class="button" data-en="Settings" data-fr="Paramètres">Settings</a>
+
+        <div class="dropdown">
+          <a href="Blog.html" class="button" data-en="Blog ▼" data-fr="Blog ▼">Blog ▼</a>
+          <div class="dropdown-content">
+            <a href="Siteweb.T.html" title="Go to Website" data-en="Website" data-fr="Site web">Website</a>
+            <a href="Kiosk.T.html" title="Go to Kiosk" data-en="Kiosk" data-fr="Kiosque">Kiosk</a>
+            <a href="Robot.T.html" title="Go to Robot" data-en="Robot" data-fr="Robot">Robot</a>
+            <a href="Tutorial.T.html" title="Go to Tutorial" data-en="Tutorial" data-fr="Tutoriel">Tutorial</a>
+            <a href="Video.T.html" title="Go to Video" data-en="Video" data-fr="Vidéo">Video</a>
+            <a href="3D.T.html" title="Go to 3D" data-en="3D Design" data-fr="Conception 3D">3D Design</a>
+          </div>
+        </div>
+
+        <a href="Arcade.html" class="button" data-en="Arcade" data-fr="Arcade">Arcade</a>
+        <div class="dropdown">
+          <a href="Credits.html" class="button" data-en="Credits ▼" data-fr="Crédits ▼">Credits ▼</a>
+          <div class="dropdown-content">
+            <a href="Sponsers.html" data-en="Sponsors" data-fr="Commanditaires">Sponsors</a>
+            <a href="Artwork.html" data-en="Artwork" data-fr="Illustrations">Artwork</a>
+            <a href="AI.html" data-en="AI" data-fr="IA">AI</a>
+          </div>
+        </div>
+        <a href="Trailer.html" class="button" data-en="Trailer" data-fr="Bande-annonce">Trailer</a>
+      </div>
+
+      <div class="nav-controls">
+        <button class="lang-btn" onclick="toggleLanguage()" id="langBtn">FR</button>
+        <button class="options" onclick="openMenu()" aria-label="Open navigation">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+      </div>
     </nav>
-<div class="posters">
 
-    <div class="Monica">
-    <img src="../images/Monica.jpg" class="hover-image" onclick="openModal('monicaModal')">
-    </div>
-    <div class="Mia">
-    <img src="../images/Mia.jpg" class="hover-image" onclick="openModal('miaModal')">
-    </div>
-    <div class="Jess">
-    <img src="../images/Jess.jpg" class="hover-image" onclick="openModal('jessModal')">
+    <!-- Mobile Navigation Overlay -->
+    <div class="mobile-overlay" id="mobileOverlay">
+      <button class="close-btn" onclick="closeMenu()" aria-label="Close menu">&times;</button>
+
+      <div class="mobile-links-list">
+        <a href="index.html" class="mobile-link" data-en="TV" data-fr="TV">TV</a>
+        <a href="Home.html" class="mobile-link" data-en="Home" data-fr="Accueil">Home</a>
+        <a href="Cast.html" class="mobile-link" data-en="Cast" data-fr="Casting">Cast</a>
+        <a href="Settings.html" class="mobile-link" data-en="Settings" data-fr="Paramètres">Settings</a>
+        <a href="Blog.html" class="mobile-link" data-en="Blog" data-fr="Blog">Blog</a>
+
+        <div class="mobile-sublinks">
+          <a href="Siteweb.T.html" class="mobile-link" data-en="Website" data-fr="Site web">Website</a>
+          <a href="Kiosk.T.html" class="mobile-link" data-en="Kiosk" data-fr="Kiosque">Kiosk</a>
+          <a href="Robot.T.html" class="mobile-link" data-en="Robot" data-fr="Robot">Robot</a>
+          <a href="Tutorial.T.html" class="mobile-link" data-en="Tutorial" data-fr="Tutoriel">Tutorial</a>
+          <a href="Video.T.html" class="mobile-link" data-en="Video" data-fr="Vidéo">Video</a>
+          <a href="3D.T.html" class="mobile-link" data-en="3D Design" data-fr="Conception 3D">3D Design</a>
+        </div>
+
+        <a href="Arcade.html" class="mobile-link" data-en="Arcade" data-fr="Arcade">Arcade</a>
+        <a href="Credits.html" class="mobile-link" data-en="Credits" data-fr="Crédits">Credits</a>
+
+        <div class="mobile-sublinks">
+          <a href="Sponsers.html" class="mobile-link" data-en="Sponsors" data-fr="Commanditaires">Sponsors</a>
+          <a href="Artwork.html" class="mobile-link" data-en="Artwork" data-fr="Illustrations">Artwork</a>
+          <a href="AI.html" class="mobile-link" data-en="AI" data-fr="IA">AI</a>
+        </div>
+        
+        <a href="Trailer.html" class="mobile-link" data-en="Trailer" data-fr="Bande-annonce">Trailer</a>
+      </div>
     </div>
 
-<!-- Monica's pop-up -->
-<div id="monicaModal" class="modal">
-    <div class="modal-content">
+    <!-- Curved Title Container -->
+    <div class="title-container">
+      <svg viewBox="0 0 600 180" class="wanted-title">
+        <defs>
+          <path id="wantedArc" d="M 55,145 Q 300,-35 545,145" />
+        </defs>
+        <text>
+          <textPath href="#wantedArc" startOffset="50%" text-anchor="middle">
+            WANTED
+          </textPath>
+        </text>
+      </svg>
+    </div>
+
+    <!-- Main Posters Grid -->
+    <div class="posters">
+      <div class="Monica">
+        <img src="../images/Monica.F.png" class="hover-image" onclick="openModal('monicaModal')" alt="Monica">
+      </div>
+      <div class="Mia">
+        <img src="../images/Mia. F.png" class="hover-image" onclick="openModal('miaModal')" alt="Mia">
+      </div>
+      <div class="Jess">
+        <img src="../images/Jeslyn.F.png" class="hover-image" onclick="openModal('jessModal')" alt="Jess">
+      </div>
+      <div class="Salma">
+        <img src="../images/Salma.F.png" class="hover-image" onclick="openModal('salmaModal')" alt="Salma">
+      </div>
+      <div class="Emily">
+        <img src="../images/Emily.F.png" class="hover-image" onclick="openModal('emilyModal')" alt="Emily">
+      </div>
+      <div class="Janessa">
+        <img src="../images/Janessa. F.png" class="hover-image" onclick="openModal('janessaModal')" alt="Janessa">
+      </div>
+      <div class="Alisson">
+        <img src="../images/Alisson. F.png" class="hover-image" onclick="openModal('alisonModal')" alt="Alisson">
+      </div>
+      <div class="Lak">
+        <img src="../images/Lakchana.F.png" class="hover-image" onclick="openModal('lakModal')" alt="Lakchana">
+      </div>
+      <div class="Sofia">
+        <img src="../images/Sofia.F.png" class="hover-image" onclick="openModal('sofiaModal')" alt="Sofia">
+      </div>
+      <div class="Sara">
+        <img src="../images/Sara.F.png" class="hover-image" onclick="openModal('saraModal')" alt="Sara">
+      </div>
+      <div class="Xin">
+        <img src="../images/Xin.F.png" class="hover-image" onclick="openModal('xinModal')" alt="Xin">
+      </div>
+      <div class="Jana">
+        <img src="../images/Jana.F.png" class="hover-image" onclick="openModal('janaModal')" alt="Jana">
+      </div>
+      <div class="Des">
+        <img src="../images/Des.F.png" class="hover-image" onclick="openModal('desModal')" alt="Desiree">
+      </div>
+      <div class="IsaDJ">
+        <img src="../images/Isa DJ.F.png" class="hover-image" onclick="openModal('isaDJModal')" alt="Isabella">
+      </div>
+      <div class="Amanda">
+        <img src="../images/Amanda.F.png" class="hover-image" onclick="openModal('amandaModal')" alt="Amanda">
+      </div>
+      <div class="Amelia">
+        <img src="../images/Amelia.F.png" class="hover-image" onclick="openModal('ameliaModal')" alt="Amelia">
+      </div>
+    </div>
+
+    <!-- Modals -->
+    <!-- Monica's pop-up -->
+    <div id="monicaModal" class="modal">
+      <div class="modal-content">
         <span class="close" onclick="closeModal('monicaModal')">&times;</span>
-        <h1>MONICA</h1>
-        <img src="../images/Monica.jpg" class="popup-image">
-        <p>Information about Monica goes here.</p>
+        <img src="../images/Monica.F.png" class="popup-image" alt="Monica">
+        <div class="wanted-text">
+          <h1>WANTED</h1>
+          <h2>FOR ALWAYS</h2>
+          <h2>ARRIVING LATE</h2>
+          <p class="reward">REWARD: ONE ROYAL TELEPORTATION SPELL</p>
+          <p class="wanted-caption">Because apparently, walking isn't fast enough.</p>
+        </div>
+      </div>
     </div>
-</div>
 
-<!-- Mia's pop-up -->
-<div id="miaModal" class="modal">
-    <div class="modal-content">
+    <!-- Mia's pop-up -->
+    <div id="miaModal" class="modal">
+      <div class="modal-content">
         <span class="close" onclick="closeModal('miaModal')">&times;</span>
         <h1>MIA</h1>
-        <img src="../images/Mia.jpg" class="popup-image">
+        <img src="../images/Mia. F.png" class="popup-image" alt="Mia">
         <p>Information about Mia goes here.</p>
+      </div>
     </div>
-</div>
 
-<!-- Jess's pop-up -->
-<div id="jessModal" class="modal">
-    <div class="modal-content">
+    <!-- Jess's pop-up -->
+    <div id="jessModal" class="modal">
+      <div class="modal-content">
         <span class="close" onclick="closeModal('jessModal')">&times;</span>
         <h1>JESS</h1>
-        <img src="../images/Jess.jpg" class="popup-image">
+        <img src="../images/Jeslyn.F.png" class="popup-image" alt="Jess">
         <p>Information about Jess goes here.</p>
+      </div>
     </div>
-</div>
 
+    <!-- Salma's pop-up -->
+    <div id="salmaModal" class="modal">
+      <div class="modal-content">
+        <span class="close" onclick="closeModal('salmaModal')">&times;</span>
+        <h1>SALMA</h1>
+        <img src="../images/Salma.F.png" class="popup-image" alt="Salma">
+        <p>Information about Monica goes here.</p>
+      </div>
+    </div>
+
+    <!-- Emily's pop-up -->
+    <div id="emilyModal" class="modal">
+      <div class="modal-content">
+        <span class="close" onclick="closeModal('emilyModal')">&times;</span>
+        <h1>EMILY</h1>
+        <img src="../images/Emily.F.png" class="popup-image" alt="Emily">
+        <p>Information about Monica goes here.</p>
+      </div>
+    </div>
+
+    <!-- Janessa's pop-up -->
+    <div id="janessaModal" class="modal">
+      <div class="modal-content">
+        <span class="close" onclick="closeModal('janessaModal')">&times;</span>
+        <h1>JANESSA</h1>
+        <img src="../images/Janessa. F.png" class="popup-image" alt="Janessa">
+        <p>Information about Monica goes here.</p>
+      </div>
+    </div>
+
+    <!-- Alisson's pop-up -->
+    <div id="alisonModal" class="modal">
+      <div class="modal-content">
+        <span class="close" onclick="closeModal('alisonModal')">&times;</span>
+        <h1>ALISSON</h1>
+        <img src="../images/Alisson. F.png" class="popup-image" alt="Alisson">
+        <p>Information about Monica goes here.</p>
+      </div>
+    </div>
+
+    <!-- Lak's pop-up -->
+    <div id="lakModal" class="modal">
+      <div class="modal-content">
+        <span class="close" onclick="closeModal('lakModal')">&times;</span>
+        <h1>LAKSHANA</h1>
+        <img src="../images/Lakchana.F.png" class="popup-image" alt="Lakchana">
+        <p>Information about Monica goes here.</p>
+      </div>
+    </div>
+
+    <!-- Sofia's pop-up -->
+    <div id="sofiaModal" class="modal">
+      <div class="modal-content">
+        <span class="close" onclick="closeModal('sofiaModal')">&times;</span>
+        <h1>SOFIA</h1>
+        <img src="../images/Sofia.F.png" class="popup-image" alt="Sofia">
+        <p>Information about Monica goes here.</p>
+      </div>
+    </div>
+
+    <!-- Sara's pop-up -->
+    <div id="saraModal" class="modal">
+      <div class="modal-content">
+        <span class="close" onclick="closeModal('saraModal')">&times;</span>
+        <h1>SARA</h1>
+        <img src="../images/Sara.F.png" class="popup-image" alt="Sara">
+        <p>Information about Monica goes here.</p>
+      </div>
+    </div>
+
+    <!-- Xin's pop-up -->
+    <div id="xinModal" class="modal">
+      <div class="modal-content">
+        <span class="close" onclick="closeModal('xinModal')">&times;</span>
+        <h1>XIN</h1>
+        <img src="../images/Xin.F.png" class="popup-image" alt="Xin">
+        <p>Information about Monica goes here.</p>
+      </div>
+    </div>
+
+    <!-- Jana's pop-up -->
+    <div id="janaModal" class="modal">
+      <div class="modal-content">
+        <span class="close" onclick="closeModal('janaModal')">&times;</span>
+        <h1>JANA</h1>
+        <img src="../images/Jana.F.png" class="popup-image" alt="Jana">
+        <p>Information about Monica goes here.</p>
+      </div>
+    </div>
+
+    <!-- Des's pop-up -->
+    <div id="desModal" class="modal">
+      <div class="modal-content">
+        <span class="close" onclick="closeModal('desModal')">&times;</span>
+        <h1>DÉSIRÉE</h1>
+        <img src="../images/Des.F.png" class="popup-image" alt="Desiree">
+        <p>Information about Monica goes here.</p>
+      </div>
+    </div>
+
+    <!-- IsaDJ's pop-up -->
+    <div id="isaDJModal" class="modal">
+      <div class="modal-content">
+        <span class="close" onclick="closeModal('isaDJModal')">&times;</span>
+        <h1>ISABELLA</h1>
+        <img src="../images/Isa DJ.F.png" class="popup-image" alt="Isabella">
+        <p>Information about Monica goes here.</p>
+      </div>
+    </div>
+
+    <!-- Amanda's pop-up -->
+    <div id="amandaModal" class="modal">
+      <div class="modal-content">
+        <span class="close" onclick="closeModal('amandaModal')">&times;</span>
+        <h1>AMANDA</h1>
+        <img src="../images/Amanda.F.png" class="popup-image" alt="Amanda">
+        <p>Information about Monica goes here.</p>
+      </div>
+    </div>
+
+    <!-- Amelia's pop-up -->
+    <div id="ameliaModal" class="modal">
+      <div class="modal-content">
+        <span class="close" onclick="closeModal('ameliaModal')">&times;</span>
+        <h1>AMELIA</h1>
+        <img src="../images/Amelia.F.png" class="popup-image" alt="Amelia">
+        <p>Information about Monica goes here.</p>
+      </div>
+    </div>
+
+    <!-- Combined Scripts -->
     <script>
-   function openModal(id) {
-    document.getElementById(id).style.display = "flex";
-}
+      let currentLang = "en";
 
-function closeModal(id) {
-    document.getElementById(id).style.display = "none";
-}
+      function openMenu() {
+        document.getElementById("mobileOverlay").classList.add("active");
+      }
+
+      function closeMenu() {
+        document.getElementById("mobileOverlay").classList.remove("active");
+      }
+
+      function toggleLanguage() {
+        currentLang = currentLang === "en" ? "fr" : "en";
+        document.getElementById("langBtn").innerText =
+          currentLang === "en" ? "FR" : "EN";
+        document.documentElement.lang = currentLang;
+
+        document.querySelectorAll("[data-en]").forEach((el) => {
+          el.innerText = el.getAttribute(`data-${currentLang}`);
+        });
+      }
+
+      const currentPage = location.pathname.split("/").pop() || "index.html";
+      document.querySelectorAll(".button, .mobile-link").forEach((link) => {
+        if (link.getAttribute("href") === currentPage) {
+          link.setAttribute("aria-current", "page");
+        }
+      });
+
+      function openModal(id) {
+        document.getElementById(id).style.display = "flex";
+      }
+
+      function closeModal(id) {
+        document.getElementById(id).style.display = "none";
+      }
     </script>
   </body>
 </html>

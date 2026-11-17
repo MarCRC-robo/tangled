@@ -1,425 +1,121 @@
+
+
 <!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Marcy let down your hair</title>
+    <title>Robot progress</title>
+
+
     <style>
-      * {
-        box-sizing: border-box;
-        user-select: none;
-      }
-
       body {
-        margin: 0;
-        padding-top: 60px;
-        background-color: #fdfdfd;
-        min-height: 100vh;
+        background-color: #FBDEFF;
       }
 
-      .bar {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 60px;
-        z-index: 1000;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        padding: 0 16px;
-        border-bottom: 3px solid #552586;
-        background: linear-gradient(
-          180deg,
-          #b589d6 0%,
-          #9969c7 35%,
-          #975ed3 50%,
-          #6a359c 80%,
-          #552586 100%
-        );
-      }
 
-      .logo {
-        display: flex;
-        align-items: center;
-        cursor: pointer;
-      }
-
-      .logo img {
-        width: 36px;
-        height: auto;
-        display: block;
-      }
-
-      .desktop-links {
-        display: flex;
-        align-items: flex-end;
-        gap: 6px;
-        height: 100%;
-        flex: 1;
-        margin: 0 12px;
-      }
-
-      .button {
-        flex: 1;
-        min-width: 0;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        height: 38px;
-        padding: 0 8px;
-        color: #ffffff;
-        text-decoration: none;
-        font-family: "Trebuchet MS", Arial, sans-serif;
-        font-size: 11px;
-        font-weight: 900;
-        letter-spacing: 0.5px;
-        text-transform: uppercase;
-        white-space: nowrap;
-        text-shadow: 0 1px 2px rgba(80, 0, 50, 0.6);
-        border: 1px solid #552586;
-        border-bottom: none;
-        border-radius: 10px 10px 0 0;
-        background: linear-gradient(
-          180deg,
-          #6c3299 0%,
-          #9969c7 35%,
-          #6726ad 50%,
-          #3a076a 80%,
-          #552586 100%
-        );
-        transition: filter 0.15s ease;
-      }
-
-      .button:hover {
-        filter: brightness(1.15);
-      }
-
-      .button[aria-current="page"] {
-        height: 44px;
-        margin-bottom: -3px;
-        background: linear-gradient(
-          180deg,
-          #b773ff 0%,
-          #913bed 20%,
-          #7d2fd1 50%,
-          #6726ad 72%,
-          #551c92 90%,
-          #350d60 100%
-        );
-      }
-
-      .dropdown {
+      .rapunzel {
         position: relative;
-        flex: 1;
-        min-width: 0;
-        height: 100%;
-        display: flex;
-        align-items: flex-end;
+        float: right;
+        width: 600px;
+        margin-left: auto;
+        margin-right: 0;
+        overflow: visible;
       }
 
-      .dropdown-content {
-        display: none;
-        position: absolute;
-        top: 100%;
-        left: 0;
-        min-width: 120px;
-        background: linear-gradient(180deg, #6a359c 0%, #552586 100%);
-        border: 1px solid #552586;
-        border-top: none;
-        border-radius: 0 0 10px 10px;
-        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
-        overflow: hidden;
-        z-index: 1100;
-      }
 
-      .dropdown-content a {
-        display: block;
-        padding: 14px 20px;
-        color: #ffffff;
-        text-decoration: none;
-        font-family: "Trebuchet MS", Arial, sans-serif;
-        font-size: 13px;
-        font-weight: bold;
-        letter-spacing: 0.5px;
-        text-transform: uppercase;
-        white-space: nowrap;
-        transition: background-color 0.2s ease, color 0.2s ease;
-      }
-
-      .dropdown-content a:hover {
-        background-color: #3a076a;
-        color: #eae85d;
-      }
-
-      .dropdown:hover .dropdown-content {
-        display: block;
-      }
-
-      .nav-controls {
-        display: flex;
-        align-items: center;
-        gap: 12px;
-      }
-
-      .lang-btn {
-        background-color: transparent;
-        color: #eae85d;
-        border: 2px solid #eae85d;
-        border-radius: 5px;
-        padding: 4px 10px;
-        font-family: Arial, sans-serif;
-        font-size: 12px;
-        font-weight: bold;
-        cursor: pointer;
-        transition: all 0.2s ease;
-      }
-
-      .lang-btn:hover {
-        background-color: #eae85d;
-        color: #1a0f23;
-      }
-
-      .options {
-        display: none;
-        background: transparent;
-        border: none;
-        cursor: pointer;
-        flex-direction: column;
-        justify-content: space-between;
-        width: 26px;
-        height: 18px;
-        padding: 0;
-      }
-
-      .options span {
+      .rapunzel img.character {
         display: block;
         width: 100%;
-        height: 3px;
-        background-color: #ffffff;
-        border-radius: 3px;
+        height: auto;
+        position: relative;
+        z-index: 1;
       }
 
-      .mobile-overlay {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100vw;
-        height: 100vh;
-        z-index: 2000;
-        background: linear-gradient(
-          180deg,
-          #6a359c 0%,
-          #552586 40%,
-          #350d60 100%
+
+      .hair-extension {
+    position: absolute;
+    left: 35%;
+    top: 85%;
+    width: 400px;
+    height: 2000px;
+
+
+    background-image: url("../images/Long\ Blonde\ Hair\ Cascade.png");
+    background-repeat: repeat-y;
+    background-size: 100% auto;
+    background-position: top center;
+
+
+    /* Allow the hair to extend downwards */
+    overflow: visible;
+      }
+
+
+      .hair-extension img {
+        display: block;
+        width: 100%;
+        height: auto;
+
+
+        /* Gradually blend the top into the original hair */
+        -webkit-mask-image: linear-gradient(
+          to bottom,
+          transparent 0%,
+          black 15%
         );
-        display: flex;
-        flex-direction: column;
-        padding: 40px 30px;
-        overflow-y: auto;
-        opacity: 0;
-        visibility: hidden;
-        pointer-events: none;
-        transition: opacity 0.3s ease, visibility 0.3s ease;
-      }
 
-      .mobile-overlay.active {
-        opacity: 1;
-        visibility: visible;
-        pointer-events: auto;
-      }
 
-      .close-btn {
-        align-self: flex-start;
-        background: none;
-        border: none;
-        color: #ffffff;
-        font-size: 32px;
-        cursor: pointer;
-        line-height: 1;
-        padding: 0;
-        margin-bottom: 50px;
-      }
-
-      .mobile-links-list {
-        display: flex;
-        flex-direction: column;
-        gap: 28px;
-      }
-
-      .mobile-link {
-        color: #ffffff;
-        text-decoration: none;
-        font-family: "Trebuchet MS", Arial, sans-serif;
-        font-size: 22px;
-        font-weight: 500;
-        letter-spacing: 0.5px;
-        transition: color 0.2s ease, transform 0.2s ease;
-      }
-
-      .mobile-link:hover,
-      .mobile-link[aria-current="page"] {
-        color: #eae85d;
-        font-weight: bold;
-      }
-
-      .mobile-sublinks {
-        display: flex;
-        flex-direction: column;
-        gap: 18px;
-        margin: -10px 0 0 20px;
-        padding-left: 14px;
-        border-left: 2px solid #eae85d;
-      }
-
-      .mobile-sublinks .mobile-link {
-        font-size: 17px;
-      }
-
-      @media (max-width: 768px) {
-        .desktop-links {
-          display: none;
-        }
-
-        .options {
-          display: flex;
-        }
+        mask-image: linear-gradient(
+          to bottom,
+          transparent, 0%,
+          black 15%
+        );
       }
     </style>
   </head>
+
+
   <body>
-    <nav class="bar">
-      <a class="logo" id="homeLogo" href="index.html">
-        <img src="../images/logo sun.png" alt="sun logo" />
-      </a>
+    <h1 style="color: rgb(147, 81, 0)">
+      <i>Robot Timeline</i>
+    </h1>
 
-      <div class="desktop-links">
-        <a href="index.html" class="button" data-en="TV" data-fr="TV">TV</a>
-        <a href="Home.html" class="button" data-en="Home" data-fr="Accueil">Home</a>
-        <a href="Cast.html" class="button" data-en="Cast" data-fr="Casting">Cast</a>
-        <a href="Settings.html" class="button" data-en="Settings" data-fr="Paramètres">Settings</a>
 
-        <div class="dropdown">
-          <a href="Blog.html" class="button" data-en="Blog ▼" data-fr="Blog ▼">Blog ▼</a>
-          <div class="dropdown-content">
-            <a href="Siteweb.T.html" title="Go to Website"data-en="Website" data-fr="Site web">Website</a>
-            <a href="Kiosk.T.html" title="Go to Kiosk"data-en="Kiosk" data-fr="Kiosque">Kiosk</a>
-            <a href="Robot.T.html" title="Go to Robot" data-en="Robot" data-fr="Robot">Robot</a>
-            <a href="Tutorial.T.html" title="Go to Tutorial"data-en="Tutorial" data-fr="Tutoriel">Tutorial</a>
-            <a href="Video.T.html" title="Go to Video"data-en="Video" data-fr="Vidéo">Video</a>
-            <a href="3D.T.html" title="Go to 3D">3D Design</a>
-          </div>
-        </div>
+    <p>
+   
+    </p>
 
-        <a href="Arcade.html" class="button" data-en="Arcade" data-fr="Arcade">Arcade</a>
-       <div class="dropdown">
-  <a href="Credits.html" class="button"
-     data-en="Credits ▼" data-fr="Crédits ▼">
-    Credits ▼
-  </a>
 
-  <div class="dropdown-content">
-    <a href="Sponsers.html"
-       data-en="Sponsors" data-fr="Commanditaires">
-      Sponsors
-    </a>
+    <div class="rapunzel">
 
-    <a href="Artwork.html"
-       data-en="Artwork" data-fr="Illustrations">
-      Artwork
-    </a>
 
-    <a href="AI.html"
-       data-en="AI" data-fr="IA">
-      AI
-    </a>
-  </div>
-</div>
-        <a href="Trailer.html" class="button" data-en="Trailer" data-fr="Bande-annonce">Trailer</a>
+      <img
+        src="../images/raiponce.png"
+        class="character"
+      />
+
+
+      <div class="hair-extension">
+        <img src="../images/blonde hair.png" />
       </div>
 
-      <div class="nav-controls">
-        <button class="lang-btn" onclick="toggleLanguage()" id="langBtn">FR</button>
-        <button class="options" onclick="openMenu()" aria-label="Open navigation">
-          <span></span>
-          <span></span>
-          <span></span>
-        </button>
-      </div>
-    </nav>
 
-    <div class="mobile-overlay" id="mobileOverlay">
-      <button class="close-btn" onclick="closeMenu()" aria-label="Close menu">&times;</button>
-
-      <div class="mobile-links-list">
-        <a href="index.html" class="mobile-link" data-en="TV" data-fr="TV">TV</a>
-        <a href="Home.html" class="mobile-link" data-en="Home" data-fr="Accueil">Home</a>
-        <a href="Cast.html" class="mobile-link" data-en="Cast" data-fr="Casting">Cast</a>
-        <a href="Settings.html" class="mobile-link" data-en="Settings" data-fr="Paramètres">Settings</a>
-        <a href="Blog.html" class="mobile-link" data-en="Blog" data-fr="Blog">Blog</a>
-
-        <div class="mobile-sublinks">
-          <a href="Siteweb.T.html" class="mobile-link" data-en="Website" data-fr="Site web">Website</a>
-          <a href="Kiosk.T.html" class="mobile-link" data-en="Kiosk" data-fr="Kiosque">Kiosk</a>
-          <a href="Robot.T.html" class="mobile-link"data-en="Robot" data-fr="Robot">Robot</a>
-          <a href="Tutorial.T.html" class="mobile-link"data-en="Tutorial" data-fr="Tutoriel">Tutorial</a>
-          <a href="Video.T.html" class="mobile-link"data-en="Video" data-fr="Vidéo">Video</a>
-          <a href="3D.T.html" class="mobile-link"data-en="3D Design" data-fr="Dessin 3D">3D Design</a>
-        </div>
-
-        <a href="Arcade.html" class="mobile-link" data-en="Arcade" data-fr="Arcade">Arcade</a>
-<a href="Credits.html" class="mobile-link"
-   data-en="Credits" data-fr="Crédits">
-  Credits
-</a>
-
-<div class="mobile-sublinks">
-  <a href="Sponsers.html" class="mobile-link"
-     data-en="Sponsors" data-fr="Commanditaires">
-    Sponsors
-  </a>
-
-  <a href="Artwork.html" class="mobile-link"
-     data-en="Artwork" data-fr="Illustrations">
-    Artwork
-  </a>
-
-  <a href="AI.html" class="mobile-link"
-     data-en="AI" data-fr="IA">
-    AI
-  </a>
-</div>       
- <a href="Trailer.html" class="mobile-link" data-en="Trailer" data-fr="Bande-annonce">Trailer</a>
     </div>
+<img
+  src="../images/robot1.jpg"
+  style="
+    width: 35%;
+    height: auto;
+    position: absolute;
+    right: 170%;
+    top: 5%;
+  "
 
-    <script>
-      let currentLang = "en";
 
-      function openMenu() {
-        document.getElementById("mobileOverlay").classList.add("active");
-      }
-
-      function closeMenu() {
-        document.getElementById("mobileOverlay").classList.remove("active");
-      }
-
-      function toggleLanguage() {
-        currentLang = currentLang === "en" ? "fr" : "en";
-        document.getElementById("langBtn").innerText =
-          currentLang === "en" ? "FR" : "EN";
-        document.documentElement.lang = currentLang;
-
-        document.querySelectorAll("[data-en]").forEach((el) => {
-          el.innerText = el.getAttribute(`data-${currentLang}`);
-        });
-      }
-
-      const currentPage = location.pathname.split("/").pop() || "index.html";
-      document.querySelectorAll(".button, .mobile-link").forEach((link) => {
-        if (link.getAttribute("href") === currentPage) {
-          link.setAttribute("aria-current", "page");
-        }
-      });
-    </script>
+></img>
   </body>
 </html>
+
+
+
