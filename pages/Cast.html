@@ -614,6 +614,121 @@
           font-size: 12px;
         }
       }
+
+      /* ================================= */
+/* MONICA POP-UP - IPHONE VERSION */
+/* ================================= */
+
+@media screen and (max-width: 600px) {
+
+    #monicaModal {
+        padding: 10px;
+        box-sizing: border-box;
+    }
+
+    #monicaModal .modal-content {
+        width: 94%;
+        height: auto;
+        min-height: 0;
+        max-height: 90dvh;
+
+        padding: 45px 12px 20px;
+        box-sizing: border-box;
+
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+
+        gap: 10px;
+
+        overflow-y: auto;
+        overflow-x: hidden;
+    }
+
+    /* Image on the LEFT */
+    #monicaModal .popup-image {
+        width: 42%;
+        height: auto;
+        max-height: 65dvh;
+        object-fit: contain;
+        object-position: center;
+        flex-shrink: 0;
+    }
+
+    /* Text on the RIGHT */
+    #monicaModal .wanted-text {
+        width: 54%;
+        flex: 1;
+        min-width: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+    }
+
+    /* WANTED */
+    #monicaModal .wanted-text h1 {
+        font-size: clamp(22px, 6vw, 32px);
+        margin: 0 0 15px 0;
+    }
+
+    /* FOR ALWAYS + ARRIVING LATE */
+    #monicaModal .wanted-text h2 {
+        font-size: clamp(15px, 4vw, 21px);
+        margin: 0 0 15px 0;
+    }
+
+    /* REWARD */
+    #monicaModal .wanted-text .reward {
+        width: 100%;
+        max-width: 100%;
+        white-space: normal;
+        overflow-wrap: anywhere;
+        font-size: clamp(11px, 3vw, 15px);
+        margin: 10px 0 15px;
+    }
+
+    /* CAPTION */
+    #monicaModal .wanted-text .wanted-caption {
+        width: 100%;
+        white-space: normal;
+        overflow-wrap: anywhere;
+        font-size: clamp(11px, 3vw, 15px);
+    }
+
+}
+
+/* SMALLER IPHONES */
+@media screen and (max-width: 380px) {
+
+    #monicaModal .modal-content {
+        gap: 7px;
+        padding-left: 8px;
+        padding-right: 8px;
+    }
+
+    #monicaModal .popup-image {
+        width: 40%;
+        max-height: 60dvh;
+    }
+
+    #monicaModal .wanted-text {
+        width: 56%;
+    }
+
+    #monicaModal .wanted-text h1 {
+        font-size: 21px;
+    }
+
+    #monicaModal .wanted-text h2 {
+        font-size: 15px;
+    }
+
+}
+
+
     </style>
   </head>
   <body>
