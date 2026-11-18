@@ -76,69 +76,7 @@
       user-select: none;
     }
 
-
-    /* "Rapunzel is better" Sassy Comment Bubble */
-    .rapunzel-comment {
-      position: absolute;
-      top: 24px;
-      left: 50%;
-      transform: translateX(-50%) scale(0.95);
-      z-index: 40;
-      background: linear-gradient(180deg, #fff0f8 0%, #ffd1ea 100%);
-      border: 2.5px solid #ff1493;
-      border-radius: 20px;
-      padding: 7px 18px;
-      color: #9e0059;
-      font-weight: 700;
-      font-size: 13.5px;
-      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35);
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      opacity: 0;
-      pointer-events: none;
-      transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
-      white-space: nowrap;
-    }
-
-    .rapunzel-comment.show {
-      opacity: 1;
-      pointer-events: auto;
-      transform: translateX(-50%) scale(1);
-      animation: popWiggle 0.4s ease;
-    }
-
-    .rapunzel-comment.approved {
-      background: linear-gradient(180deg, #f3e8ff 0%, #e9d5ff 100%);
-      border-color: #9333ea;
-      color: #581c87;
-    }
-
-    .back-rapunzel-btn {
-      background: #5417c6;
-      color: #fff;
-      border: none;
-      border-radius: 12px;
-      padding: 3px 9px;
-      font-size: 11px;
-      font-weight: bold;
-      cursor: pointer;
-      transition: transform 0.15s;
-    }
-
-    .back-rapunzel-btn:hover {
-      transform: scale(1.06);
-      background: #5417c6;
-    }
-
-    @keyframes popWiggle {
-      0% { transform: translateX(-50%) scale(0.8); }
-      45% { transform: translateX(-50%) scale(1.07) rotate(-1.5deg); }
-      75% { transform: translateX(-50%) scale(0.98) rotate(1deg); }
-      100% { transform: translateX(-50%) scale(1) rotate(0deg); }
-    }
-
-    /* ================= 3-CARD OVERLAPPING 3D CAROUSEL (NO BORDER / NO CASE) ================= */
+    /* ================= 3-CARD OVERLAPPING 3D CAROUSEL ================= */
     .stage-3d {
       position: absolute;
       top: 95px;
@@ -245,13 +183,12 @@
     .nav-arrow.prev { left: 16px; }
     .nav-arrow.next { right: 16px; }
 
-    /* ================= RIGHT SIDEBAR (VERTICAL POSTER CARD) ================= */
+    /* ================= RIGHT SIDEBAR ================= */
     .right-sidebar {
       display: flex;
       flex-direction: column;
     }
 
-    /* Vertical Minimalist Movie Poster Card */
     .poster-card {
       background: #e6e5e0;
       border: 1px solid #cfcec8;
@@ -283,6 +220,9 @@
     .poster-details {
       margin-top: 14px;
       color: #18181b;
+      display: flex;
+      flex-direction: column;
+      flex: 1;
     }
 
     .poster-title-row {
@@ -302,11 +242,11 @@
       color: #141414;
     }
 
-    .poster-movie-year {
-      font-family: 'Oswald', sans-serif;
-      font-size: 16px;
-      font-weight: 700;
-      color: #27272a;
+    .credits-container {
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+      justify-content: space-between;
     }
 
     .credits-grid {
@@ -332,6 +272,18 @@
       font-weight: 600;
     }
 
+    .credit-value a {
+      display: block;
+      width: fit-content;
+      color: #6a359c;
+      text-decoration: underline;
+      transition: color 0.15s ease;
+    }
+
+    .credit-value a:hover {
+      color: #4a1d7a;
+    }
+
     .credits-cast-row {
       margin-top: 10px;
       display: grid;
@@ -340,6 +292,24 @@
       font-family: 'Oswald', sans-serif;
       font-size: 10px;
       line-height: 1.25;
+    }
+
+    /* Vertical Comment Box Under Movie Details */
+    .sidebar-comment-box {
+      margin-top: 14px;
+      padding-top: 10px;
+      border-top: 1px dashed #b5b3a8;
+      font-family: 'Oswald', sans-serif;
+      font-size: 11.5px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      min-height: 38px;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      color: #9e0059;
     }
 
     @media (max-width: 880px) {
@@ -359,14 +329,6 @@
     <div class="left-frame">
       <div class="carousel-viewport" id="carouselViewport">
         <div class="sky-clouds"></div>
-
-        <!-- "Rapunzel is better" Sassy Comment Banner -->
-        <div class="rapunzel-comment" id="rapunzelComment">
-          <span id="commentText">💬 Rapunzel is better!! 👑✨</span>
-          <button class="back-rapunzel-btn" id="backRapunzelBtn" title="Switch back to Tangled">
-            Back to Rapunzel
-          </button>
-        </div>
 
         <!-- Left / Right Arrow Buttons -->
         <button class="nav-arrow prev" id="prevBtn" aria-label="Previous movie">❮</button>
@@ -388,29 +350,60 @@
     <div class="right-sidebar">
       <div class="poster-card" id="posterCard">
         <div class="poster-art">
-          <img id="posterImg" src="Tangled.jpg" alt="Tangled poster" />
+          <img id="posterImg" src="../images/Tangled.jpg" alt="Tangled poster" />
         </div>
 
         <div class="poster-details">
           <div class="poster-title-row">
             <span class="poster-movie-title" id="posterTitle">TANGLED</span>
-            <span class="poster-movie-year" id="posterYear">2010</span>
           </div>
 
-          <div class="credits-grid">
-            <span class="credit-label">running time</span>
-            <span class="credit-value" id="posterRuntime">100 MINUTES</span>
+          <div class="credits-container">
+            <div id="infoSection">
+              <div class="credits-cast-row">
+                <span class="credit-label">Settings</span>
+                <span class="credit-value">
+                  <a href="Settings.html">https:/settings.html</a>
+                </span>
+              </div>
+              <div class="credits-cast-row">
+                <span class="credit-label">Cast</span>
+                <span class="credit-value">
+                  <a href="Cast.html">https:/cast.html</a>
+                </span>
+              </div>
+              <div class="credits-cast-row">
+                <span class="credit-label">Blog</span>
+                <span class="credit-value">
+                  <a href="Blog.html">https:/blog.html</a>
+                </span>
+              </div>
+              <div class="credits-cast-row">
+                <span class="credit-label">Arcade</span>
+                <span class="credit-value">
+                  <a href="Arcade.html">https:/arcade.html</a>
+                </span>
+              </div>
+              <div class="credits-cast-row">
+                <span class="credit-label">Credits</span>
+                <span class="credit-value">
+                  <a href="Sponsers.html">https:/sponsers.html</a>
+                  <a href="Artwork.html">https:/artwork.html</a>
+                  <a href="AI.html">https:/ai.html</a>
+                </span>
+              </div>
+              <div class="credits-cast-row">
+                <span class="credit-label">Trailer</span>
+                <span class="credit-value">
+                  <a href="Trailer.html">https:/trailer.html</a>
+                </span>
+              </div>
+            </div>
 
-            <span class="credit-label">directed by</span>
-            <span class="credit-value" id="posterDirector">NATHAN GRENO    BYRON HOWARD</span>
-
-            <span class="credit-label">produced by</span>
-            <span class="credit-value" id="posterProducer">ROY CONLI</span>
-          </div>
-
-          <div class="credits-cast-row">
-            <span class="credit-label">starring</span>
-            <span class="credit-value" id="posterCast">MANDY MOORE    ZACHARY LEVI    DONNA MURPHY</span>
+            <!-- Vertical comment box under details in the right sidebar (hidden for Tangled) -->
+            <div class="sidebar-comment-box" id="sidebarComment">
+              Go to Rapunzel's page!!
+            </div>
           </div>
         </div>
       </div>
@@ -419,67 +412,37 @@
 
   <script>
     /* =========================================================================
-       6 FILM OPTIONS (Default: Tangled / Rapunzel)
+        6 FILM OPTIONS (Default: Tangled / Rapunzel)
     ========================================================================= */
     const MOVIES = [
       {
         id: "tangled",
         title: "TANGLED",
-        year: "2010",
-        runtime: "100 MINUTES",
-        director: "NATHAN GRENO   BYRON HOWARD",
-        producer: "ROY CONLI",
-        cast: "MANDY MOORE   ZACHARY LEVI   DONNA MURPHY",
         image: "../images/Tangled.jpg"
       },
       {
         id: "zootopia",
         title: "ZOOTOPIA",
-        year: "2016",
-        runtime: "108 MINUTES",
-        director: "BYRON HOWARD   RICH MOORE",
-        producer: "CLARK SPENCER",
-        cast: "GINNIFER GOODWIN   JASON BATEMAN   IDRIS ELBA",
         image: "../images/zootopia.jpg"
       },
       {
         id: "frozen",
         title: "FROZEN",
-        year: "2013",
-        runtime: "102 MINUTES",
-        director: "CHRIS BUCK   JENNIFER LEE",
-        producer: "PETER DEL VECHO",
-        cast: "KRISTEN BELL   IDINA MENZEL   JOSH GAD",
         image: "../images/Frozen.jpg"
       },
       {
         id: "nemo",
         title: "FINDING NEMO",
-        year: "2003",
-        runtime: "100 MINUTES",
-        director: "ANDREW STANTON",
-        producer: "GRAHAM WALTERS",
-        cast: "ALBERT BROOKS   ELLEN DEGENERES   ALEXANDER GOULD",
         image: "../images/Nemo.jpg"
       },
       {
         id: "insideout",
         title: "INSIDE OUT",
-        year: "2015",
-        runtime: "95 MINUTES",
-        director: "PETE DOCTER",
-        producer: "JONAS RIVERA",
-        cast: "AMY POEHLER   PHYLLIS SMITH   BILL HADER",
         image: "../images/Inside Out.jpg"
       },
       {
         id: "soul",
         title: "SOUL",
-        year: "2020",
-        runtime: "100 MINUTES",
-        director: "PETE DOCTER",
-        producer: "DANA MURRAY",
-        cast: "JAMIE FOXX   TINA FEY   GRAHAM NORTON",
         image: "../images/soul.jpg"
       }
     ];
@@ -490,19 +453,12 @@
     let currentIndex = 0; // 0 = Tangled (Rapunzel) by default
 
     const track = document.getElementById("carouselTrack");
-    const commentBox = document.getElementById("rapunzelComment");
-    const commentText = document.getElementById("commentText");
-    const backRapunzelBtn = document.getElementById("backRapunzelBtn");
-
+    const sidebarComment = document.getElementById("sidebarComment");
     const reflectionTitle = document.getElementById("reflectionTitle");
 
     const posterImg = document.getElementById("posterImg");
     const posterTitle = document.getElementById("posterTitle");
-    const posterYear = document.getElementById("posterYear");
-    const posterRuntime = document.getElementById("posterRuntime");
-    const posterDirector = document.getElementById("posterDirector");
-    const posterProducer = document.getElementById("posterProducer");
-    const posterCast = document.getElementById("posterCast");
+    const infoSection = document.getElementById("infoSection");
 
     /* =========================================================================
        BUILD & POSITION 3-CARD OVERLAPPING CAROUSEL (6 FILMS TOTAL)
@@ -529,10 +485,9 @@
 
     function renderCarousel(userInteracted) {
       const cards = track.querySelectorAll(".carousel-card");
-      const total = MOVIES.length; // 6 films
+      const total = MOVIES.length;
 
       cards.forEach((card, idx) => {
-        // Circular offset in range [-2, 3]
         let offset = idx - currentIndex;
         if (offset > Math.floor(total / 2)) offset -= total;
         if (offset < -Math.floor(total / 2)) offset += total;
@@ -541,7 +496,6 @@
           ? Number(card.dataset.prevOffset)
           : offset;
 
-        // Disable transition only when a hidden card wraps across the back (-2 <-> +3)
         const wrappedInBack = Math.abs(offset - prevOffset) > 2;
         card.style.transition = wrappedInBack ? "none" : "";
         card.dataset.prevOffset = offset;
@@ -549,7 +503,6 @@
         card.classList.toggle("is-center", offset === 0);
 
         if (offset === 0) {
-          // MIDDLE CARD: Pops forward and overlaps the left & right cards
           card.style.width = "215px";
           card.style.height = "265px";
           card.style.zIndex = 30;
@@ -559,7 +512,6 @@
           card.style.transform =
             "translate(-50%, -50%) translateX(0px) translateZ(75px) rotateY(0deg)";
         } else if (offset === -1) {
-          // LEFT VISIBLE CARD: Partially tucked behind the middle card
           card.style.width = "148px";
           card.style.height = "185px";
           card.style.zIndex = 15;
@@ -569,7 +521,6 @@
           card.style.transform =
             "translate(-50%, -50%) translateX(-136px) translateZ(-20px) rotateY(16deg)";
         } else if (offset === 1) {
-          // RIGHT VISIBLE CARD: Partially tucked behind the middle card
           card.style.width = "148px";
           card.style.height = "185px";
           card.style.zIndex = 15;
@@ -579,7 +530,6 @@
           card.style.transform =
             "translate(-50%, -50%) translateX(136px) translateZ(-20px) rotateY(-16deg)";
         } else {
-          // OTHER 3 CARDS: Hidden off to the left or right edge
           const dir = offset < 0 ? -1 : 1;
           card.style.width = "120px";
           card.style.height = "150px";
@@ -598,38 +548,21 @@
     function updateSidebarAndComment(userInteracted) {
       const activeMovie = MOVIES[currentIndex];
 
-      // 1. Update Active Title & Right-Side Poster Info Card
+      // Update Active Title & Right-Side Poster Info Card
       reflectionTitle.textContent = activeMovie.title;
 
       posterImg.src = activeMovie.image;
       posterImg.alt = `${activeMovie.title} poster`;
 
       posterTitle.textContent = activeMovie.title;
-      posterYear.textContent = activeMovie.year;
-      posterRuntime.textContent = activeMovie.runtime;
-      posterDirector.textContent = activeMovie.director;
-      posterProducer.textContent = activeMovie.producer;
-      posterCast.textContent = activeMovie.cast;
 
-      // 2. Rapunzel Rule: Switching away from Tangled shows "Rapunzel is better"
       if (activeMovie.id !== "tangled") {
-        commentBox.classList.remove("approved");
-        commentText.textContent = `💬 Rapunzel is better!! (than ${activeMovie.title} 👑)`;
-        backRapunzelBtn.style.display = "inline-block";
-        commentBox.classList.remove("show");
-        void commentBox.offsetWidth;
-        commentBox.classList.add("show");
+        infoSection.style.display = "none";
+        sidebarComment.style.display = "flex";
+        sidebarComment.textContent = `Go to Rapunzel's page!!`;
       } else {
-        if (userInteracted) {
-          commentBox.classList.add("approved");
-          commentText.textContent = `💖 Taste! Rapunzel is the best!`;
-          backRapunzelBtn.style.display = "none";
-          commentBox.classList.remove("show");
-          void commentBox.offsetWidth;
-          commentBox.classList.add("show");
-        } else {
-          commentBox.classList.remove("show");
-        }
+        infoSection.style.display = "block";
+        sidebarComment.style.display = "none";
       }
     }
 
@@ -638,20 +571,11 @@
       renderCarousel(true);
     }
 
-    function selectById(id) {
-      const found = MOVIES.findIndex(m => m.id === id);
-      if (found !== -1) {
-        currentIndex = found;
-        renderCarousel(true);
-      }
-    }
-
     /* =========================================================================
        EVENT LISTENERS (Buttons + Keyboard Left/Right Arrow Keys)
     ========================================================================= */
     document.getElementById("prevBtn").addEventListener("click", () => cycleMovie(-1));
     document.getElementById("nextBtn").addEventListener("click", () => cycleMovie(1));
-    backRapunzelBtn.addEventListener("click", () => selectById("tangled"));
 
     document.addEventListener("keydown", (e) => {
       if (e.key === "ArrowLeft") {
