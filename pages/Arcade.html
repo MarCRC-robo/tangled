@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta
       name="viewport"
-      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+      content="width=device-width, initial-scale=1.0, minimum-scale=1.0"
     />
     <title>Marcy let down your hair</title>
     <style>
@@ -13,17 +13,320 @@
         user-select: none;
       }
 
+      html,
       body {
         margin: 0;
-        padding-top: 60px;
-        background-image: url(../images/snuggly\ duckling\ bar.jpg);
-        min-height: 100vh;
-        overflow: hidden;
-        background-position: center;
-        background-attachment: fixed;
+        padding: 0;
+        width: 100%;
+        height: 100%;
+        background-color: #000000;
       }
 
+      body {
+        padding-top: 60px;
+      }
 
+      /* NAVIGATION BAR STYLES */
+      .bar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 60px;
+        z-index: 1000;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 16px;
+        border-bottom: 3px solid #552586;
+        background: linear-gradient(
+          180deg,
+          #b589d6 0%,
+          #9969c7 35%,
+          #975ed3 50%,
+          #6a359c 80%,
+          #552586 100%
+        );
+      }
+
+      .logo {
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+      }
+
+      .logo img {
+        width: 36px;
+        height: auto;
+        display: block;
+      }
+
+      .desktop-links {
+        display: flex;
+        align-items: flex-end;
+        gap: 6px;
+        height: 100%;
+        flex: 1;
+        margin: 0 12px;
+      }
+
+      .button {
+        flex: 1;
+        min-width: 0;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        height: 38px;
+        padding: 0 8px;
+        color: #ffffff;
+        text-decoration: none;
+        font-family: "Trebuchet MS", Arial, sans-serif;
+        font-size: 11px;
+        font-weight: 900;
+        letter-spacing: 0.5px;
+        text-transform: uppercase;
+        white-space: nowrap;
+        text-shadow: 0 1px 2px rgba(80, 0, 50, 0.6);
+        border: 1px solid #552586;
+        border-bottom: none;
+        border-radius: 10px 10px 0 0;
+        background: linear-gradient(
+          180deg,
+          #6c3299 0%,
+          #9969c7 35%,
+          #6726ad 50%,
+          #3a076a 80%,
+          #552586 100%
+        );
+        transition: filter 0.15s ease;
+      }
+
+      .button:hover {
+        filter: brightness(1.15);
+      }
+
+      .button[aria-current="page"] {
+        height: 44px;
+        margin-bottom: -3px;
+        background: linear-gradient(
+          180deg,
+          #b773ff 0%,
+          #913bed 20%,
+          #7d2fd1 50%,
+          #6726ad 72%,
+          #551c92 90%,
+          #350d60 100%
+        );
+      }
+
+      .dropdown {
+        position: relative;
+        flex: 1;
+        min-width: 0;
+        height: 100%;
+        display: flex;
+        align-items: flex-end;
+      }
+
+      .dropdown-content {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        min-width: 120px;
+        background: linear-gradient(180deg, #6a359c 0%, #552586 100%);
+        border: 1px solid #552586;
+        border-top: none;
+        border-radius: 0 0 10px 10px;
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+        overflow: hidden;
+        z-index: 1100;
+      }
+
+      .dropdown-content a {
+        display: block;
+        padding: 14px 20px;
+        color: #ffffff;
+        text-decoration: none;
+        font-family: "Trebuchet MS", Arial, sans-serif;
+        font-size: 13px;
+        font-weight: bold;
+        letter-spacing: 0.5px;
+        text-transform: uppercase;
+        white-space: nowrap;
+        transition: background-color 0.2s ease, color 0.2s ease;
+      }
+
+      .dropdown-content a:hover {
+        background-color: #3a076a;
+        color: #eae85d;
+      }
+
+      .dropdown:hover .dropdown-content {
+        display: block;
+      }
+
+      .nav-controls {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+
+      .lang-btn {
+        background-color: transparent;
+        color: #eae85d;
+        border: 2px solid #eae85d;
+        border-radius: 5px;
+        padding: 4px 10px;
+        font-family: Arial, sans-serif;
+        font-size: 12px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: all 0.2s ease;
+      }
+
+      .lang-btn:hover {
+        background-color: #eae85d;
+        color: #1a0f23;
+      }
+
+      .options {
+        display: none;
+        background: transparent;
+        border: none;
+        cursor: pointer;
+        flex-direction: column;
+        justify-content: space-between;
+        width: 26px;
+        height: 18px;
+        padding: 0;
+      }
+
+      .options span {
+        display: block;
+        width: 100%;
+        height: 3px;
+        background-color: #ffffff;
+        border-radius: 3px;
+      }
+
+      .mobile-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        z-index: 2000;
+        background: linear-gradient(
+          180deg,
+          #6a359c 0%,
+          #552586 40%,
+          #350d60 100%
+        );
+        display: flex;
+        flex-direction: column;
+        padding: 40px 30px;
+        overflow-y: auto;
+        opacity: 0;
+        visibility: hidden;
+        pointer-events: none;
+        transition: opacity 0.3s ease, visibility 0.3s ease;
+      }
+
+      .mobile-overlay.active {
+        opacity: 1;
+        visibility: visible;
+        pointer-events: auto;
+      }
+
+      .mobile-close-btn {
+        align-self: flex-start;
+        background: none;
+        border: none;
+        color: #ffffff;
+        font-size: 32px;
+        cursor: pointer;
+        line-height: 1;
+        padding: 0;
+        margin-bottom: 50px;
+      }
+
+      .mobile-links-list {
+        display: flex;
+        flex-direction: column;
+        gap: 28px;
+      }
+
+      .mobile-link {
+        color: #ffffff;
+        text-decoration: none;
+        font-family: "Trebuchet MS", Arial, sans-serif;
+        font-size: 22px;
+        font-weight: 500;
+        letter-spacing: 0.5px;
+        transition: color 0.2s ease, transform 0.2s ease;
+      }
+
+      .mobile-link:hover,
+      .mobile-link[aria-current="page"] {
+        color: #eae85d;
+        font-weight: bold;
+      }
+
+      .mobile-sublinks {
+        display: flex;
+        flex-direction: column;
+        gap: 18px;
+        margin: -10px 0 0 20px;
+        padding-left: 14px;
+        border-left: 2px solid #eae85d;
+      }
+
+      .mobile-sublinks .mobile-link {
+        font-size: 17px;
+      }
+
+      @media (max-width: 768px) {
+        .desktop-links {
+          display: none;
+        }
+
+        .options {
+          display: flex;
+        }
+      }
+
+      /* Desktop: fills the screen cleanly with zero extra background showing */
+      .map-wrapper {
+        position: relative;
+        width: 100vw;
+        height: calc(100vh - 60px);
+        overflow: hidden;
+      }
+
+      .map-bg {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+      }
+
+      /* Mobile: zoomed in so you can roam, and prevents zooming out past the image edges */
+      @media (max-width: 768px) {
+        body {
+          overflow: auto;
+          -webkit-overflow-scrolling: touch;
+        }
+
+        .map-wrapper {
+          width: 1400px;
+          height: calc(100vh - 60px);
+          min-width: 100vw;
+          min-height: calc(100vh - 60px);
+        }
+      }
+
+      /* Style commun aux 3 boutons */
       .tiktaktoe-launch-btn,
       .pacman-launch-btn,
       .pascal-launch-btn {
@@ -32,26 +335,51 @@
         padding: 0;
         cursor: pointer;
         outline: none;
-        transition:
-          transform 0.2s ease,
-          filter 0.2s ease;
+        position: absolute;
+        z-index: 10;
+        transform: translate(-50%, -100%);
+        transition: transform 0.2s ease, filter 0.2s ease;
       }
 
-      .tiktaktoe-launch-btn img {
-        width: 180px;
-        height: auto;
-        display: block;
-      }
-      .pacman-launch-btn img {
-        width: 180px;
-        height: auto;
-        display: block;
+      .tiktaktoe-launch-btn:hover,
+      .pacman-launch-btn:hover,
+      .pascal-launch-btn:hover {
+        transform: translate(-50%, -100%) scale(1.15);
       }
 
+      .tiktaktoe-launch-btn:active,
+      .pacman-launch-btn:active,
+      .pascal-launch-btn:active {
+        transform: translate(-50%, -100%) scale(0.95);
+      }
+
+      .tiktaktoe-launch-btn img,
+      .pacman-launch-btn img,
       .pascal-launch-btn img {
-        width: 150px;
+        width: 100%;
         height: auto;
         display: block;
+      }
+
+      /* 1. Bouton Pascal (Taille et Position) */
+      .pascal-launch-btn {
+        top: 25%;
+        left: 78%;
+        width: 5%;
+      }
+
+      /* 2. Bouton Tic-Tac-Toe (Taille et Position) */
+      .tiktaktoe-launch-btn {
+        top: 29%;
+        left: 25%;
+        width: 5%;
+      }
+
+      /* 3. Bouton Pacman (Taille et Position) */
+      .pacman-launch-btn {
+        top: 35%;
+        left: 55%;
+        width: 5%;
       }
 
       .game-modal {
@@ -109,7 +437,7 @@
         width: 160px;
         height: 100px;
         margin-top: -50px;
-        margin-left: -50px;
+        margin-left: -80px;
         z-index: 5;
         cursor: pointer;
       }
@@ -283,18 +611,102 @@
     </style>
   </head>
   <body>
-    <!-- Game Launchers -->
-    <button class="pascal-launch-btn" onclick="openPascalGame()">
-      <img src="../images/pascal.png" alt="Play Pascal Game" />
-    </button>
+    <nav class="bar">
+      <a class="logo" id="homeLogo" href="index.html">
+        <img src="../images/logo sun.png" alt="sun logo" />
+      </a>
 
-    <button class="tiktaktoe-launch-btn" onclick="openTTT()">
-      <img src="../images/point.pascal.png" alt="Play Tic Tac Toe Game" />
-    </button>
+      <div class="desktop-links">
+        <a href="index.html" class="button" data-en="TV" data-fr="TV">TV</a>
+        <a href="Home.html" class="button" data-en="Home" data-fr="Accueil">Home</a>
+        <a href="Cast.html" class="button" data-en="Cast" data-fr="Casting">Cast</a>
+        <a href="Settings.html" class="button" data-en="Settings" data-fr="Paramètres">Settings</a>
 
-    <button class="pacman-launch-btn" onclick="openPacmanGame()">
-      <img src="../images/download.png" alt="Play Pacman Game" />
-    </button>
+        <div class="dropdown">
+          <a href="Blog.html" class="button" data-en="Blog ▼" data-fr="Blog ▼">Blog ▼</a>
+          <div class="dropdown-content">
+            <a href="Siteweb.T.html" title="Go to Website" data-en="Website" data-fr="Site web">Website</a>
+            <a href="Kiosk.T.html" title="Go to Kiosk" data-en="Kiosk" data-fr="Kiosque">Kiosk</a>
+            <a href="Robot.T.html" title="Go to Robot" data-en="Robot" data-fr="Robot">Robot</a>
+            <a href="Tutorial.T.html" title="Go to Tutorial" data-en="Tutorial" data-fr="Tutoriel">Tutorial</a>
+            <a href="Video.T.html" title="Go to Video" data-en="Video" data-fr="Vidéo">Video</a>
+            <a href="3D.T.html" title="Go to 3D">3D Design</a>
+          </div>
+        </div>
+
+        <a href="Arcade.html" class="button" data-en="Arcade" data-fr="Arcade">Arcade</a>
+        <div class="dropdown">
+          <a href="Credits.html" class="button" data-en="Credits ▼" data-fr="Crédits ▼">Credits ▼</a>
+          <div class="dropdown-content">
+            <a href="Sponsers.html" data-en="Sponsors" data-fr="Commanditaires">Sponsors</a>
+            <a href="Artwork.html" data-en="Artwork" data-fr="Illustrations">Artwork</a>
+            <a href="AI.html" data-en="AI" data-fr="IA">AI</a>
+          </div>
+        </div>
+        <a href="Trailer.html" class="button" data-en="Trailer" data-fr="Bande-annonce">Trailer</a>
+      </div>
+
+      <div class="nav-controls">
+        <button class="lang-btn" onclick="toggleLanguage()" id="langBtn">FR</button>
+        <button class="options" onclick="openMenu()" aria-label="Open navigation">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+      </div>
+    </nav>
+
+    <div class="mobile-overlay" id="mobileOverlay">
+      <button class="mobile-close-btn" onclick="closeMenu()" aria-label="Close menu">&times;</button>
+
+      <div class="mobile-links-list">
+        <a href="index.html" class="mobile-link" data-en="TV" data-fr="TV">TV</a>
+        <a href="Home.html" class="mobile-link" data-en="Home" data-fr="Accueil">Home</a>
+        <a href="Cast.html" class="mobile-link" data-en="Cast" data-fr="Casting">Cast</a>
+        <a href="Settings.html" class="mobile-link" data-en="Settings" data-fr="Paramètres">Settings</a>
+        <a href="Blog.html" class="mobile-link" data-en="Blog" data-fr="Blog">Blog</a>
+
+        <div class="mobile-sublinks">
+          <a href="Siteweb.T.html" class="mobile-link" data-en="Website" data-fr="Site web">Website</a>
+          <a href="Kiosk.T.html" class="mobile-link" data-en="Kiosk" data-fr="Kiosque">Kiosk</a>
+          <a href="Robot.T.html" class="mobile-link" data-en="Robot" data-fr="Robot">Robot</a>
+          <a href="Tutorial.T.html" class="mobile-link" data-en="Tutorial" data-fr="Tutoriel">Tutorial</a>
+          <a href="Video.T.html" class="mobile-link" data-en="Video" data-fr="Vidéo">Video</a>
+          <a href="3D.T.html" class="mobile-link" data-en="3D Design" data-fr="Dessin 3D">3D Design</a>
+        </div>
+
+        <a href="Arcade.html" class="mobile-link" data-en="Arcade" data-fr="Arcade">Arcade</a>
+        <a href="Credits.html" class="mobile-link" data-en="Credits" data-fr="Crédits">Credits</a>
+
+        <div class="mobile-sublinks">
+          <a href="Sponsers.html" class="mobile-link" data-en="Sponsors" data-fr="Commanditaires">Sponsors</a>
+          <a href="Artwork.html" class="mobile-link" data-en="Artwork" data-fr="Illustrations">Artwork</a>
+          <a href="AI.html" class="mobile-link" data-en="AI" data-fr="IA">AI</a>
+        </div>
+        <a href="Trailer.html" class="mobile-link" data-en="Trailer" data-fr="Bande-annonce">Trailer</a>
+      </div>
+    </div>
+
+    <!-- Map + Game Launchers -->
+    <div class="map-wrapper">
+      <img
+        src="../images/snuggly duckling1.jpg"
+        alt="Snuggly Duckling Map"
+        class="map-bg"
+      />
+
+      <button class="pascal-launch-btn" onclick="openPascalGame()">
+        <img src="../images/pin map.png" alt="Play Pascal Game" />
+      </button>
+
+      <button class="tiktaktoe-launch-btn" onclick="openTTT()">
+        <img src="../images/pin map.png" alt="Play Tic Tac Toe Game" />
+      </button>
+
+      <button class="pacman-launch-btn" onclick="openPacmanGame()">
+        <img src="../images/pin map.png" alt="Play Pacman Game" />
+      </button>
+    </div>
 
     <!-- Pacman Game Modal -->
     <div class="game-modal" id="pacmanModal">
@@ -356,8 +768,40 @@
     </div>
 
     <script>
-     
-      // 1. Board setup variables
+      /* ==========================================
+         0. NAVIGATION BAR
+         ========================================== */
+      let currentLang = "en";
+
+      function openMenu() {
+        document.getElementById("mobileOverlay").classList.add("active");
+      }
+
+      function closeMenu() {
+        document.getElementById("mobileOverlay").classList.remove("active");
+      }
+
+      function toggleLanguage() {
+        currentLang = currentLang === "en" ? "fr" : "en";
+        document.getElementById("langBtn").innerText =
+          currentLang === "en" ? "FR" : "EN";
+        document.documentElement.lang = currentLang;
+
+        document.querySelectorAll("[data-en]").forEach((el) => {
+          el.innerText = el.getAttribute(`data-${currentLang}`);
+        });
+      }
+
+      const currentPage = location.pathname.split("/").pop() || "index.html";
+      document.querySelectorAll(".button, .mobile-link").forEach((link) => {
+        if (link.getAttribute("href") === currentPage) {
+          link.setAttribute("aria-current", "page");
+        }
+      });
+
+      /* ==========================================
+         1. PACMAN GAME
+         ========================================== */
       let board;
       const rowCount = 21;
       const columnCount = 19;
@@ -366,16 +810,10 @@
       const boardHeight = rowCount * tileSize;
       let context;
 
-      // 2. Images
-      let GuyoneImage;
-      let GuytwoImage;
-      let FlynnUpImage;
-      let FlynnDownImage;
-      let FlynnLeftImage;
-      let FlynnRightImage;
+      let GuyoneImage, GuytwoImage;
+      let FlynnUpImage, FlynnDownImage, FlynnLeftImage, FlynnRightImage;
       let wallImage;
 
-      // 3. Game objects & state
       const walls = new Set();
       const foods = new Set();
       const Guys = new Set();
@@ -385,12 +823,12 @@
       let pacScore = 0;
       let lives = 3;
       let gameOver = false;
+      let pacmanActive = false;
+      let pacmanLoopTimeout;
 
-      // Touch coordinates
       let touchStartX = 0;
       let touchStartY = 0;
 
-      // 4. Map configuration
       const tileMap = [
         "XXXXXXXXXXXXXXXXXXX",
         "X        X        X",
@@ -415,7 +853,6 @@
         "XXXXXXXXXXXXXXXXXXX",
       ];
 
-      // 5. Block Class Definition
       class Block {
         constructor(image, x, y, width, height) {
           this.image = image;
@@ -423,10 +860,8 @@
           this.y = y;
           this.width = width;
           this.height = height;
-
           this.startX = x;
           this.startY = y;
-
           this.direction = "R";
           this.velocityX = 0;
           this.velocityY = 0;
@@ -472,7 +907,6 @@
         }
       }
 
-      // 6. Window onload startup
       window.onload = function () {
         board = document.getElementById("board");
         board.height = boardHeight;
@@ -482,13 +916,6 @@
         loadImages();
         loadMap();
 
-        for (let Guy of Guys.values()) {
-          const newDirection = directions[Math.floor(Math.random() * 4)];
-          Guy.updateDirection(newDirection);
-        }
-        update();
-
-        // Keyboard & Touch Listeners
         document.addEventListener("keyup", moveFlynn);
         document.addEventListener("touchstart", (e) => {
           touchStartX = e.changedTouches[0].clientX;
@@ -496,6 +923,25 @@
         });
         document.addEventListener("touchend", moveFlynn);
       };
+
+      function openPacmanGame() {
+        document.getElementById("pacmanModal").classList.add("active");
+        if (!pacmanActive) {
+          pacmanActive = true;
+          loadMap();
+          resetPositions();
+          lives = 3;
+          pacScore = 0;
+          gameOver = false;
+          update();
+        }
+      }
+
+      function closePacmanGame() {
+        document.getElementById("pacmanModal").classList.remove("active");
+        pacmanActive = false;
+        clearTimeout(pacmanLoopTimeout);
+      }
 
       function loadImages() {
         wallImage = new Image();
@@ -525,78 +971,63 @@
           for (let c = 0; c < columnCount; c++) {
             const row = tileMap[r];
             const tileMapChar = row[c];
-
             const x = c * tileSize;
             const y = r * tileSize;
 
             if (tileMapChar == "X") {
-              const wall = new Block(wallImage, x, y, tileSize, tileSize);
-              walls.add(wall);
+              walls.add(new Block(wallImage, x, y, tileSize, tileSize));
             } else if (tileMapChar == "b") {
-              const Guy = new Block(GuyoneImage, x, y, tileSize, tileSize);
-              Guys.add(Guy);
+              Guys.add(new Block(GuyoneImage, x, y, tileSize, tileSize));
             } else if (tileMapChar == "o") {
-              const Guy = new Block(GuytwoImage, x, y, tileSize, tileSize);
-              Guys.add(Guy);
+              Guys.add(new Block(GuytwoImage, x, y, tileSize, tileSize));
             } else if (tileMapChar == "P") {
               Flynn = new Block(FlynnRightImage, x, y, tileSize, tileSize);
             } else if (tileMapChar == " ") {
-              const food = new Block(null, x + 14, y + 14, 4, 4);
-              foods.add(food);
+              foods.add(new Block(null, x + 14, y + 14, 4, 4));
             }
           }
         }
       }
 
       function update() {
-        if (gameOver) {
+        if (!pacmanActive || gameOver) {
+          draw();
           return;
         }
         move();
         draw();
-        setTimeout(update, 50); //20 FPS
+        pacmanLoopTimeout = setTimeout(update, 50);
       }
 
       function draw() {
         context.clearRect(0, 0, board.width, board.height);
-        context.drawImage(
-          Flynn.image,
-          Flynn.x,
-          Flynn.y,
-          Flynn.width,
-          Flynn.height,
-        );
+        if (Flynn) {
+          context.drawImage(Flynn.image, Flynn.x, Flynn.y, Flynn.width, Flynn.height);
+        }
         for (let Guy of Guys.values()) {
           context.drawImage(Guy.image, Guy.x, Guy.y, Guy.width, Guy.height);
         }
         for (let wall of walls.values()) {
-          context.drawImage(
-            wall.image,
-            wall.x,
-            wall.y,
-            wall.width,
-            wall.height,
-          );
+          context.drawImage(wall.image, wall.x, wall.y, wall.width, wall.height);
         }
         context.fillStyle = "white";
         for (let food of foods.values()) {
           context.fillRect(food.x, food.y, food.width, food.height);
         }
 
-        //score
         context.fillStyle = "white";
         context.font = "14px sans-serif";
         if (gameOver) {
           context.fillText(
-            "Game Over:" + String(pacScore),
+            "Game Over: " + String(pacScore) + " (Press any key to restart)",
             tileSize / 2,
-            tileSize / 2,
+            tileSize / 2
           );
         } else {
           context.fillText(
-            "x" + String(lives) + " " + String(score),
+            "x" + String(lives) + "  Score: " + String(pacScore),
             tileSize / 2,
-            tileSize / 2,
+            tileSize / 2
           );
         }
       }
@@ -605,7 +1036,6 @@
         Flynn.x += Flynn.velocityX;
         Flynn.y += Flynn.velocityY;
 
-        //check wall collisions
         for (let wall of walls.values()) {
           if (collision(Flynn, wall)) {
             Flynn.x -= Flynn.velocityX;
@@ -613,6 +1043,7 @@
             break;
           }
         }
+
         for (let Guy of Guys.values()) {
           if (collision(Guy, Flynn)) {
             lives -= 1;
@@ -622,11 +1053,7 @@
             }
             resetPositions();
           }
-          if (
-            Guy.y == tileSize * 9 &&
-            Guy.direction != "U" &&
-            Guy.direction != "D"
-          ) {
+          if (Guy.y == tileSize * 9 && Guy.direction != "U" && Guy.direction != "D") {
             Guy.updateDirection("U");
           }
 
@@ -646,18 +1073,16 @@
           }
         }
 
-        // check food collision
         let foodEaten = null;
         for (let food of foods.values()) {
           if (collision(Flynn, food)) {
             foodEaten = food;
-            PacScore += 10;
+            pacScore += 10;
             break;
           }
         }
         foods.delete(foodEaten);
 
-        //next level
         if (foods.size == 0) {
           loadMap();
           resetPositions();
@@ -665,17 +1090,18 @@
       }
 
       function moveFlynn(e) {
+        if (!pacmanActive) return;
+
         if (gameOver) {
           loadMap();
           resetPositions();
           lives = 3;
-          score = 0;
+          pacScore = 0;
           gameOver = false;
-          update(); //restart game loop
+          update();
           return;
         }
 
-        // Calculate swipe distance when touch ends
         let deltaX = 0,
           deltaY = 0;
         if (e.type === "touchend") {
@@ -686,33 +1112,25 @@
         if (
           e.code == "ArrowUp" ||
           e.code == "KeyW" ||
-          (e.type === "touchend" &&
-            deltaY < -30 &&
-            Math.abs(deltaY) > Math.abs(deltaX))
+          (e.type === "touchend" && deltaY < -30 && Math.abs(deltaY) > Math.abs(deltaX))
         ) {
           Flynn.updateDirection("U");
         } else if (
           e.code == "ArrowDown" ||
           e.code == "KeyS" ||
-          (e.type === "touchend" &&
-            deltaY > 30 &&
-            Math.abs(deltaY) > Math.abs(deltaX))
+          (e.type === "touchend" && deltaY > 30 && Math.abs(deltaY) > Math.abs(deltaX))
         ) {
           Flynn.updateDirection("D");
         } else if (
           e.code == "ArrowLeft" ||
           e.code == "KeyA" ||
-          (e.type === "touchend" &&
-            deltaX < -30 &&
-            Math.abs(deltaX) > Math.abs(deltaY))
+          (e.type === "touchend" && deltaX < -30 && Math.abs(deltaX) > Math.abs(deltaY))
         ) {
           Flynn.updateDirection("L");
         } else if (
           e.code == "ArrowRight" ||
           e.code == "KeyD" ||
-          (e.type === "touchend" &&
-            deltaX > 30 &&
-            Math.abs(deltaX) > Math.abs(deltaY))
+          (e.type === "touchend" && deltaX > 30 && Math.abs(deltaX) > Math.abs(deltaY))
         ) {
           Flynn.updateDirection("R");
         }
@@ -738,7 +1156,9 @@
         }
       }
 
-      /* --- PASCAL ARCADE GAME --- */
+      /* ==========================================
+         2. PASCAL ARCADE GAME
+         ========================================== */
       const gameModal = document.getElementById("gameModal");
       const gameContainer = document.getElementById("gameContainer");
       const pascal = document.getElementById("pascal");
@@ -751,141 +1171,141 @@
       let isGameOver = false;
       let isGameRunning = false;
       let currentAngle = 0;
-      const rotationSpeed = 1.0;
+      const rotationSpeed = 1.5;
 
       const entities = [];
       const entityCount = 8;
       const flyImagePath = "../images/fly.png";
       const bombImagePath = "../images/bomb game.png";
 
-      for (let i = 0; i < entityCount; i++) {
-        const isBomb = i % 3 === 0;
-
-        const el = document.createElement("img");
-        el.className = isBomb ? "bomb" : "fly";
-        el.src = isBomb ? bombImagePath : flyImagePath;
-        el.alt = isBomb ? "Bomb" : "Fly";
-
-        gameContainer.appendChild(el);
-
-        entities.push({
-          element: el,
-          isBomb: isBomb,
-          x: Math.random() * (window.innerWidth - 50),
-          y: Math.random() * (window.innerHeight - 50),
-          dx: (Math.random() - 0.5) * 2,
-          dy: (Math.random() - 0.5) * 2,
-        });
-      }
-
       function openPascalGame() {
         gameModal.classList.add("active");
-        isGameRunning = true;
         restartPascalGame();
       }
 
       function closePascalGame() {
         gameModal.classList.remove("active");
         isGameRunning = false;
+        clearEntities();
       }
 
-      function shootTongue(e) {
-        e.stopPropagation();
-        if (isShooting || isGameOver) return;
-        isShooting = true;
-
-        pascal.classList.add("shoot");
-
-        setTimeout(() => {
-          pascal.classList.remove("shoot");
-          isShooting = false;
-        }, 200);
+      function clearEntities() {
+        entities.forEach((ent) => ent.el.remove());
+        entities.length = 0;
       }
 
-      function gameLoop() {
-        if (isGameRunning && !isGameOver) {
-          currentAngle = (currentAngle + rotationSpeed) % 360;
-          pascal.style.transform = `rotate(${currentAngle}deg)`;
+      function spawnEntities() {
+        clearEntities();
+        for (let i = 0; i < entityCount; i++) {
+          const isBomb = i % 3 === 0;
+          const img = document.createElement("img");
+          img.src = isBomb ? bombImagePath : flyImagePath;
+          img.className = isBomb ? "bomb" : "fly";
+          gameContainer.appendChild(img);
 
-          entities.forEach((item) => {
-            item.x += item.dx;
-            item.y += item.dy;
-
-            if (item.x <= 0 || item.x >= window.innerWidth - 30) item.dx *= -1;
-            if (item.y <= 0 || item.y >= window.innerHeight - 30) item.dy *= -1;
-
-            item.element.style.left = item.x + "px";
-            item.element.style.top = item.y + "px";
+          entities.push({
+            el: img,
+            isBomb: isBomb,
+            angle: (i / entityCount) * Math.PI * 2,
+            radius: 180 + (i % 3) * 70,
+            speed: (isBomb ? -0.015 : 0.02) * (i % 2 === 0 ? 1 : -1),
           });
-
-          if (isShooting) {
-            checkHit();
-          }
         }
-
-        requestAnimationFrame(gameLoop);
-      }
-
-      function checkHit() {
-        const tongueRect = tongue.getBoundingClientRect();
-
-        entities.forEach((item) => {
-          const rect = item.element.getBoundingClientRect();
-
-          if (
-            tongueRect.right >= rect.left &&
-            tongueRect.left <= rect.right &&
-            tongueRect.bottom >= rect.top &&
-            tongueRect.top <= rect.bottom
-          ) {
-            if (item.isBomb) {
-              triggerGameOver();
-            } else {
-              score++;
-              document.getElementById("score").innerText = score;
-
-              if (score > highScore) {
-                highScore = score;
-                document.getElementById("highScore").innerText = highScore;
-              }
-
-              item.x = Math.random() > 0.5 ? 0 : window.innerWidth - 50;
-              item.y = Math.random() * (window.innerHeight - 50);
-            }
-          }
-        });
-      }
-
-      function triggerGameOver() {
-        isGameOver = true;
-        document.getElementById("finalScore").innerText = score;
-        gameOverScreen.style.display = "flex";
       }
 
       function restartPascalGame() {
         score = 0;
-        document.getElementById("score").innerText = score;
         isGameOver = false;
+        isShooting = false;
+        isGameRunning = true;
+        document.getElementById("score").innerText = score;
         gameOverScreen.style.display = "none";
-
-        entities.forEach((item) => {
-          item.x = Math.random() * (window.innerWidth - 50);
-          item.y = Math.random() * (window.innerHeight - 50);
-        });
+        spawnEntities();
+        requestAnimationFrame(pascalLoop);
       }
 
-      gameLoop();
+      function pascalLoop() {
+        if (!isGameRunning || isGameOver) return;
 
-      /* --- TIC TAC TOE GAME --- */
+        if (!isShooting) {
+          currentAngle = (currentAngle + rotationSpeed) % 360;
+          pascal.style.transform = `rotate(${currentAngle}deg)`;
+        }
+
+        const centerX = window.innerWidth / 2;
+        const centerY = window.innerHeight / 2;
+
+        entities.forEach((ent) => {
+          ent.angle += ent.speed;
+          const x = centerX + Math.cos(ent.angle) * ent.radius - 15;
+          const y = centerY + Math.sin(ent.angle) * ent.radius - 15;
+          ent.el.style.left = `${x}px`;
+          ent.el.style.top = `${y}px`;
+        });
+
+        requestAnimationFrame(pascalLoop);
+      }
+
+      function shootTongue(e) {
+        if (isShooting || isGameOver) return;
+        isShooting = true;
+        pascal.classList.add("shoot");
+
+        setTimeout(() => {
+          checkTongueHits();
+        }, 100);
+
+        setTimeout(() => {
+          pascal.classList.remove("shoot");
+          isShooting = false;
+        }, 250);
+      }
+
+      function checkTongueHits() {
+        const tongueRect = tongue.getBoundingClientRect();
+
+        for (let i = entities.length - 1; i >= 0; i--) {
+          const ent = entities[i];
+          const entRect = ent.el.getBoundingClientRect();
+
+          const hit = !(
+            tongueRect.right < entRect.left ||
+            tongueRect.left > entRect.right ||
+            tongueRect.bottom < entRect.top ||
+            tongueRect.top > entRect.bottom
+          );
+
+          if (hit) {
+            if (ent.isBomb) {
+              isGameOver = true;
+              document.getElementById("finalScore").innerText = score;
+              gameOverScreen.style.display = "flex";
+              return;
+            } else {
+              score += 10;
+              document.getElementById("score").innerText = score;
+              if (score > highScore) {
+                highScore = score;
+                document.getElementById("highScore").innerText = highScore;
+              }
+              ent.angle += Math.PI;
+            }
+          }
+        }
+      }
+
+      /* ==========================================
+         3. TIC TAC TOE GAME
+         ========================================== */
       const tttModal = document.getElementById("tttModal");
       const tttStatus = document.getElementById("ttt-status");
-      const tttCells = document.querySelectorAll("#game-board .game-cell");
+      const cells = document.querySelectorAll(".game-cell");
 
       let currentPlayer = "X";
-      let boardState = ["", "", "", "", "", "", "", "", ""];
-      let isTTTActive = true;
+      let tttBoard = ["", "", "", "", "", "", "", "", ""];
+      let tttActive = true;
 
-      const winningConditions = [
+      const winConditions = [
         [0, 1, 2],
         [3, 4, 5],
         [6, 7, 8],
@@ -895,6 +1315,10 @@
         [0, 4, 8],
         [2, 4, 6],
       ];
+
+      cells.forEach((cell) => {
+        cell.addEventListener("click", handleCellClick);
+      });
 
       function openTTT() {
         tttModal.classList.add("active");
@@ -906,46 +1330,43 @@
       }
 
       function handleCellClick(e) {
-        const clickedCell = e.target;
-        const cellIndex = parseInt(clickedCell.getAttribute("data-cell-index"));
+        const cell = e.target;
+        const index = parseInt(cell.getAttribute("data-cell-index"));
 
-        if (boardState[cellIndex] !== "" || !isTTTActive) return;
+        if (tttBoard[index] !== "" || !tttActive) return;
 
-        boardState[cellIndex] = currentPlayer;
-        clickedCell.innerText = currentPlayer;
-
-        checkTTTWinner();
+        tttBoard[index] = currentPlayer;
+        cell.innerText = currentPlayer;
+        checkTTTResult();
       }
 
-      function checkTTTWinner() {
+      function checkTTTResult() {
         let roundWon = false;
-        let winningCombination = [];
 
-        for (let i = 0; i < winningConditions.length; i++) {
-          const [a, b, c] = winningConditions[i];
+        for (let i = 0; i < winConditions.length; i++) {
+          const [a, b, c] = winConditions[i];
           if (
-            boardState[a] &&
-            boardState[a] === boardState[b] &&
-            boardState[a] === boardState[c]
+            tttBoard[a] &&
+            tttBoard[a] === tttBoard[b] &&
+            tttBoard[a] === tttBoard[c]
           ) {
             roundWon = true;
-            winningCombination = [a, b, c];
+            cells[a].classList.add("winning-game-cell");
+            cells[b].classList.add("winning-game-cell");
+            cells[c].classList.add("winning-game-cell");
             break;
           }
         }
 
         if (roundWon) {
           tttStatus.innerText = `Player ${currentPlayer} Wins!`;
-          isTTTActive = false;
-          winningCombination.forEach((index) => {
-            tttCells[index].classList.add("winning-game-cell");
-          });
+          tttActive = false;
           return;
         }
 
-        if (!boardState.includes("")) {
-          tttStatus.innerText = "Game Ended in a Draw!";
-          isTTTActive = false;
+        if (!tttBoard.includes("")) {
+          tttStatus.innerText = "It's a Draw!";
+          tttActive = false;
           return;
         }
 
@@ -955,26 +1376,14 @@
 
       function restartTTT() {
         currentPlayer = "X";
-        boardState = ["", "", "", "", "", "", "", "", ""];
-        isTTTActive = true;
+        tttBoard = ["", "", "", "", "", "", "", "", ""];
+        tttActive = true;
         tttStatus.innerText = "Player X's turn";
-
-        tttCells.forEach((cell) => {
+        cells.forEach((cell) => {
           cell.innerText = "";
           cell.classList.remove("winning-game-cell");
         });
       }
-
-      tttCells.forEach((cell) =>
-        cell.addEventListener("click", handleCellClick),
-      );
-
-      const here = location.pathname.split("/").pop() || "index.html";
-      document.querySelectorAll(".button").forEach((a) => {
-        if (a.getAttribute("href") === here) {
-          a.setAttribute("aria-current", "page");
-        }
-      });
     </script>
   </body>
 </html>

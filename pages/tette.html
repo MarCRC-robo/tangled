@@ -1,110 +1,1125 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Who's watching?</title>
-  <style>
-    body {
-      background-color: rgb(251, 222, 255);
-      color: white;
-      font-family:'Cinzel Decorative', cursive;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: flex-start;
-      height: 100vh;
-      margin: 0;
-    }
+  <head>
+    <meta charset="UTF-8" />
+   <meta
+  name="viewport"
+  content="width=device-width, initial-scale=1.0, minimum-scale=1.0"
+/>
+    <title>Marcy let down your hair</title>
+    <style>
+      * {
+        box-sizing: border-box;
+        user-select: none;
+      }
 
 
-    .profiles {
-      display: flex;
-      gap: 20px;
-      margin: 30px 0;
-    }
+     html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #000000; /* Fallback only, never visible inside the map */
+}
 
 
-    .card {
-      text-align: center;
-      color: rgb(255, 255, 255);
-      text-decoration: none;
-    }
+/* Desktop: fills the screen cleanly with zero extra background showing */
+.map-wrapper {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+}
 
 
-    .card:hover {
-      color: white;
-    }
+.map-bg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
 
 
-    .card img {
-      width: 120px;
-      height: 120px;
-      object-fit: cover;
-      background-color: #ffffff;
-      border-radius: 4px;
-      margin-bottom: 10px;
-      border: 3px solid transparent;
-      display: block;
-    }
+/* Mobile: zoomed in so you can roam, and prevents zooming out past the image edges */
+@media (max-width: 768px) {
+  body {
+    overflow: auto;
+    -webkit-overflow-scrolling: touch;
+  }
 
 
-    .card:hover img {
-      border-color: white;
-    }
-
-
-    @media (max-width: 600px) {
-  .profiles {
-    flex-direction: column;
-    align-items: center;
+  .map-wrapper {
+    width: 1400px;
+    height: 100vh;
+    min-width: 100vw;
+    min-height: 100vh;
   }
 }
-  </style>
-</head>
-<body>
 
 
-  <h1>Whose blog are you exploring?</h1>
+      /* Style commun aux 3 boutons */
+      .tiktaktoe-launch-btn,
+      .pacman-launch-btn,
+      .pascal-launch-btn {
+        background: transparent;
+        border: none;
+        padding: 0;
+        cursor: pointer;
+        outline: none;
+        position: absolute;
+        z-index: 10;
+        transform: translate(-50%, -100%);
+        transition: transform 0.2s ease, filter 0.2s ease;
+      }
 
 
-  <div class="profiles">
-    <a href="Kiosk.T.html" class="card">
-      <img src="../images/kiosk.T.png" alt="Kiosk">
-      <div>Kiosk</div>
-    </a>
+      .tiktaktoe-launch-btn:hover,
+      .pacman-launch-btn:hover,
+      .pascal-launch-btn:hover {
+        transform: translate(-50%, -100%) scale(1.15);
+      }
 
 
-    <a href="Robot.T.html" class="card">
-      <img src="../images/robot.T.png" alt="Robot">
-      <div>Robot</div>
-    </a>
+      .tiktaktoe-launch-btn:active,
+      .pacman-launch-btn:active,
+      .pascal-launch-btn:active {
+        transform: translate(-50%, -100%) scale(0.95);
+      }
 
 
-    <a href="Siteweb.T.html" class="card">
-      <img src="../images/siteweb.T.png" alt="Siteweb">
-      <div>Siteweb</div>
-    </a>
+      .tiktaktoe-launch-btn img,
+      .pacman-launch-btn img,
+      .pascal-launch-btn img {
+        width: 100%;
+        height: auto;
+        display: block;
+      }
 
 
-    <a href="3D.T.html" class="card">
-      <img src="../images/3D.T.png" alt="3D">
-      <div>3D Design</div>
-    </a>
+      /* 1. Bouton Pascal (Taille et Position) */
+      .pascal-launch-btn {
+        top: 25%;
+        left: 78%;
+        width: 5%;
+      }
 
 
-    <a href="Video.T.html" class="card">
-      <img src="../images/video.T.png" alt="Video">
-      <div>Video</div>
-    </a>
+      /* 2. Bouton Tic-Tac-Toe (Taille et Position) */
+      .tiktaktoe-launch-btn {
+        top: 29%;
+        left: 25%;
+        width: 5%;
+      }
 
 
-    <a href="Tutorial.T.html" class="card">
-      <img src="../images/tutoriel.T.png" alt="Tutoriel">
-      <div>Tutoriel</div>
-    </a>
-  </div>
+      /* 3. Bouton Pacman (Taille et Position) */
+      .pacman-launch-btn {
+        top: 35%;
+        left: 55%;
+        width: 5%;
+      }
 
 
-</body>
+      .game-modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background: rgba(10, 5, 20, 0.95);
+        z-index: 2000;
+        justify-content: center;
+        align-items: center;
+      }
+
+
+      .game-modal.active {
+        display: flex;
+      }
+
+
+      .close-btn {
+        position: absolute;
+        top: 20px;
+        right: 30px;
+        color: #eae85d;
+        font-size: 36px;
+        font-weight: bold;
+        cursor: pointer;
+        z-index: 2001;
+      }
+
+
+      .game-container {
+        position: relative;
+        width: 100vw;
+        height: 100vh;
+        overflow: hidden;
+      }
+
+
+      .score-board {
+        position: absolute;
+        top: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        color: #eae85d;
+        font-size: 24px;
+        font-weight: bold;
+        z-index: 10;
+        text-align: center;
+        font-family: Arial, sans-serif;
+      }
+
+
+      .pascal-wrapper {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 160px;
+        height: 100px;
+        margin-top: -50px;
+        margin-left: -80px;
+        z-index: 5;
+        cursor: pointer;
+      }
+
+
+      .pascal-img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        position: relative;
+        z-index: 1;
+      }
+
+
+      .tongue {
+        position: absolute;
+        top: 46%;
+        left: 56%;
+        height: 6px;
+        width: 0px;
+        background-color: #e0528d;
+        border-radius: 0 10px 10px 0;
+        transform-origin: left center;
+        transform: translateY(-50%);
+        transition: width 0.15s ease-out;
+        z-index: 1;
+      }
+
+
+      .pascal-wrapper.shoot .tongue {
+        width: 550px;
+      }
+
+
+      .fly,
+      .bomb {
+        position: absolute;
+        object-fit: contain;
+        user-select: none;
+        z-index: 4;
+      }
+
+
+      .fly {
+        width: 30px;
+        height: 30px;
+      }
+
+
+      .bomb {
+        width: 40px;
+        height: 40px;
+      }
+
+
+      .game-over-screen {
+        display: none;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background: rgba(26, 15, 35, 0.95);
+        z-index: 100;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        color: #ffffff;
+        font-family: Arial, sans-serif;
+      }
+
+
+      .game-over-screen h1 {
+        color: #ff6b81;
+        font-size: 48px;
+        margin-bottom: 10px;
+      }
+
+
+      .restart-btn {
+        background-color: #eae85d;
+        color: #1a0f23;
+        border: none;
+        padding: 12px 24px;
+        font-size: 18px;
+        font-weight: bold;
+        border-radius: 8px;
+        cursor: pointer;
+        margin-top: 20px;
+      }
+
+
+      .restart-btn:hover {
+        background-color: #ffd700;
+      }
+
+
+      .ttt-modal-content {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        font-family: Arial, sans-serif;
+        color: white;
+      }
+
+
+      .ttt-modal-content h1 {
+        margin: 0 0 10px 0;
+        font-size: 40px;
+        color: #eae85d;
+      }
+
+
+      .ttt-modal-content hr {
+        width: 450px;
+        height: 2px;
+        background-color: rgb(186, 104, 237);
+        border: 0;
+        margin-bottom: 15px;
+      }
+
+
+      #ttt-status {
+        font-size: 24px;
+        margin-bottom: 15px;
+        font-weight: bold;
+        color: #ffffff;
+      }
+
+
+      #game-board {
+        width: 450px;
+        height: 450px;
+        margin: 0 auto;
+        background-color: rgb(217, 115, 237);
+        color: white;
+        border: 6px solid rgb(193, 150, 212);
+        border-radius: 10px;
+        display: grid;
+        grid-template: repeat(3, 1fr) / repeat(3, 1fr);
+        box-sizing: border-box;
+      }
+
+
+      .game-cell {
+        border: 3px solid rgb(221, 173, 230);
+        border-radius: 2px;
+        font-size: 80px;
+        font-weight: bold;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+        user-select: none;
+      }
+
+
+      .winning-game-cell {
+        background-color: white;
+        color: rgb(203, 135, 235);
+      }
+
+
+      #game-restart-button {
+        height: 50px;
+        width: 150px;
+        border: 3px solid rgb(208, 173, 230);
+        border-radius: 8px;
+        background-color: rgb(155, 90, 185);
+        color: white;
+        font-size: 20px;
+        font-weight: bold;
+        margin-top: 20px;
+        cursor: pointer;
+        transition: background-color 0.2s ease;
+      }
+
+
+      #game-restart-button:hover {
+        background-color: rgb(186, 104, 237);
+      }
+
+
+      #board {
+        background-color: rgb(0, 28, 11);
+        max-width: 100vw;
+        max-height: 100vh;
+        object-fit: contain;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Map + Game Launchers -->
+    <div class="map-wrapper">
+      <img
+        src="../images/snuggly duckling1.jpg"
+        alt="Snuggly Duckling Map"
+        class="map-bg"
+      />
+
+
+      <button class="pascal-launch-btn" onclick="openPascalGame()">
+        <img src="../images/pin map.png" alt="Play Pascal Game" />
+      </button>
+
+
+      <button class="tiktaktoe-launch-btn" onclick="openTTT()">
+        <img src="../images/pin map.png" alt="Play Tic Tac Toe Game" />
+      </button>
+
+
+      <button class="pacman-launch-btn" onclick="openPacmanGame()">
+        <img src="../images/pin map.png" alt="Play Pacman Game" />
+      </button>
+    </div>
+
+
+    <!-- Pacman Game Modal -->
+    <div class="game-modal" id="pacmanModal">
+      <span class="close-btn" onclick="closePacmanGame()">&times;</span>
+      <canvas id="board"></canvas>
+    </div>
+
+
+    <!-- Pascal Game Modal -->
+    <div class="game-modal" id="gameModal">
+      <span class="close-btn" onclick="closePascalGame()">&times;</span>
+
+
+      <div class="game-container" id="gameContainer">
+        <div class="score-board">
+          Score: <span id="score">0</span> | High Score:
+          <span id="highScore">0</span>
+        </div>
+
+
+        <div class="pascal-wrapper" id="pascal" onclick="shootTongue(event)">
+          <img
+            src="../images/pascal game.png"
+            alt="Pascal"
+            class="pascal-img"
+          />
+          <div class="tongue" id="tongue"></div>
+        </div>
+
+
+        <div class="game-over-screen" id="gameOverScreen">
+          <h1>GAME OVER</h1>
+          <p>You hit a bomb!</p>
+          <p>Final Score: <span id="finalScore">0</span></p>
+          <button class="restart-btn" onclick="restartPascalGame()">
+            Play Again
+          </button>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- Tic Tac Toe Game Modal -->
+    <div class="game-modal" id="tttModal">
+      <span class="close-btn" onclick="closeTTT()">&times;</span>
+
+
+      <div class="ttt-modal-content">
+        <h1>Tic Tac Toe</h1>
+        <hr />
+        <div id="ttt-status">Player X's turn</div>
+        <div id="game-board">
+          <div data-cell-index="0" class="game-cell"></div>
+          <div data-cell-index="1" class="game-cell"></div>
+          <div data-cell-index="2" class="game-cell"></div>
+          <div data-cell-index="3" class="game-cell"></div>
+          <div data-cell-index="4" class="game-cell"></div>
+          <div data-cell-index="5" class="game-cell"></div>
+          <div data-cell-index="6" class="game-cell"></div>
+          <div data-cell-index="7" class="game-cell"></div>
+          <div data-cell-index="8" class="game-cell"></div>
+        </div>
+        <button id="game-restart-button" onclick="restartTTT()">Restart</button>
+      </div>
+    </div>
+
+
+    <script>
+      /* ==========================================
+1. PACMAN GAME
+         ========================================== */
+      let board;
+      const rowCount = 21;
+      const columnCount = 19;
+      const tileSize = 25;
+      const boardWidth = columnCount * tileSize;
+      const boardHeight = rowCount * tileSize;
+      let context;
+
+
+      let GuyoneImage, GuytwoImage;
+      let FlynnUpImage, FlynnDownImage, FlynnLeftImage, FlynnRightImage;
+      let wallImage;
+
+
+      const walls = new Set();
+      const foods = new Set();
+      const Guys = new Set();
+      let Flynn;
+
+
+      const directions = ["U", "D", "L", "R"];
+      let pacScore = 0;
+      let lives = 3;
+      let gameOver = false;
+      let pacmanActive = false;
+      let pacmanLoopTimeout;
+
+
+      let touchStartX = 0;
+      let touchStartY = 0;
+
+
+      const tileMap = [
+        "XXXXXXXXXXXXXXXXXXX",
+        "X        X        X",
+        "X XX XXX X XXX XX X",
+        "X                 X",
+        "X XX X XXXXX X XX X",
+        "X    X       X    X",
+        "XXXX XXXX XXXX XXXX",
+        "OOOX X       X XOOO",
+        "XXXX X XXrXX X XXXX",
+        "O       b o       O",
+        "XXXX X XXXXX X XXXX",
+        "OOOX X       X XOOO",
+        "XXXX X XXXXX X XXXX",
+        "X        X        X",
+        "X XX XXX X XXX XX X",
+        "X  X     P     X  X",
+        "XX X X XXXXX X X XX",
+        "X    X   X   X    X",
+        "X XXXXXX X XXXXXX X",
+        "X                 X",
+        "XXXXXXXXXXXXXXXXXXX",
+      ];
+
+
+      class Block {
+        constructor(image, x, y, width, height) {
+          this.image = image;
+          this.x = x;
+          this.y = y;
+          this.width = width;
+          this.height = height;
+          this.startX = x;
+          this.startY = y;
+          this.direction = "R";
+          this.velocityX = 0;
+          this.velocityY = 0;
+        }
+
+
+        updateDirection(direction) {
+          const prevDirection = this.direction;
+          this.direction = direction;
+          this.updateVelocity();
+          this.x += this.velocityX;
+          this.y += this.velocityY;
+
+
+          for (let wall of walls.values()) {
+            if (collision(this, wall)) {
+              this.x -= this.velocityX;
+              this.y -= this.velocityY;
+              this.direction = prevDirection;
+              this.updateVelocity();
+              return;
+            }
+          }
+        }
+
+
+        updateVelocity() {
+          if (this.direction == "U") {
+            this.velocityX = 0;
+            this.velocityY = -tileSize / 4;
+          } else if (this.direction == "D") {
+            this.velocityX = 0;
+            this.velocityY = tileSize / 4;
+          } else if (this.direction == "L") {
+            this.velocityX = -tileSize / 4;
+            this.velocityY = 0;
+          } else if (this.direction == "R") {
+            this.velocityX = tileSize / 4;
+            this.velocityY = 0;
+          }
+        }
+
+
+        reset() {
+          this.x = this.startX;
+          this.y = this.startY;
+        }
+      }
+
+
+      window.onload = function () {
+        board = document.getElementById("board");
+        board.height = boardHeight;
+        board.width = boardWidth;
+        context = board.getContext("2d");
+
+
+        loadImages();
+        loadMap();
+
+
+        document.addEventListener("keyup", moveFlynn);
+        document.addEventListener("touchstart", (e) => {
+          touchStartX = e.changedTouches[0].clientX;
+          touchStartY = e.changedTouches[0].clientY;
+        });
+        document.addEventListener("touchend", moveFlynn);
+      };
+
+
+      function openPacmanGame() {
+        document.getElementById("pacmanModal").classList.add("active");
+        if (!pacmanActive) {
+          pacmanActive = true;
+          loadMap();
+          resetPositions();
+          lives = 3;
+          pacScore = 0;
+          gameOver = false;
+          update();
+        }
+      }
+
+
+      function closePacmanGame() {
+        document.getElementById("pacmanModal").classList.remove("active");
+        pacmanActive = false;
+        clearTimeout(pacmanLoopTimeout);
+      }
+
+
+      function loadImages() {
+        wallImage = new Image();
+        wallImage.src = "../images/wall.pac.png";
+
+
+        GuyoneImage = new Image();
+        GuyoneImage.src = "../images/Guyone.png";
+        GuytwoImage = new Image();
+        GuytwoImage.src = "../images/Guytwo.png";
+
+
+        FlynnUpImage = new Image();
+        FlynnUpImage.src = "../images/Flynn.png";
+        FlynnDownImage = new Image();
+        FlynnDownImage.src = "../images/Flynn.png";
+        FlynnLeftImage = new Image();
+        FlynnLeftImage.src = "../images/Flynn.png";
+        FlynnRightImage = new Image();
+        FlynnRightImage.src = "../images/Flynn.png";
+      }
+
+
+      function loadMap() {
+        walls.clear();
+        foods.clear();
+        Guys.clear();
+
+
+        for (let r = 0; r < rowCount; r++) {
+          for (let c = 0; c < columnCount; c++) {
+            const row = tileMap[r];
+            const tileMapChar = row[c];
+            const x = c * tileSize;
+            const y = r * tileSize;
+
+
+            if (tileMapChar == "X") {
+              walls.add(new Block(wallImage, x, y, tileSize, tileSize));
+            } else if (tileMapChar == "b") {
+              Guys.add(new Block(GuyoneImage, x, y, tileSize, tileSize));
+            } else if (tileMapChar == "o") {
+              Guys.add(new Block(GuytwoImage, x, y, tileSize, tileSize));
+            } else if (tileMapChar == "P") {
+              Flynn = new Block(FlynnRightImage, x, y, tileSize, tileSize);
+            } else if (tileMapChar == " ") {
+              foods.add(new Block(null, x + 14, y + 14, 4, 4));
+            }
+          }
+        }
+      }
+
+
+      function update() {
+        if (!pacmanActive || gameOver) {
+          draw();
+          return;
+        }
+        move();
+        draw();
+        pacmanLoopTimeout = setTimeout(update, 50);
+      }
+
+
+      function draw() {
+        context.clearRect(0, 0, board.width, board.height);
+        if (Flynn) {
+          context.drawImage(Flynn.image, Flynn.x, Flynn.y, Flynn.width, Flynn.height);
+        }
+        for (let Guy of Guys.values()) {
+          context.drawImage(Guy.image, Guy.x, Guy.y, Guy.width, Guy.height);
+        }
+        for (let wall of walls.values()) {
+          context.drawImage(wall.image, wall.x, wall.y, wall.width, wall.height);
+        }
+        context.fillStyle = "white";
+        for (let food of foods.values()) {
+          context.fillRect(food.x, food.y, food.width, food.height);
+        }
+
+
+        context.fillStyle = "white";
+        context.font = "14px sans-serif";
+        if (gameOver) {
+          context.fillText(
+            "Game Over: " + String(pacScore) + " (Press any key to restart)",
+            tileSize / 2,
+            tileSize / 2
+          );
+        } else {
+          context.fillText(
+            "x" + String(lives) + "  Score: " + String(pacScore),
+            tileSize / 2,
+            tileSize / 2
+          );
+        }
+      }
+
+
+      function move() {
+        Flynn.x += Flynn.velocityX;
+        Flynn.y += Flynn.velocityY;
+
+
+        for (let wall of walls.values()) {
+          if (collision(Flynn, wall)) {
+            Flynn.x -= Flynn.velocityX;
+            Flynn.y -= Flynn.velocityY;
+            break;
+          }
+        }
+
+
+        for (let Guy of Guys.values()) {
+          if (collision(Guy, Flynn)) {
+            lives -= 1;
+            if (lives == 0) {
+              gameOver = true;
+              return;
+            }
+            resetPositions();
+          }
+          if (Guy.y == tileSize * 9 && Guy.direction != "U" && Guy.direction != "D") {
+            Guy.updateDirection("U");
+          }
+
+
+          Guy.x += Guy.velocityX;
+          Guy.y += Guy.velocityY;
+          for (let wall of walls.values()) {
+            if (
+              collision(Guy, wall) ||
+              Guy.x <= 0 ||
+              Guy.x + Guy.width >= boardWidth
+            ) {
+              Guy.x -= Guy.velocityX;
+              Guy.y -= Guy.velocityY;
+              const newDirection = directions[Math.floor(Math.random() * 4)];
+              Guy.updateDirection(newDirection);
+            }
+          }
+        }
+
+
+        let foodEaten = null;
+        for (let food of foods.values()) {
+          if (collision(Flynn, food)) {
+            foodEaten = food;
+            pacScore += 10;
+            break;
+          }
+        }
+        foods.delete(foodEaten);
+
+
+        if (foods.size == 0) {
+          loadMap();
+          resetPositions();
+        }
+      }
+
+
+      function moveFlynn(e) {
+        if (!pacmanActive) return;
+
+
+        if (gameOver) {
+          loadMap();
+          resetPositions();
+          lives = 3;
+          pacScore = 0;
+          gameOver = false;
+          update();
+          return;
+        }
+
+
+        let deltaX = 0,
+          deltaY = 0;
+        if (e.type === "touchend") {
+          deltaX = e.changedTouches[0].clientX - touchStartX;
+          deltaY = e.changedTouches[0].clientY - touchStartY;
+        }
+
+
+        if (
+          e.code == "ArrowUp" ||
+          e.code == "KeyW" ||
+          (e.type === "touchend" && deltaY < -30 && Math.abs(deltaY) > Math.abs(deltaX))
+        ) {
+          Flynn.updateDirection("U");
+        } else if (
+          e.code == "ArrowDown" ||
+          e.code == "KeyS" ||
+          (e.type === "touchend" && deltaY > 30 && Math.abs(deltaY) > Math.abs(deltaX))
+        ) {
+          Flynn.updateDirection("D");
+        } else if (
+          e.code == "ArrowLeft" ||
+          e.code == "KeyA" ||
+          (e.type === "touchend" && deltaX < -30 && Math.abs(deltaX) > Math.abs(deltaY))
+        ) {
+          Flynn.updateDirection("L");
+        } else if (
+          e.code == "ArrowRight" ||
+          e.code == "KeyD" ||
+          (e.type === "touchend" && deltaX > 30 && Math.abs(deltaX) > Math.abs(deltaY))
+        ) {
+          Flynn.updateDirection("R");
+        }
+      }
+
+
+      function collision(a, b) {
+        return (
+          a.x < b.x + b.width &&
+          a.x + a.width > b.x &&
+          a.y < b.y + b.height &&
+          a.y + a.height > b.y
+        );
+      }
+
+
+      function resetPositions() {
+        Flynn.reset();
+        Flynn.velocityX = 0;
+        Flynn.velocityY = 0;
+        for (let Guy of Guys.values()) {
+          Guy.reset();
+          const newDirection = directions[Math.floor(Math.random() * 4)];
+          Guy.updateDirection(newDirection);
+        }
+      }
+
+
+      /* ==========================================
+2. PASCAL ARCADE GAME
+         ========================================== */
+      const gameModal = document.getElementById("gameModal");
+      const gameContainer = document.getElementById("gameContainer");
+      const pascal = document.getElementById("pascal");
+      const tongue = document.getElementById("tongue");
+      const gameOverScreen = document.getElementById("gameOverScreen");
+
+
+      let score = 0;
+      let highScore = 0;
+      let isShooting = false;
+      let isGameOver = false;
+      let isGameRunning = false;
+      let currentAngle = 0;
+      const rotationSpeed = 1.5;
+
+
+      const entities = [];
+      const entityCount = 8;
+      const flyImagePath = "../images/fly.png";
+      const bombImagePath = "../images/bomb game.png";
+
+
+      function openPascalGame() {
+        gameModal.classList.add("active");
+        restartPascalGame();
+      }
+
+
+      function closePascalGame() {
+        gameModal.classList.remove("active");
+        isGameRunning = false;
+        clearEntities();
+      }
+
+
+      function clearEntities() {
+        entities.forEach((ent) => ent.el.remove());
+        entities.length = 0;
+      }
+
+
+      function spawnEntities() {
+        clearEntities();
+        for (let i = 0; i < entityCount; i++) {
+          const isBomb = i % 3 === 0;
+          const img = document.createElement("img");
+          img.src = isBomb ? bombImagePath : flyImagePath;
+          img.className = isBomb ? "bomb" : "fly";
+          gameContainer.appendChild(img);
+
+
+          entities.push({
+            el: img,
+            isBomb: isBomb,
+            angle: (i / entityCount) * Math.PI * 2,
+            radius: 180 + (i % 3) * 70,
+            speed: (isBomb ? -0.015 : 0.02) * (i % 2 === 0 ? 1 : -1),
+          });
+        }
+      }
+
+
+      function restartPascalGame() {
+        score = 0;
+        isGameOver = false;
+        isShooting = false;
+        isGameRunning = true;
+        document.getElementById("score").innerText = score;
+        gameOverScreen.style.display = "none";
+        spawnEntities();
+        requestAnimationFrame(pascalLoop);
+      }
+
+
+      function pascalLoop() {
+        if (!isGameRunning || isGameOver) return;
+
+
+        if (!isShooting) {
+          currentAngle = (currentAngle + rotationSpeed) % 360;
+          pascal.style.transform = `rotate(${currentAngle}deg)`;
+        }
+
+
+        const centerX = window.innerWidth / 2;
+        const centerY = window.innerHeight / 2;
+
+
+        entities.forEach((ent) => {
+          ent.angle += ent.speed;
+          const x = centerX + Math.cos(ent.angle) * ent.radius - 15;
+          const y = centerY + Math.sin(ent.angle) * ent.radius - 15;
+          ent.el.style.left = `${x}px`;
+          ent.el.style.top = `${y}px`;
+        });
+
+
+        requestAnimationFrame(pascalLoop);
+      }
+
+
+      function shootTongue(e) {
+        if (isShooting || isGameOver) return;
+        isShooting = true;
+        pascal.classList.add("shoot");
+
+
+        setTimeout(() => {
+          checkTongueHits();
+        }, 100);
+
+
+        setTimeout(() => {
+          pascal.classList.remove("shoot");
+          isShooting = false;
+        }, 250);
+      }
+
+
+      function checkTongueHits() {
+        const tongueRect = tongue.getBoundingClientRect();
+
+
+        for (let i = entities.length - 1; i >= 0; i--) {
+          const ent = entities[i];
+          const entRect = ent.el.getBoundingClientRect();
+
+
+          const hit = !(
+            tongueRect.right < entRect.left ||
+            tongueRect.left > entRect.right ||
+            tongueRect.bottom < entRect.top ||
+            tongueRect.top > entRect.bottom
+          );
+
+
+          if (hit) {
+            if (ent.isBomb) {
+              isGameOver = true;
+              document.getElementById("finalScore").innerText = score;
+              gameOverScreen.style.display = "flex";
+              return;
+            } else {
+              score += 10;
+              document.getElementById("score").innerText = score;
+              if (score > highScore) {
+                highScore = score;
+                document.getElementById("highScore").innerText = highScore;
+              }
+              ent.angle += Math.PI; // Respawn on opposite side
+            }
+          }
+        }
+      }
+
+
+      /* ==========================================
+3. TIC TAC TOE GAME
+         ========================================== */
+      const tttModal = document.getElementById("tttModal");
+      const tttStatus = document.getElementById("ttt-status");
+      const cells = document.querySelectorAll(".game-cell");
+
+
+      let currentPlayer = "X";
+      let tttBoard = ["", "", "", "", "", "", "", "", ""];
+      let tttActive = true;
+
+
+      const winConditions = [
+        [0, 1, 2],
+        [3, 4, 5],
+        [6, 7, 8],
+        [0, 3, 6],
+        [1, 4, 7],
+        [2, 5, 8],
+        [0, 4, 8],
+        [2, 4, 6],
+      ];
+
+
+      cells.forEach((cell) => {
+        cell.addEventListener("click", handleCellClick);
+      });
+
+
+      function openTTT() {
+        tttModal.classList.add("active");
+        restartTTT();
+      }
+
+
+      function closeTTT() {
+        tttModal.classList.remove("active");
+      }
+
+
+      function handleCellClick(e) {
+        const cell = e.target;
+        const index = parseInt(cell.getAttribute("data-cell-index"));
+
+
+        if (tttBoard[index] !== "" || !tttActive) return;
+
+
+        tttBoard[index] = currentPlayer;
+        cell.innerText = currentPlayer;
+        checkTTTResult();
+      }
+
+
+      function checkTTTResult() {
+        let roundWon = false;
+
+
+        for (let i = 0; i < winConditions.length; i++) {
+          const [a, b, c] = winConditions[i];
+          if (tttBoard[a] && tttBoard[a] === tttBoard[b] && tttBoard[a] === tttBoard[c]) {
+            roundWon = true;
+            cells[a].classList.add("winning-game-cell");
+            cells[b].classList.add("winning-game-cell");
+            cells[c].classList.add("winning-game-cell");
+            break;
+          }
+        }
+
+
+        if (roundWon) {
+          tttStatus.innerText = `Player ${currentPlayer} Wins!`;
+          tttActive = false;
+          return;
+        }
+
+
+        if (!tttBoard.includes("")) {
+          tttStatus.innerText = "It's a Draw!";
+          tttActive = false;
+          return;
+        }
+
+
+        currentPlayer = currentPlayer === "X" ? "O" : "X";
+        tttStatus.innerText = `Player ${currentPlayer}'s turn`;
+      }
+
+
+      function restartTTT() {
+        currentPlayer = "X";
+        tttBoard = ["", "", "", "", "", "", "", "", ""];
+        tttActive = true;
+        tttStatus.innerText = "Player X's turn";
+        cells.forEach((cell) => {
+          cell.innerText = "";
+          cell.classList.remove("winning-game-cell");
+        });
+      }
+    </script>
+  </body>
 </html>
 
